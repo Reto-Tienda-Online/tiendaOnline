@@ -1,53 +1,55 @@
 <script setup>
-import { ref, onMounted } from "vue";
+  // Import Swiper Vue.js components
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import 'swiper/css';
+  import 'swiper/css/pagination';
+  import 'swiper/css/navigation';
+  import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+  import { ref } from 'vue';
 
-const images = ref(["https://picsum.photos/id/237/1024/800","https://picsum.photos/id/238/1024/800","https://picsum.photos/id/239/1024/800"]);
-const active = ref(0)
-
-onMounted(() => {
-    let i = 0;
-    setInterval(() => {
-      if (i > images.value.length - 1) {
-        i = 0;
-      }
-      active.value = i;
-      i++;
-    }, 5000);
-})
+  const modules = ref([Autoplay, Pagination, Navigation])
 </script>
 
 <template>
-  <div class="relative slide">
-    <div class="carousel-inner relative overflow-hidden w-full">
-      <div
-        v-for="(img, i) in images"
-        :id="`slide-${i}`"
-        :key="i"
-        :class="[active === i ? 'active' : 'left-full']"
-        class="carousel-item inset-0 relative w-full transform transition-all duration-500 ease-in-out"
-      >
-        <img class="block w-full" :src="img" alt="First slide" />
-      </div>
-    </div>
-  </div>
+  <swiper
+    :spaceBetween="30"
+    :centeredSlides="true"
+    :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false,
+    }"
+    :pagination="{
+      clickable: true,
+    }"
+    :navigation="true"
+    :modules="modules"
+    class="mySwiper mt-10"
+  >
+    <swiper-slide>
+      <img src="../assets/t1.jpg" alt="" class="mx-auto rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../assets/t2.jpg" alt="" class="mx-auto rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../assets/t3.jpg" alt="" class="mx-auto rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../assets/t4.jpg" alt="" class="mx-auto rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../assets/t5.jpg" alt="" class="mx-auto rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
+    </swiper-slide>
+    
+  </swiper>
 </template>
-
-
-<style scoped>
-    .left-full {
-			left: -100%;
-		}
-
-		.carousel-item {
-            float: left;
-			position: relative;
-			display: block;
-			width: 100%;
-			margin-right: -100%;
-			backface-visibility: hidden;
-		}
-
-		.carousel-item.active {
-			left: 0;
-		}
-</style>

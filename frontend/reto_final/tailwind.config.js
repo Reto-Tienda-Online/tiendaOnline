@@ -6,8 +6,11 @@ export default {
       colors: {
         primary: "#1B4965", //INDIGO DYE
         secondary: "#62B6CB", //MOONSTONE
-        resaltar: "#BEE9E8", //MINT GREEN
+        resaltar: "#38B000",
         background: "#272727",
+      },
+      fontFamily: {
+        barlow: ["Barlow", "Arial", "sans-serif"],
       },
     },
   },
