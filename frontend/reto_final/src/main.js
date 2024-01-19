@@ -1,9 +1,14 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from "vue";
+import "./style.css";
+import App from "./App.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faChevronRight, faCoffee, faShield, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronRight,
+  faCoffee,
+  faShield,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -28,6 +33,6 @@ library.add(
 
 const app = createApp(App);
 
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.component("font-awesome-icon", FontAwesomeIcon);
 
-app.mount('#app')
+app.mount("#app");
