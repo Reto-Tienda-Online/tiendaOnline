@@ -16,7 +16,7 @@ import {
   faCommentDots,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-
+import router from './router.js';
 
 //Cada icono debe ser añadido e importado
 library.add(
@@ -32,6 +32,8 @@ library.add(
 );
 
 const app = createApp(App);
+
+app.use(router);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 
