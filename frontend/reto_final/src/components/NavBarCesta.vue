@@ -15,7 +15,7 @@
         class="flex justify-center items-center font-barlow hover:text-gray-200 cursor-pointer"
       >
         <a
-          href="#"
+          href="/cesta"
           class="rounded-full border-4 px-3 py-1 border-primary"
           :class="{ 'border-resaltar': isActive('Cesta') }"
           >1</a
@@ -31,7 +31,7 @@
           :class="{ 'bg-resaltar': isActive('Pago') }"
         ></span>
         <a
-          href="#"
+          href=""
           class="rounded-full border-4 px-3 py-1 border-primary"
           :class="{ 'border-resaltar': isActive('Pago') }"
           >2</a
