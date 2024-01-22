@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="">
     <div class="flex justify-between align-middle">
@@ -39,3 +37,6 @@
     </div>
   </div>
 </template>
+<script setup>
+// Lógica y configuración del componente Navbar
+</script>
