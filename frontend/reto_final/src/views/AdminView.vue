@@ -1,13 +1,9 @@
-<!-- src/views/DetailsView.vue -->
 <template>
-  <div>
-    <h2>Details View</h2>
-    <!-- Contenido de la vista de detalles -->
+  <div class="flex justify-center items-center h-screen">
+    <Login  />
   </div>
 </template>
 
-<script>
-export default {
-  // Lógica específica de la vista de detalles
-}
+<script setup>
+import Login from "../components/LoginForm.vue";
 </script>
