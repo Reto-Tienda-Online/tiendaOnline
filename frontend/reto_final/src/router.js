@@ -1,7 +1,7 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from './views/HomeView.vue';
-import AdminView from './views/AdminView.vue';
+import AdminHomeView from './views/Admin/HomeView.vue';
 import CestaView from './views/CestaView.vue';
 import PagoView from './views/PagoView.vue';
 
@@ -10,7 +10,7 @@ const routes = [
   { path: '/home', component: HomeView },
   { path: '/cesta', component: CestaView  },
   { path: '/pago', component: PagoView  },
-  { path: '/admin', component: AdminView },
+  { path: '/admin', component: AdminHomeView },
 ];
 
 const router = createRouter({
