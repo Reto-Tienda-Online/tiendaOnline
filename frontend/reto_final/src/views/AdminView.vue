@@ -1,9 +1,11 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <Login  />
+  <div class="flex flex-row">
+    <NavbarAdmin class="w-full"/>
+    <MainPago class=" mt-10"/>
   </div>
 </template>
 
 <script setup>
-import Login from "../components/LoginForm.vue";
+import NavbarAdmin from "../components/NavbarAdmin.vue";
+import MainPago from "../components/PagoMain.vue";
 </script>
