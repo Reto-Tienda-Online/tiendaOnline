@@ -15,6 +15,13 @@ import {
   faDownload,
   faCommentDots,
   faStar,
+  faBell,
+  faCoins,
+  faGamepad,
+  faList,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import router from './router.js';
 
@@ -28,7 +35,15 @@ library.add(
   faDownload,
   faShield,
   faCommentDots,
-  faStar
+  faStar,
+  faBell,
+  faCoins,
+  faGamepad,
+  faList,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
+  
 );
 
 const app = createApp(App);

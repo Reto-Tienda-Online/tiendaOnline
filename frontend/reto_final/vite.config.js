@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from "url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,4 +13,8 @@ export default defineConfig({
       {find: '@assets', replacement: fileURLToPath(new URL('./src/assets', import.meta.url))},
     ]
   }
+      { find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
+
+    ],
+  },
 })
