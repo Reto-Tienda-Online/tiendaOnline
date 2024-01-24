@@ -195,7 +195,7 @@ onMounted(() => {
                 <template #body>
                   <div class="consolas">
                     <ul class="grid grid-cols-3 gap-4">
-                      <li v-for="(logo, index) in pcLogos" :key="index" class="flex flex-row align-middle justify-start">
+                      <li v-for="(logo, index) in pcLogos" :key="index" class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300">
                         <img :src="logo.src" alt="" class=" max-h-7 max-w-7">
                         <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                       </li>
@@ -205,7 +205,7 @@ onMounted(() => {
                 <template #footer>
                   <div class="tarjetas">
                     <ul>
-                      <li v-for="(logo, index) in tarjetasPC" :key="index" class="flex flex-col align-middle justify-center">
+                      <li v-for="(logo, index) in tarjetasPC" :key="index" class="max-w-20 flex flex-col align-middle justify-center hover:scale-110 transition-all duration-300">
                         <div class="">
                           <img :src="logo.src" :alt="logo.nombre" class="max-w-20 max-h-20">
                           <h1 class="text-black">{{ logo.nombre }}</h1>
@@ -234,7 +234,7 @@ onMounted(() => {
                 <template #body>
                   <div class="consolas">
                     <ul class="grid grid-cols-3 gap-4">
-                      <li v-for="(logo, index) in psLogos" :key="index" class="flex flex-row align-middle justify-start">
+                      <li v-for="(logo, index) in psLogos" :key="index" class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300">
                         <img :src="logo.src" alt="" class=" max-h-7 max-w-7">
                         <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                       </li>
@@ -244,7 +244,7 @@ onMounted(() => {
                 <template #footer>
                   <div class="tarjetas">
                     <ul class="flex flex-row">
-                      <li v-for="(logo, index) in tarjetasPS" :key="index" class="flex flex-row align-middle justify-center mr-4">
+                      <li v-for="(logo, index) in tarjetasPS" :key="index" class="flex flex-row align-middle justify-center mr-4 hover:scale-110 transition-all duration-300">
                         <div class="flex flex-row justify-center align-middle">
                           <img :src="logo.src" :alt="logo.nombre" class="max-w-10 max-h-10">
                           <h1 class="text-black text-center mt-2 ml-4">{{ logo.nombre }}</h1>
@@ -274,7 +274,7 @@ onMounted(() => {
                 <template #body>
                   <div class="consolas">
                     <ul class="grid grid-cols-3 gap-4">
-                      <li v-for="(logo, index) in xboxLogos" :key="index" class="flex flex-row align-middle justify-start">
+                      <li v-for="(logo, index) in xboxLogos" :key="index" class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300">
                         <img :src="logo.src" alt="" class=" max-h-7 max-w-7">
                         <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                       </li>
@@ -284,7 +284,7 @@ onMounted(() => {
                 <template #footer>
                   <div class="tarjetas">
                     <ul>
-                      <li v-for="(logo, index) in tarjetasXB" :key="index" class="flex flex-col align-middle justify-center">
+                      <li v-for="(logo, index) in tarjetasXB" :key="index" class="max-w-20 flex flex-col align-middle justify-center hover:scale-110 transition-all duration-300">
                         <div class="">
                           <img :src="logo.src" :alt="logo.nombre" class="max-w-20 max-h-20">
                           <h1 class="text-black">{{ logo.nombre }}</h1>
@@ -314,7 +314,7 @@ onMounted(() => {
                 <template #body>
                   <div class="consolas">
                     <ul class="grid grid-cols-3 gap-4">
-                      <li v-for="(logo, index) in switchLogos" :key="index" class="flex flex-row align-middle justify-start">
+                      <li v-for="(logo, index) in switchLogos" :key="index" class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300">
                         <img :src="logo.src" alt="" class=" max-h-7 max-w-7">
                         <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                       </li>
