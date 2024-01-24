@@ -16,7 +16,7 @@
                     <a href="#tendencias" class="hover:underline me-4 md:me-6">Tendencias</a>
                 </li>
                 <li>
-                    <a href="#reservas" class="hover:underline me-4 md:me-6">Reservas</a>
+                    <a href="#reservas" class="hover:underline me-4 md:me-6 ">Reservas</a>
                 </li>
                 <li>
                     <a href="#bestSellers" class="hover:underline me-4 md:me-6">Más Vendidos</a>
