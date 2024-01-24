@@ -49,7 +49,7 @@ const stopVideo = () => {
             class="w-full h-full object-cover rounded-xl"
           >
             <source
-              src="../assets/jokin/11/"
+              src="../assets/jokin/1/1.webm"
               type="video/webm"
             />
           </video>

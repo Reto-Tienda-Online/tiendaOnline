@@ -7,4 +7,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ['vue', 'vue-router'],
   },
+  resolve: {
+    alias: [
+      {find: '@assets', replacement: fileURLToPath(new URL('./src/assets', import.meta.url))},
+    ]
+  }
 })

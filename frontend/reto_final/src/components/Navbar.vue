@@ -165,7 +165,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="">
+  <nav>
     <div class="flex justify-between align-middle">
       <div class="flex flex-col justify-start">
         <img
@@ -346,5 +346,5 @@ onMounted(() => {
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 </template>
