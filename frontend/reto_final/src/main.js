@@ -20,6 +20,8 @@ import {
   faGamepad,
   faList,
   faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import router from './router.js';
 
@@ -39,6 +41,8 @@ library.add(
   faGamepad,
   faList,
   faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
   
 );
 

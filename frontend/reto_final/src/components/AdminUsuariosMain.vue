@@ -19,22 +19,22 @@
     </nav>
     <section class="flex flex-col w-full h-full mt-4 bg-transparent">
       <div class="flex flex-row">
-        <h1 class="text-2xl font-bold">Lista de Usarios</h1>
+        <h1 class="text-2xl font-bold mx-4">Lista de Usarios</h1>
         <div
           class="flex justify-end flex-row ml-auto space-x-2 mx-4 items-center"
         >
           <button
-            class="text-resaltar rounded-full border-2 w-8 h-8 text-center"
+            class=" w-8 h-8 text-center rounded-full border-2 text-resaltar"
           >
-            ↑
+          <span class="flex justify-center items-center align-middle text-xl font-bold text-center">↑</span>
           </button>
           <button
-            class="text-resaltar rounded-full border-2 w-8 h-8 text-centeer font-bold"
+            class="w-8 h-8 rounded-full border-2 text-resaltar"
           >
-            ↓
+            <span class="flex justify-center items-center align-middle text-xl font-bold text-center">↓</span>
           </button>
           <button
-            class="px-2 py-2 bg-resaltar rounded-md mx-1 font-bold text-lg"
+            class="text-lg rounded-md px-4 py-2 mx-8 bg-resaltar "
           >
             NUEVO USUARIO
           </button>
@@ -42,29 +42,51 @@
       </div>
       <div>
         <!-- Tabla de usuarios -->
-        <table class="min-w-full">
-          <thead class="">
-            <tr>
-              <th class="py-2 px-4 border-b">ID</th>
-              <th class="py-2 px-4 border-b">Nombre</th>
-              <th class="py-2 px-4 border-b">Correo Electrónico</th>
-              <th class="py-2 px-4 border-b">Acciones</th>
-            </tr>
+        <table class="w-full text-sm text-left mt-4 rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class=" border-b-2 text-xs text-white uppercase  dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3">
+                      Name
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Position
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Status
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Action
+                  </th>
+              </tr>
           </thead>
-          <tbod class="">
-            <!-- Fila de ejemplo (puedes repetir esto para cada usuario) -->
-            <tr>
-              <td class="">1</td>
-              <td class="py-2 px-4 border-b">John Doe</td>
-              <td class="py-2 px-4 border-b">john@example.com</td>
-              <td class="py-2 px-4 border-b">
-                <button class="text-blue-500 hover:underline">Ver</button>
-                <button class="text-yellow-500 hover:underline">Editar</button>
-                <button class="text-red-500 hover:underline">Eliminar</button>
-              </td>
-            </tr>
-          </tbod>
-        </table>
+          <tbody>
+              <tr class="dark:bg-gray-800 text-white ">
+                  <th scope="row" class="flex items-center px-6 py-4 text-gray-100 whitespace-nowrap dark:text-white">
+                      <img class="w-10 h-10 rounded-full" src="../assets/lol.jpg" alt="Jese image">
+                      <div class="ps-3">
+                          <div class="text-base font-semibold">Neil Sims</div>
+                          <div class="font-normal text-gray-300">neil.sims@flowbite.com</div>
+                      </div>  
+                  </th>
+                  <td class="px-6 py-4">
+                      React Developer
+                  </td>
+                  <td class="px-6 py-4">
+                      <div class="flex items-center">
+                          <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+                      </div>
+                  </td>
+                  <td class="justify-center px-6 py-4">
+                      <a href="#" class="font-medium mx-1 text-blue-600 dark:text-blue-500 ">
+                        <font-awesome-icon icon="pen-to-square" class="w-6 h-6 hover:-translate-y-2"/>
+                      </a>
+                      <a href="" class="font-medium mx-1 text-red-600 dark:text-blue-500">
+                        <font-awesome-icon icon="trash" class="w-6 h-6 hover:-translate-y-2"/>
+                      </a>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
       </div>
     </section>
   </main>

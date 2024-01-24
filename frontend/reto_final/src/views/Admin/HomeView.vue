@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row bg-gray-700 h-full" >
-    <NavbarAdmin activeElement="Home" />
+    <NavbarAdmin activeNavAdmin="Home" />
     <AdminMain />
   </div>
 </template>

@@ -22,7 +22,7 @@
       class="flex flex-row w-full h-full mt-4"
     >
       <a
-        href=""
+        href="/admin/usuarios"
         class="bg-blue-200 rounded-lg px-20 py-12 mt-2 mx-2 text-black flex flex-col text-md hover:-translate-y-2"
       >
         <font-awesome-icon icon="user" class="w-8 h-8" />
