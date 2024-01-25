@@ -1,9 +1,12 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import { FwbA, FwbButton, FwbTextarea } from "flowbite-vue";
 import Navbar from "./Navbar.vue";
+import axios from 'axios'
 
-const message = ref("");
+const message = ref([]);
+const comment = ref('')
+const splitDescripcion = ref('')
 const sayHi = () => {
     console.log(message.value)
     console.log(juego)
@@ -11,19 +14,29 @@ const sayHi = () => {
 
 const juego = reactive({
     id: 18,
-    nombre: '',
+    nombre: 'God Of War',
     precio: 45.78,
-    plataformaId: 1,
+    plataformaId: 'Steam',
     iframeTrailer: '',
     descripcion: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae quae eius esse deserunt distinctio nulla. Modi reiciendis eius optio necessitatibus culpa voluptatibus magnam enim odio alias, quam doloribus ab?',
 })
 
 //ARREGLAR METODO
 const getImgURL = (id) => {
-    const imgUrl = `@assets/jokin/${id}/1.webp`;
+    const imgUrl = `/imgs/${id}/2.webp`;
     console.log(imgUrl);
     return imgUrl;
 }
+
+const showMore = computed(() => {
+  if(juego.descripcion.length > 200){
+    return true
+  }else{
+    return false
+  }
+})
+
+
 
 //RUTA IMAGEN ../assets/jokin/{id}/1.webp
 //LONGITUD MAXIMA DE DESCRIPCION {200} a partir de esta debe aparecer leer más
@@ -44,16 +57,37 @@ const getImgURL = (id) => {
   <div class="grid grid-cols-9 gap-4 mb-10">
     <!--Debajo ACERCA DEL JUEGO-->
     <div class="col-span-3">
-        <h1 class="text-white text-left mt-5 text-4xl">Acerca del Juego</h1>
+        <h1 class="text-white mt-5 text-4xl text-center">Acerca del Juego</h1>
         <p class="text-white mt-5 mb-5">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae quae eius esse deserunt distinctio nulla. Modi reiciendis eius optio necessitatibus culpa voluptatibus magnam enim odio alias, quam doloribus ab?</p>
-        <p @click="console.log('Hello')" class="text-white hover:underline">Leer mas...</p>
-        <div>
-            
+            {{  }}</p>
+        <p 
+          v-show="showMore"
+          @click="console.log('Hello')" 
+          class="text-white hover:underline cursor-pointer"
+          >
+          Leer mas...
+          </p>
+        <div class="bg-background p-2 mt-2 rounded-xl">
             <!--NOMBRE-->
+            <h1 class="text-white text-center text-4xl mt-5">{{ juego.nombre }}</h1>
             <!--PLATAFORMA-->
-            <!--PRECIO--> 
-            <!--ADD TO CART BTN-->   
+            <div class="mt-2 flex flex-row justify-center align-middle">
+              <h3 class="text-white text-center my-auto font-bold uppercase mr-2">Plataforma:</h3>
+              <img src="../assets/logos/steam.png" alt="" class="w-10">
+              <h3 class="text-white text-center my-auto ml-3"> {{ juego.plataformaId }}</h3>
+            </div>
+            <!--PRECIO-->
+            <div class="text-white flex flex-row justify-center mt-2">
+              <h3 class="text-center uppercase my-auto font-bold mr-2">Precio:</h3>
+              <h3 class="text-center">{{ juego.precio }} €</h3>  
+            </div> 
+            <!--ADD TO CART BTN-->
+            <button
+              class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
+            >
+            <font-awesome-icon icon="shopping-cart"/>
+            Add to cart  
+            </button>
         </div>
     </div>
     <div class="col-span-6">
@@ -75,7 +109,7 @@ const getImgURL = (id) => {
         @submit.prevent="sayHi" 
       >
         <fwb-textarea
-          v-model="message" 
+          v-model="comment" 
           :rows="3"
           custom
           label=""

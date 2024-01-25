@@ -26,27 +26,27 @@
     class="mySwiper mt-10"
   >
     <swiper-slide>
-      <img src="../assets/t1.jpg" alt="" class="mx-auto rounded-xl">
+      <img src="/imgs/juegos/21/t1.jpg" alt="" class="mx-auto rounded-xl">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="../assets/t2.jpg" alt="" class="mx-auto rounded-xl">
+      <img src="/imgs/juegos/21/t2.jpg" alt="" class="mx-auto rounded-xl">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="../assets/t3.jpg" alt="" class="mx-auto rounded-xl">
+      <img src="/imgs/juegos/21/t3.jpg" alt="" class="mx-auto rounded-xl">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="../assets/t4.jpg" alt="" class="mx-auto rounded-xl">
+      <img src="/imgs/juegos/21/t4.jpg" alt="" class="mx-auto rounded-xl">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="../assets/t5.jpg" alt="" class="mx-auto rounded-xl">
+      <img src="/imgs/juegos/21/t5.jpg" alt="" class="mx-auto rounded-xl">
       <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black"></div>
     </swiper-slide>

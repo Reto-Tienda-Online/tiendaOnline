@@ -1,23 +1,56 @@
 <script setup>
-import { ref } from "vue";
+import axios from 'axios'
+import { ref, onMounted, computed } from "vue";
 
 defineProps({
   title: String,
   required: true,
 });
 
+//DATA
 const isHovered = ref(false);
 const video = ref(null);
+const juegos = ref([])
 
-const playVideo = () => {
+//METHODS
+const setHovered = (boolean) => {
+  isHovered.value = boolean;
+}
+
+const playVideo = (id) => {
+  console.log(video.value)
   isHovered.value = true;
-  video.value.play();
+  video.play();
 };
 
-const stopVideo = () => {
+const stopVideo = (id) => {
   isHovered.value = false;
-  video.value.stop();
+  video.stop();
 };
+
+const getJuegos = () => {
+  const path = "http://192.168.1.75/all_productos";
+  axios
+    .get(path)
+    .then((response) => {
+      juegos.value = response.data.slice(0, 9).map((object) => ({...object}));
+      // console.log(juegos.value);
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+const getImageURL = (id) => {
+  return `/imgs/juegos/${id}/2.webp`
+}
+
+//HOOKS
+onMounted(() => {
+  getJuegos()
+})
+
 </script>
 
 <template>
@@ -26,16 +59,19 @@ const stopVideo = () => {
       {{ title }}
       <font-awesome-icon icon="chevron-right" />
     </h1>
-    <div class="grid grid-cols-3 gap-7 mr-10 mt-10">
+    <div 
+      class="grid grid-cols-3 gap-7 mr-10 mt-10">
         <div
+          v-for="(juego, index) in juegos"
+          :key="juego.id"
           class="relative hover:scale-105 cursor-pointer transition-all duration-300"
-          @mouseover="playVideo"
-          @mouseout="stopVideo"
+          @mouseover="playVideo(juego.id), setHovered(true)"
+          @mouseout="stopVideo(juego.id), setHovered(false)"
         >
           <picture v-if="!isHovered">
             <img
               class="picture rounded-xl"
-              src="../assets/t2.jpg"
+              :src=getImageURL(juego.id)
               loading="lazy"
             />
           </picture>
@@ -54,25 +90,11 @@ const stopVideo = () => {
             />
           </video>
         <div class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out" :class="{ 'opacity-0': isHovered, 'opacity-100': !isHovered }">
-          <h1 class="text-white">Nombre</h1>
-          <h2 class="text-white">Precio</h2>
+          <h1 class="text-white">{{ juego.producto }}</h1>
+          <h2 class="text-white">{{ juego.precio_unitario }}€</h2>
         </div>
       </div>
 
-      <img src="../assets/creed.jpg" alt="" class="rounded-xl" />
-      <img
-        src="../assets/test.jpg"
-        alt=""
-        class="rounded-xl object-cover w-full"
-      />
-
-      <img src="../assets/godOfWar.jpg" alt="" class="rounded-xl" />
-      <img src="../assets/gta.jpeg" alt="" class="rounded-xl" />
-      <img src="../assets/ryse.jpg" alt="" class="rounded-xl" />
-
-      <img src="../assets/warhammer.jpg" alt="" class="rounded-xl" />
-      <img src="../assets/jokin/1/2.webp" alt="" class="rounded-xl" />
-      <img src="../assets/witcher.jpg" alt="" class="rounded-xl" />
     </div>
   </div>
 </template>
