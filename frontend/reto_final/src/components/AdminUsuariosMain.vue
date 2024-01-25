@@ -28,9 +28,40 @@ import axios from 'axios';
           <button class="w-8 h-8 rounded-full border-2 text-resaltar">
             <span class="flex justify-center items-center align-middle text-xl font-bold text-center">↓</span>
           </button>
-          <button class="text-lg rounded-md px-4 py-2 mx-8 bg-resaltar ">
+          <button @click="openNewUserPopup()" class="text-lg rounded-md px-4 py-2 mx-8 bg-resaltar ">
             NUEVO USUARIO
           </button>
+        </div>
+      </div>
+      <!-- Nuevo Popup para la creación de usuarios -->
+      <div v-if="isNewUserPopupOpen"
+        class="fixed top-1/4 right-[45%] translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 shadow-md rounded-lg border-2">
+        <div class="text-black text-center">
+          <span @click="closeNewUserPopup"
+            class="absolute -top-14 right-2 rounded-full border-2 px-3 py-1 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
+
+          <!-- Formulario para la creación de usuarios -->
+          <form @submit.prevent="createNewUser">
+            <label for="newUserName">Nombre:</label>
+            <input type="text" id="newUserName" v-model="newUserData.nombre" required>
+
+            <label for="newUserApellido">Apellido:</label>
+            <input type="text" id="newUserApellido" v-model="newUserData.apellido" required>
+
+            <label for="newUserEmail">Correo:</label>
+            <input type="email" id="newUserEmail" v-model="newUserData.correo" required>
+
+            <label for="newUserPassword">Contraseña:</label>
+            <input type="password" id="newUserPassword" v-model="newUserData.contrasena" required>
+
+            <label for="newUserAdmin">Admin:</label>
+            <input type="checkbox" id="newUserAdmin" v-model="newUserData.admin">
+
+            <!-- Botón de envío -->
+            <button type="submit" class="bg-primary text-white py-2 px-4 rounded">
+              Crear Usuario
+            </button>
+          </form>
         </div>
       </div>
       <div>
@@ -69,12 +100,13 @@ import axios from 'axios';
                 <button @click="openPopup(user)" class="text-blue-500 rounded">
                   <font-awesome-icon icon="pen-to-square" class="w-6 h-6 hover:-translate-y-2" />
                 </button>
-
                 <!-- Popup component -->
-                <div v-if="isPopupOpen" class="fixed top-1/4 right-[45%]  translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 shadow-md rounded-lg border-2">
+                <div v-if="isPopupOpen"
+                  class="fixed top-1/4 right-[45%]  translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 shadow-md rounded-lg border-2">
                   <div class="text-black text-center ">
                     <!-- Close button for the popup -->
-                    <span @click="closePopup" class="absolute -top-14 right-2 rounded-full border-2 px-3 py-1 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
+                    <span @click="closePopup"
+                      class="absolute -top-14 right-2 rounded-full border-2 px-3 py-1 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
 
                     <!-- Form content -->
                     <form @submit.prevent="submitForm">
@@ -84,10 +116,10 @@ import axios from 'axios';
 
                       <label for="email">Apellido:</label>
                       <input type="text" id="apellido" v-model="formData.surname" required>
-                      
+
                       <label for="email">Email:</label>
                       <input type="email" id="email" v-model="formData.email" required>
-                      
+
                       <label for="name">Admin:</label>
                       <input type="checkbox" id="admin" v-model="formData.admin" required>
                       <!-- Submit button -->
@@ -97,9 +129,21 @@ import axios from 'axios';
                     </form>
                   </div>
                 </div>
-                <a href="" class="font-medium mx-1 text-red-600 dark:text-blue-500">
+                <button @click="confirmDelete(user)" class="font-medium mx-1 text-red-600 dark:text-blue-500">
                   <font-awesome-icon icon="trash" class="w-6 h-6 hover:-translate-y-2" />
-                </a>
+                </button>
+                <!-- Delete Popup component -->
+                <div v-if="isDeletePopupOpen"
+                  class="fixed top-1/4 right-[45%]  translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 shadow-md rounded-lg border-2">
+                  <div class="text-black text-center ">
+                    <!-- Close button for the popup -->
+                    <button @click="closeDeletePopup" class="bg-red-500 text-white py-2 px-4 rounded">Cancelar
+                    </button>
+                    <button @click="deleteUser(user)" class="bg-green-500 text-white py-2 px-4 rounded">Confirmar
+                    </button>
+
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -117,13 +161,22 @@ export default {
     return {
       users: [],
       isPopupOpen: false,
-        formData: {
-          name: '',
-          surname: '',
-          email: '',
-          admin: false,
-          // Add more form fields as needed
-        },
+      isDeletePopupOpen: false,
+      isNewUserPopupOpen: false,
+      formData: {
+        name: '',
+        surname: '',
+        email: '',
+        admin: false,
+        // Add more form fields as needed
+      },
+      newUserData: {
+        nombre: '',
+        apellido: '',
+        correo: '',
+        contrasena: '',
+        admin: false,
+      },
     };
   },
   mounted() {
@@ -138,32 +191,70 @@ export default {
         console.error('Error fetching users:', error);
       }
     },
+    delete(user) {
+      axios.delete('http://')
+    },
     openPopup(user) {
-        this.formData = {
-          name: user.nombre,
-          surname: user.apellido,
-          email: user.correo,
-          admin: user.admin,
+      this.formData = {
+        name: user.nombre,
+        surname: user.apellido,
+        email: user.correo,
+        admin: user.admin,
 
-        };
-        this.isPopupOpen = true;
-      },
-      closePopup() {
-        this.isPopupOpen = false;
-      },
-      submitForm() {
-        // Handle form submission logic here
-        console.log('Form submitted with data:', this.formData);
-        // You can add your form submission logic or emit an event to the parent component
-        // Reset the form data and close the popup
-        this.formData = {
-          name: '',
-          email: '',
-          // Reset other form fields as needed
-        };
-        this.isPopupOpen = false;
-      },
-  },
-};
+      };
+      this.isPopupOpen = true;
+    },
+    closePopup() {
+      this.isPopupOpen = false;
+    },
+
+    submitForm() {
+      // Handle form submission logic here
+      console.log('Form submitted with data:', this.formData);
+      // You can add your form submission logic or emit an event to the parent component
+      // Reset the form data and close the popup
+      this.formData = {
+        name: '',
+        email: '',
+        // Reset other form fields as needed
+      };
+      this.isPopupOpen = false;
+    },
+    confirmDelete(user) {
+      this.isDeletePopupOpen = true;
+    },
+    closeDeletePopup() {
+      this.isDeletePopupOpen = false;
+    },
+    deleteUser(userID) {
+      axios.delete(`http://192.168.1.75/usuarios/${userId}`)
+        .then(response => {
+          console.log('Usuario eliminado con éxito:', response.data);
+          // Actualizar la lista de usuarios después de la eliminación
+          this.fetchUsers();
+        })
+        .catch(error => {
+          console.error('Error al eliminar el usuario:', error);
+        });
+
+    },
+    openNewUserPopup() {
+      this.isNewUserPopupOpen = true;
+    },
+    closeNewUserPopup() {
+      this.isNewUserPopupOpen = false;
+    },
+    createNewUser() {
+      axios.post('http://192.168.1.75/register', this.newUserData)
+        .then(response => {
+          console.log('Usuario creado con éxito:', response.data);
+          this.fetchUsers(); // Actualizar la lista de usuarios después de la creación
+          this.closeNewUserPopup(); // Cerrar el popup después de la creación
+        })
+        .catch(error => {
+          console.error('Error al crear el usuario:', error);
+        });
+    },
+  };
 
 </script>
