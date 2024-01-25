@@ -33,20 +33,20 @@ const isActive = (element) => element === props.activeNavAdmin;
         >Usuarios</a
       >
       <a
-        href="/admin/usuarios"
+        href="/admin/compras"
         class="flex justify-center px-4 py-2 hover:bg-resaltar my-2 rounded-md"
         :class="{ 'bg-resaltar': isActive('Compras') }"
         >Compras</a
       >
 
       <a
-        href="#"
+        href="/admin/productos"
         class="flex justify-center px-4 py-2 hover:bg-resaltar my-2 rounded-md"
         :class="{ 'bg-resaltar': isActive('Productos') }"
         >Productos</a
       >
       <a
-        href="#"
+        href="/admin/categorias"
         class="flex justify-center px-4 py-2 hover:bg-resaltar my-2 rounded-md"
         :class="{ 'bg-resaltar': isActive('Categorias') }"
         >Categorías</a

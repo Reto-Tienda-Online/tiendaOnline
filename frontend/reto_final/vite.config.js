@@ -10,12 +10,11 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      {
-        find: "@components",
-        replacement: fileURLToPath(
-          new URL("./src/components", import.meta.url)
-        ),
-      },
+
+      {find: '@assets', replacement: fileURLToPath(new URL('./src/assets', import.meta.url))},
+      { find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
+      { find: '@views', replacement: fileURLToPath(new URL('./src/views', import.meta.url)) },
     ],
+
   },
 });
