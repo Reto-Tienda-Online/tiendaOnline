@@ -12,6 +12,11 @@ import Juego from "../components/Juego.vue";
 /*
   TEMPLATE REAL
 
+  <Juego />
+*/
+</script>
+
+<template>
   <Navbar />
   <div class="mt-10 text-center">
     <h1 class="font-black text-4xl text-gray-200 font-barlow">
@@ -41,11 +46,4 @@ import Juego from "../components/Juego.vue";
     <Categories />
   </div>
   <Footer />
-*/
-</script>
-
-<template>
-  <Juego />
 </template>
-
-

@@ -3,28 +3,28 @@
 import { ref, onMounted } from "vue";
 
 // LOGOS PC
-import steamLogo from "../assets/logos/steam.png"
-import battleNet from "../assets/logos/battle.png"
-import electronicArts from "../assets/logos/ea.png"
-import epicGames from "../assets/logos/epic.png"
-import microsoftStore from "../assets/logos/playstore.png"
-import rockstar from "../assets/logos/rockstar.png"
-import ubisoft from "../assets/logos/ubisoft.png"
-import blizzard from "../assets/logos/blizzard.png"
+import steamLogo from "/imgs/logos/steam.png"
+import battleNet from "/imgs/logos/battle.png"
+import electronicArts from "/imgs/logos/ea.png"
+import epicGames from "/imgs/logos/epic.png"
+import microsoftStore from "/imgs/logos/playstore.png"
+import rockstar from "/imgs/logos/rockstar.png"
+import ubisoft from "/imgs/logos/ubisoft.png"
+import blizzard from "/imgs/logos/blizzard.png"
 
 // LOGOS XBOX
-import xbox from "../assets/logos/xboxl.png"
-import xboxLive from "../assets/logos/xboxlive.png"
-import xboxSeries from "../assets/logos/xboxs.png"
+import xbox from "/imgs/logos/xboxl.png"
+import xboxLive from "/imgs/logos/xboxlive.png"
+import xboxSeries from "/imgs/logos/xboxs.png"
 
 
 // LOGOS PLAYSTATION
-import playstation from "../assets/logos/ps.png"
-import psPlus from "../assets/logos/psplus.png"
-import psStore from "../assets/logos/psstore.png"
+import playstation from "/imgs/logos/ps.png"
+import psPlus from "/imgs/logos/psplus.png"
+import psStore from "/imgs/logos/psstore.png"
 
 //LOGOS NINTENDO
-import nintendo from "../assets/logos/switch.png"
+import nintendo from "/imgs/logos/switch.png"
 
 
 
