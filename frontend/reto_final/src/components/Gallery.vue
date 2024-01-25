@@ -49,7 +49,7 @@ const stopVideo = () => {
             class="w-full h-full object-cover rounded-xl"
           >
             <source
-              src="https://gaming-cdn.com/videos/products/5679/800x450/red-dead-redemption-2-pc-juego-rockstar-preview.webm?v=1657034665"
+              src="../assets/jokin/1/1.webm"
               type="video/webm"
             />
           </video>
@@ -71,7 +71,7 @@ const stopVideo = () => {
       <img src="../assets/ryse.jpg" alt="" class="rounded-xl" />
 
       <img src="../assets/warhammer.jpg" alt="" class="rounded-xl" />
-      <img src="../assets/rv4.png" alt="" class="rounded-xl" />
+      <img src="../assets/jokin/1/2.webp" alt="" class="rounded-xl" />
       <img src="../assets/witcher.jpg" alt="" class="rounded-xl" />
     </div>
   </div>

@@ -7,9 +7,11 @@ import ReviewPanel from "../components/ReviewPanel.vue";
 import Gallery from "../components/Gallery.vue";
 import Categories from "../components/Categories.vue";
 import TrustPanel from "../components/TrustPanel.vue";
-</script>
+import Juego from "../components/Juego.vue";
 
-<template>
+/*
+  TEMPLATE REAL
+
   <Navbar />
   <div class="mt-10 text-center">
     <h1 class="font-black text-4xl text-gray-200 font-barlow">
@@ -39,6 +41,11 @@ import TrustPanel from "../components/TrustPanel.vue";
     <Categories />
   </div>
   <Footer />
+*/
+</script>
+
+<template>
+  <Juego />
 </template>
 
 
