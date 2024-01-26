@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <main class="flex flex-col text-white w-full h-full">
+  <main class="flex flex-col text-white w-full h-screen">
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
         <input type="text"
