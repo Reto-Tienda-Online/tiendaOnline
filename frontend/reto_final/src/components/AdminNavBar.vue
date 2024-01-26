@@ -5,7 +5,7 @@ const isActive = (element) => element === props.activeNavAdmin;
 </script>
 <template>
   <nav
-    class="w-[250px] h-screen flex flex-col justify-center bg-background text-white p-4 transition-transform ease-in-out duration-300"
+    class="w-[250px] h-auto flex flex-col justify-center bg-background text-white p-4 transition-transform ease-in-out duration-300"
     :class="{ '-translate-x-full': !menuVisible }"
   >
     <div class="flex flex-col justify-center">
