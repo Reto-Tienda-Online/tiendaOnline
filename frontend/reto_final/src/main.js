@@ -4,6 +4,7 @@ import App from "./App.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faC,
   faChevronRight,
   faCoffee,
   faShield,
@@ -22,6 +23,8 @@ import {
   faMagnifyingGlass,
   faPenToSquare,
   faTrash,
+  faCircleRight,
+  faCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import router from './router.js';
 
@@ -43,7 +46,8 @@ library.add(
   faMagnifyingGlass,
   faPenToSquare,
   faTrash,
-  
+  faCircleRight,
+  faCircleLeft,
 );
 
 const app = createApp(App);
