@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-
+import { API_URL } from '@src/config.js';
 </script>
 
 <template>
@@ -200,7 +200,6 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      api_url: 'http://85.50.79.98:1580',
       users: [],
       isPopupOpen: false,
       isDeletePopupOpen: false,
@@ -247,25 +246,25 @@ export default {
       });
     },
     combinedUsers() {
-    // Filter users based on the search query
-    const filteredUsers = this.users.filter(user => {
-      const searchTerm = this.searchQuery.toLowerCase();
-      return (
-        user.nombre.toLowerCase().includes(searchTerm) ||
-        user.apellido.toLowerCase().includes(searchTerm) ||
-        user.correo.toLowerCase().includes(searchTerm)
-      );
-    });
+      // Filter users based on the search query
+      const filteredUsers = this.users.filter(user => {
+        const searchTerm = this.searchQuery.toLowerCase();
+        return (
+          user.nombre.toLowerCase().includes(searchTerm) ||
+          user.apellido.toLowerCase().includes(searchTerm) ||
+          user.correo.toLowerCase().includes(searchTerm)
+        );
+      });
 
-    // Paginate the filtered users
-    const startIndex = (this.currentPage - 1) * this.usersPerPage;
-    const endIndex = startIndex + this.usersPerPage;
-    return filteredUsers.slice(startIndex, endIndex);
-  },
-  totalPages() {
-    // Calculate total pages based on the filtered users
-    return Math.ceil(this.filteredUsers.length / this.usersPerPage);
-  },
+      // Paginate the filtered users
+      const startIndex = (this.currentPage - 1) * this.usersPerPage;
+      const endIndex = startIndex + this.usersPerPage;
+      return filteredUsers.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      // Calculate total pages based on the filtered users
+      return Math.ceil(this.filteredUsers.length / this.usersPerPage);
+    },
 
   },
   mounted() {
@@ -276,9 +275,8 @@ export default {
     async fetchUsers() {
 
       try {
-        console.log('URL:', this.api_url);
-        const response = await axios.get('http://85.50.79.98:1580/all_usuarios');
 
+        const response = await axios.get(`${API_URL}}/all_usuarios`);
         this.users = response.data;
 
       } catch (error) {
@@ -298,17 +296,14 @@ export default {
 
       };
       this.isPopupOpen = true;
-      //console.log('User:', user.id);
     },
     closePopup() {
       this.isPopupOpen = false;
     },
-
-    // Método submitForm actualizado
+    // Submit Form 
     submitForm() {
       const { id, ...allowedData } = this.formData;
-      console.log('Allowed data:', allowedData);
-      axios.put(`http://85.50.79.98:1580/usuarios/${this.formData.id}`, allowedData)
+      axios.put(`${API_URL}}/usuarios/${this.formData.id}`, allowedData)
         .then(response => {
           console.log('Usuario actualizado con éxito:', response.data);
           this.fetchUsers();
@@ -328,8 +323,7 @@ export default {
     },
     deleteUser() {
       const userID = this.userToDelete.id;
-      console.log('User ID:', userID);
-      axios.delete(`http://85.50.79.98:1580/usuarios/${userID}`)
+      axios.delete(`${API_URL}}/usuarios/${userID}`)
         .then(response => {
           console.log('Usuario eliminado con éxito:', response.data);
           // Actualizar la lista de usuarios después de la eliminación
@@ -337,24 +331,8 @@ export default {
         })
         .catch(error => {
           console.error('Error al eliminar el usuario:', error);
-          if (error.response) {
-            // El servidor respondió con un estado diferente de 2xx
-            console.error('Respuesta del servidor:', error.response.data);
-            console.error('Estado del servidor:', error.response.status);
-            console.log("1")
-          } else if (error.request) {
-            // La solicitud se hizo pero no se recibió respuesta
-            console.error('No se recibió respuesta del servidor');
-            console.log("2")
-          } else {
-            // Algo sucedió en la configuración de la solicitud que provocó el error
-            console.error('Error de configuración de la solicitud:', error.message);
-            console.log("3")
-          }
         });
     },
-
-
     // New User 
     openNewUserPopup() {
       this.isNewUserPopupOpen = true;
@@ -363,17 +341,16 @@ export default {
       this.isNewUserPopupOpen = false;
     },
     createNewUser() {
-      axios.post('http://85.50.79.98:1580/register', this.newUserData)
+      axios.post(`${API_URL}}/register`, this.newUserData)
         .then(response => {
           console.log('Usuario creado con éxito:', response.data);
-          this.fetchUsers(); // Actualizar la lista de usuarios después de la creación
-          this.closeNewUserPopup(); // Cerrar el popup después de la creación
+          this.fetchUsers(); 
+          this.closeNewUserPopup();
         })
         .catch(error => {
           console.error('Error al crear el usuario:', error);
         });
     },
-
     //Paginate
     nextPage() {
       if (this.currentPage < this.totalPages) {
