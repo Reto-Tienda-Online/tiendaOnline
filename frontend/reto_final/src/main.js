@@ -1,15 +1,31 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from "vue";
+import "@src/style.css";
+import App from "./App.vue";
+import router from '@src/router/router.js';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faChevronRight, faCoffee, faShield, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faC,
+  faChevronRight,
+  faCoffee,
+  faShield,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import {
   faDownload,
   faCommentDots,
   faStar,
+  faBell,
+  faCoins,
+  faGamepad,
+  faList,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
+  faCircleRight,
+  faCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -23,11 +39,22 @@ library.add(
   faDownload,
   faShield,
   faCommentDots,
-  faStar
+  faStar,
+  faBell,
+  faCoins,
+  faGamepad,
+  faList,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faTrash,
+  faCircleRight,
+  faCircleLeft,
 );
 
 const app = createApp(App);
 
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.use(router);
 
-app.mount('#app')
+app.component("font-awesome-icon", FontAwesomeIcon);
+
+app.mount("#app");
