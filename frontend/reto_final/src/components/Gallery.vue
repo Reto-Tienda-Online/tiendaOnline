@@ -7,33 +7,55 @@ defineProps({
   required: true,
 });
 
+/*
+  isHovered -> Aplica a todos
+  isHovered -> [1,1,1,1,1,1,1,1,1]
+
+  index -> imagen
+  index -> 3
+  isHovered -> [1,1,0,1,1,1,1,1,1]
+*/
+
 //DATA
-const isHovered = ref(false);
-const video = ref(null);
+const isHovered = ref([1,1,1,1,1,1,1,1,1]);
+const video = ref([]);
 const juegos = ref([])
 
 //METHODS
-const setHovered = (boolean) => {
-  isHovered.value = boolean;
-}
-
 const playVideo = (id) => {
-  console.log(video.value)
-  isHovered.value = true;
-  video.play();
+  // console.log("video.value:", video.value); 
+  const playVideo = video.value[id-1].play();
+  isHovered.value[id-1] = 0;
+  // console.log(isHovered.value)
+  if (playVideo !== undefined) {
+    playVideo.then(_ => {
+      
+    })
+    .catch(error => {
+    });
+  }
 };
 
 const stopVideo = (id) => {
-  isHovered.value = false;
-  video.stop();
-};
+  const pauseVideo = video.value[id-1].pause();
+  isHovered.value[id-1] = 1;
+
+  if (pauseVideo !== undefined) {
+    pauseVideo.then(_ => {
+      
+    })
+    .catch(error => {
+    });
+  }
+}; 
 
 const getJuegos = () => {
-  const path = "http://192.168.1.75/all_productos";
+  const path = "http://85.50.79.98:1580/all_productos";
   axios
     .get(path)
     .then((response) => {
       juegos.value = response.data.slice(0, 9).map((object) => ({...object}));
+
       // console.log(juegos.value);
 
     })
@@ -46,9 +68,14 @@ const getImageURL = (id) => {
   return `/imgs/juegos/${id}/2.webp`
 }
 
+const getVideoURL = (id) => {
+  return `/imgs/juegos/${id}/1.webm`
+}
+
 //HOOKS
 onMounted(() => {
   getJuegos()
+  // console.log(video.value)
 })
 
 </script>
@@ -65,10 +92,10 @@ onMounted(() => {
           v-for="(juego, index) in juegos"
           :key="juego.id"
           class="relative hover:scale-105 cursor-pointer transition-all duration-300"
-          @mouseover="playVideo(juego.id), setHovered(true)"
-          @mouseout="stopVideo(juego.id), setHovered(false)"
+          @mouseover="playVideo(juego.id)"
+          @mouseout="stopVideo(juego.id)"
         >
-          <picture v-if="!isHovered">
+          <picture v-show="isHovered[index] === 1">
             <img
               class="picture rounded-xl"
               :src=getImageURL(juego.id)
@@ -76,7 +103,7 @@ onMounted(() => {
             />
           </picture>
           <video
-            v-else
+            v-show="isHovered[index] !== 1"
             ref="video"
             preload="none"
             loop=""
@@ -85,11 +112,11 @@ onMounted(() => {
             class="w-full h-full object-cover rounded-xl"
           >
             <source
-              src="../assets/jokin/1/1.webm"
+              :src=getVideoURL(juego.id)
               type="video/webm"
             />
           </video>
-        <div class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out" :class="{ 'opacity-0': isHovered, 'opacity-100': !isHovered }">
+        <div class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out" :class="{ 'opacity-0': isHovered[index] === 0, 'opacity-100': isHovered[index] === 1 }">
           <h1 class="text-white">{{ juego.producto }}</h1>
           <h2 class="text-white">{{ juego.precio_unitario }}€</h2>
         </div>

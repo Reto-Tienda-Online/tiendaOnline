@@ -1,11 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
 const categories = ref([]);
 
 const getCategories = () => {
-  const path = "http://192.168.1.75/all_categorias";
+  const path = "http://85.50.79.98:1580/all_categorias";
   axios
     .get(path)
     .then((response) => {
@@ -17,6 +17,14 @@ const getCategories = () => {
       console.error(error);
     });
 };
+
+const categoryPng = (categoria) => {
+  return `/imgs/personajes/${categoria}/1.webp`
+}
+
+const categoryBg = (categoria) => {
+  return `/imgs/personajes/${categoria}/1_1.webp`
+}
 
 onMounted(() => {
   getCategories();
@@ -37,9 +45,9 @@ onMounted(() => {
         class="rounded-xl">
         <!--Las imagenes deben ser de todas las imagenes deben ser de 250px de altura da igual el ancho pero no mas de 250px -->
         <img
-          src="../assets/t3.jpg"
+          :src=categoryBg(item.categoria)
           alt=""
-          class="relative rounded-xl grayscale"
+          class="relative rounded-xl opacity-50"
         />
         <h1
           class="absolute top-1/2 left-5 transform -translate-y-1/2 text-white font-barlow font-bold text-2xl"
@@ -48,9 +56,9 @@ onMounted(() => {
         </h1>
         <!--La imagen del personaje debe ser de s-->
         <img
-          src="../assets/tw.png"
+          :src=categoryPng(item.categoria)
           alt=""
-          class="w-1/2 absolute right-0 bottom-0 hover:scale-105 cursor-pointer transition-all duration-500 origin-bottom-right"
+          class="absolute right-0 bottom-0 hover:scale-105 cursor-pointer transition-all duration-500 origin-bottom-right"
         />
       </div>
     </div>
