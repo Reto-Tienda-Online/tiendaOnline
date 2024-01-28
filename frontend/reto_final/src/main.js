@@ -1,4 +1,6 @@
 import { createApp } from "vue";
+import router from './router/index.js';
+import store from './store.js'; 
 import "./style.css";
 import App from "./App.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -26,7 +28,6 @@ import {
   faCircleRight,
   faCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import router from './router.js';
 
 //Cada icono debe ser añadido e importado
 library.add(
@@ -53,6 +54,7 @@ library.add(
 const app = createApp(App);
 
 app.use(router);
+app.use(store)
 
 app.component("font-awesome-icon", FontAwesomeIcon);
 

@@ -339,10 +339,12 @@ onMounted(() => {
           /></a>
         </li>
         <li>
-          <font-awesome-icon
-            icon="user"
-            class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
-          />
+          <router-link to="/login">
+            <font-awesome-icon
+              icon="user"
+              class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
+            />
+        </router-link>
         </li>
       </ul>
     </div>
