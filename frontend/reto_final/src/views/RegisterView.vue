@@ -78,29 +78,51 @@
 
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { useStore } from 'vuex'; // Import useStore from Vuex
+import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
+
 
 const nombre = ref('');
 const apellido = ref('');
 const correo = ref('');
 const contrasena = ref('');
 const contrasena_confirm = ref('');
+const $store = useStore(); // Access Vuex store
+const $router = useRouter(); // Access Vue Router
+
 
 const handleSignup = async () => {
     const data = {
-        nombre: nombre.value,
-        apellido: apellido.value,
-        correo: correo.value,
-        contrasena: contrasena.value,
-        contrasena_confirm: contrasena_confirm.value
+        'nombre': nombre.value,
+        'apellido': apellido.value,
+        'correo': correo.value,
+        'contrasena': contrasena.value
     };
 
     console.log('created');
     console.log(data);
 
     try {
+        // const formData = new FormData();
+        // formData.append('nombre', data.nombre);
+        // formData.append('apellido', data.apellido);
+        // formData.append('correo', data.correo);
+        // formData.append('contrasena', data.contrasena);
+
+        // const response = await axios.post('register', formData);
         const response = await axios.post('register', data);
         console.log(response);
+        // verify the response code, verify the boolean created if exists
+        if (response.status === 200 && response.data.created === true) {
+            // mostrar alerta (registrado con exito)
+            // pasar al login
+            $router.push('/login'); //redirect to the login page
+
+        } else {
+            //mostrar alerta error, usuario existe 
+        }
+
     } catch (error) {
         console.error('Error registering user:', error);
     }

@@ -43,49 +43,56 @@ const routes = [
         path: '/admin',
         component: () => import('@views/Admin/HomeView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/home',
         component: () => import('@views/Admin/HomeView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/usuarios',
         component: () => import('@views/Admin/UsuariosView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/usuarios/:id',
         component: () => import('@views/Admin/UsuariosView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/categorias',
         component: () => import('@views/Admin/CategoriasView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/compras',
         component: () => import('@views/Admin/ComprasView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
     { 
         path: '/admin/productos',
         component: () => import('@views/Admin/ProductosView.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            isAdmin: true
         }
      },
   ];
@@ -111,7 +118,10 @@ router.beforeEach((to, from, next) => {
               next({ name: '/' }); // Or any unauthorized page
           } else {
               // Authorized user, proceed
+              console.log(store);
               next();
+              console.log(store);
+
           }
       }
   } else {

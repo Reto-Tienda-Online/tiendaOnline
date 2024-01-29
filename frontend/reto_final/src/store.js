@@ -36,7 +36,7 @@ const store = createStore({
         state.usuario.apellido = '';
         state.usuario.correo = '';
         state.usuario.admin = '';
-        state.token = ''; // clear the token too
+        state.usuario.token = ''; // clear the token too
     }
   },
   actions: {

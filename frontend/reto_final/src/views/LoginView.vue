@@ -63,25 +63,46 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import { useStore } from 'vuex'; // Import useStore from Vuex
+import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
+
 
 const correo = ref('');
 const contrasena = ref('');
+const $store = useStore(); // Access Vuex store
+const $router = useRouter(); // Access Vue Router
 
 const handleSubmit = async () => {
     const data = {
         // 'username': correo.value,
         // 'password': contrasena.value
-        'correo': correo.value,
-        'contrasena': contrasena.value
+        'username': correo.value,
+        'password': contrasena.value
     };
-    console.log('submited');
-    // const response = await axios.post('login', data);
-    const response = await axios.post('http://localhost:80/apisam', data);
-    const usuario = convertToUsuario(response.data);
-    console.log(usuario)
-    // Assuming you have access to $store and $router directly in setup
-    $store.dispatch('login', usuario);
-    $router.push('/');
+
+    try {
+        const formData = new FormData();
+        formData.append('username', data.username);
+        formData.append('password', data.password);
+        const response = await axios.post('token', formData);
+            
+        if (response.status === 200 && response.data.usuario && response.data.access_token) {
+            console.log('submited');
+            // verificar y abrir sesion, dirigir al home
+            const usuario = convertToUsuario(response.data);
+            // console.log(usuario);
+            $store.dispatch('login', usuario);
+            $router.push('/');
+        }
+
+
+        
+    } catch (error) {
+        // hay q mostrar la alerta de habia un error (usuario o password falso)
+        console.error('Error registering user:', error);
+        // console.error('Error logging in');
+    }
+
 };
 
 const convertToUsuario = (data) => {
