@@ -103,14 +103,14 @@ export default {
             this.selectedFile = event.target.files[0];
         },
         createProduct() {
-            axios.post(`${API_URL}/create_producto`, this.formNewProducto)
+            axios.post('/create_producto', this.formNewProducto)
                 .then(response => {
                     console.log('Producto creado:', response.data);
                     // Subir el archivo de video o imagen
                     const formData = new FormData();
                     formData.append('file', this.selectedFile);
                     formData.append('id', response.data.id);
-                    axios.post(`${API_URL}/upload_video`, formData)
+                    axios.post('/upload_video', formData)
                         .then(response => {
                             console.log('Video subido:', response.data);
                         })

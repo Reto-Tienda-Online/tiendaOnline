@@ -58,6 +58,7 @@ const routes = [
     },
   },
   {
+    name : 'admin_usuarios',
     path: "/admin/usuarios",
     component: () => import("@views/Admin/UsuariosView.vue"),
     meta: {
@@ -65,15 +66,17 @@ const routes = [
       isAdmin: true,
     },
   },
+  // {
+  //   name : 'admin_usuarios',
+  //   path: "/admin/usuarios/:id",
+  //   component: () => import("@views/Admin/UsuariosView.vue"),
+  //   meta: {
+  //     requiresAuth: true,
+  //     isAdmin: true,
+  //   },
+  // },
   {
-    path: "/admin/usuarios/:id",
-    component: () => import("@views/Admin/UsuariosView.vue"),
-    meta: {
-      requiresAuth: true,
-      isAdmin: true,
-    },
-  },
-  {
+    name : 'admin_categorias',
     path: "/admin/categorias",
     component: () => import("@views/Admin/CategoriasView.vue"),
     meta: {
@@ -82,6 +85,7 @@ const routes = [
     },
   },
   {
+    name : 'admin_compras',
     path: "/admin/compras",
     component: () => import("@views/Admin/ComprasView.vue"),
     meta: {
@@ -90,8 +94,27 @@ const routes = [
     },
   },
   {
+    name : 'admin_productos',
     path: "/admin/productos",
     component: () => import("@views/Admin/ProductosView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    name : 'admin_nuevo_producto',
+    path: "/admin/nuevo_producto",
+    component: () => import("@views/Admin/CreateProductoView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/productos/:name",
+    name: "adminProductDetail",
+    component: () => import("@views/Admin/ProductoDetalleView.vue"),
     meta: {
       requiresAuth: true,
       isAdmin: true,

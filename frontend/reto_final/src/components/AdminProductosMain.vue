@@ -36,7 +36,7 @@ import axios from 'axios';
               Página {{ currentPage }} de {{ totalPages }}
             </div>
           </div>
-          <router-link :to="{ name: 'admin_nuevo_usuario'}" class="text-md rounded-md px-4 py-2 mx-8 bg-resaltar font-bold">
+          <router-link :to="{ name: 'admin_nuevo_producto'}" class="text-md rounded-md px-4 py-2 mx-8 bg-resaltar font-bold">
             + PRODUCTO
           </router-link>
         </div>

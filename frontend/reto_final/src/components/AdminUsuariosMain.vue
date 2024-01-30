@@ -307,7 +307,7 @@ export default {
       this.isNewUserPopupOpen = false;
     },
     createNewUser() {
-      axios.post(`${API_URL}/register`, this.newUserData)
+      axios.post('/register', this.newUserData)
         .then(response => {
           this.fetchUsers();
           this.closeNewUserPopup();
