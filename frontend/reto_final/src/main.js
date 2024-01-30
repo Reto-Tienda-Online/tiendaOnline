@@ -1,9 +1,8 @@
 import { createApp } from "vue";
-import router from './router/index.js';
 import "@src/style.css";
 import './axios.js'
 import App from "./App.vue";
-import router from '@src/router/router.js';
+import router from '@src/router/index.js';
 import store from "./store.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -30,7 +29,6 @@ import {
   faCircleRight,
   faCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import router from './router.js';
 
 //Cada icono debe ser añadido e importado
 library.add(

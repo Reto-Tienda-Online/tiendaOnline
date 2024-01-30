@@ -1,100 +1,103 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@views/HomeView.vue';
-// import AdminHomeView from '@views/Admin/HomeView.vue';
-// import CestaView from '@views/CestaView.vue';
-// import PagoView from '@views/PagoView.vue';
-// import AdminUsuariosView from '@views/Admin/UsuariosView.vue';
-// import AdminCategoriasView from '@views/Admin/CategoriasView.vue';
-// import AdminProductosView from '@views/Admin/ProductosView.vue';
-// import AdminComprasView from '@views/Admin/ComprasView.vue';
-
 
 const routes = [
-    { path: '/', component: HomeView },
-    { path: '/home', component: HomeView },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@views/LoginView.vue')
+  { path: "/", component: HomeView },
+  { path: "/home", component: HomeView },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@views/LoginView.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("@views/RegisterView.vue"),
+  },
+  {
+    path: "/cesta",
+    // component: CestaView,
+    component: () => import("@views/CestaView.vue"),
+    meta: {
+      requiresAuth: true,
     },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import('@views/RegisterView.vue')
+  },
+  {
+    path: "/pago",
+    component: () => import("@views/PagoView.vue"),
+    meta: {
+      requiresAuth: true,
     },
-    { 
-        path: '/cesta',
-        // component: CestaView,  
-        component: () => import('@views/CestaView.vue'),
-        meta: {
-            requiresAuth: true
-        }
+  },
+  {
+    path: "/juegoDetalle",
+    name: "juegoDetalle",
+    component: () => import("@views/JuegoDetalleView.vue"),
+  },
+  {
+    path: "/categoriaDetalle",
+    name: "CategoriaDetalleView",
+    component: () => import("@views/CategoriaDetalleView.vue"),
+  },
+
+  // Admin
+  {
+    path: "/admin",
+    component: () => import("@views/Admin/HomeView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
     },
-    { 
-        path: '/pago',
-        component: () => import('@views/PagoView.vue'),
-        meta: {
-            requiresAuth: true
-        }
-      },
-    // Admin
-    { 
-        path: '/admin',
-        component: () => import('@views/Admin/HomeView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/home',
-        component: () => import('@views/Admin/HomeView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/usuarios',
-        component: () => import('@views/Admin/UsuariosView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/usuarios/:id',
-        component: () => import('@views/Admin/UsuariosView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/categorias',
-        component: () => import('@views/Admin/CategoriasView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/compras',
-        component: () => import('@views/Admin/ComprasView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-    { 
-        path: '/admin/productos',
-        component: () => import('@views/Admin/ProductosView.vue'),
-        meta: {
-            requiresAuth: true,
-            isAdmin: true
-        }
-     },
-  ];
+  },
+  {
+    path: "/admin/home",
+    component: () => import("@views/Admin/HomeView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/usuarios",
+    component: () => import("@views/Admin/UsuariosView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/usuarios/:id",
+    component: () => import("@views/Admin/UsuariosView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/categorias",
+    component: () => import("@views/Admin/CategoriasView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/compras",
+    component: () => import("@views/Admin/ComprasView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: "/admin/productos",
+    component: () => import("@views/Admin/ProductosView.vue"),
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
