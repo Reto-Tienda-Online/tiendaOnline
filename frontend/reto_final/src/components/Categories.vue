@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col mt-10 ml-10">
+  <div class="flex flex-col mt-10 ml-10 cursor-pointer">
     <h1 class="text-gray-200 text-4xl font-barlow">
       Categorías
       <font-awesome-icon icon="chevron-right" />

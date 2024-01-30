@@ -12,6 +12,7 @@ const plataformas = ref([])
 const defaultCategory = ref('')
 const selectedCategory = ref('')
 const selectedPlataform = ref('')
+const searchInput = ref('')
 const games = ref([])
 
 const getCategories = () => {
@@ -42,7 +43,7 @@ const getJuegos = (plataforma = '', categoria = '') => {
     .get(path)
     .then((response) => {
         games.value = response.data
-        if(plataforma !== ''){
+        if(plataforma !== '' && categoria === ''){
             // console.log(plataforma)
             // console.log("ENTRA")
             games.value = games.value.filter((game) => {
@@ -53,6 +54,10 @@ const getJuegos = (plataforma = '', categoria = '') => {
             
             games.value = games.value.filter((game) => {
                 return ((game.nombreplataforma === plataforma) && (game.nombrecategoria === categoria))
+            })
+        }else if(categoria !== '' && plataforma === ''){
+            games.value = games.value.filter((game) => {
+                return game.nombrecategoria === categoria
             })
         }
     }).catch((error) => {
@@ -65,8 +70,27 @@ const setSelected = (categoria) => {
 }
 
 const filterGames = () => {
-    getJuegos(selectedPlataform.value)
+    getJuegos(selectedPlataform.value, selectedCategory.value)
 }
+
+const filterByName = () => {
+    games.value = games.value.filter((element) => {
+        return element.producto.toLowerCase().includes(searchInput.value.toLowerCase())
+    })
+}
+
+const filterByNameBackspace = () => {
+    const path = `http://85.50.79.98:8080/search?producto=${searchInput.value}`
+    axios
+    .get(path)
+    .then((response) => {
+        games.value = response.data
+        filterGames()
+    }).catch((error) => {
+        console.error(error)
+    })
+}
+
 
 onMounted(() => {
     getJuegos()
@@ -82,16 +106,34 @@ onMounted(() => {
 
 <template>
     <Navbar/>
-    <div class="flex flex-row mt-2 justify-center align-middle">
-        <div class="flex flex-col">
+    <div class="flex flex-row mt-5 justify-center align-middle mx-10">
+        <div class="flex flex-col mr-10 flex-1">
+            <label 
+                class="text-white"
+                for="nombreFiltro">
+                Buscar
+            </label>
+            <input 
+                class="text-black mt-5 rounded-md"
+                placeholder="Nombre del juego..."
+                type="search"
+                @input="filterByName"
+                @keyup.delete="filterByNameBackspace"
+                @search="filterGames"
+                v-model="searchInput"
+            >
+        </div>
+        <div class="flex flex-col flex-3">
         <label for="categoria" class="text-white text-center">
             Categorías
         </label>
         <select 
-            name="categoria" 
-            class="text-black mt-5"
+            id="categoria" 
+            class="text-black mt-5 rounded-md"
+            @change="filterGames"
             v-model="selectedCategory"
             >
+            <option value="">Elige una categoría</option>
             <option 
                 v-for="(category, index) in categories"
                 :key="category.id"
@@ -102,16 +144,17 @@ onMounted(() => {
             </option>
         </select>
     </div>
-    <div class="flex flex-col ml-10">
+    <div class="flex flex-col ml-10 flex-3">
         <label for="plataforma" class="text-white text-center">
             Plataformas
         </label>
         <select 
-            name="plataforma" 
-            class="text-black mt-5"
+            id="plataforma" 
+            class="text-black mt-5 rounded-md"
             @change="filterGames"
             v-model="selectedPlataform"
             >
+            <option value="" selected>Elige una plataforma</option>
             <option 
                 v-for="(plataforma, index) in plataformas"
                 :key="plataforma.id"
