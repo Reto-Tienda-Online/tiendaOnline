@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import "@src/style.css";
 import App from "./App.vue";
 import router from '@src/router/router.js';
+import store from "./store.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -53,6 +54,7 @@ library.add(
 
 const app = createApp(App);
 
+app.use(store);
 app.use(router);
 
 app.component("font-awesome-icon", FontAwesomeIcon);

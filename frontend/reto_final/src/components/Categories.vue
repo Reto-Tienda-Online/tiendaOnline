@@ -1,11 +1,16 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { API_URL } from "../config";
 
+const store = useStore()
+const router = useRouter()
 const categories = ref([]);
 
 const getCategories = () => {
-  const path = "http://85.50.79.98:1580/all_categorias";
+  const path = API_URL.concat('/all_categorias');
   axios
     .get(path)
     .then((response) => {
@@ -26,6 +31,11 @@ const categoryBg = (categoria) => {
   return `/imgs/personajes/${categoria}/1_1.webp`
 }
 
+const changeView = (category) => {
+  store.commit('setCategoryData', category)
+  router.push('/categoriaDetalle')
+}
+
 onMounted(() => {
   getCategories();
 });
@@ -42,7 +52,9 @@ onMounted(() => {
         v-for="(item, index) in categories"
         :key="item.id"
         style="position: relative" 
-        class="rounded-xl">
+        class="rounded-xl"
+        @click="changeView(item.categoria)"
+        >
         <!--Las imagenes deben ser de todas las imagenes deben ser de 250px de altura da igual el ancho pero no mas de 250px -->
         <img
           :src=categoryBg(item.categoria)

@@ -1,39 +1,84 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import { FwbA, FwbButton, FwbTextarea } from "flowbite-vue";
 import Navbar from "./Navbar.vue";
 import axios from 'axios'
+import { useStore } from 'vuex';
+import { API_URL } from "../config";
 
-const message = ref([]);
-const comment = ref('')
-const splitDescripcion = ref('')
-const sayHi = () => {
-    console.log(message.value)
-    console.log(juego)
-}
-
-const juego = reactive({
-    id: 18,
-    nombre: 'God Of War',
-    precio: 45.78,
-    plataformaId: 'Steam',
-    iframeTrailer: '',
-    descripcion: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae quae eius esse deserunt distinctio nulla. Modi reiciendis eius optio necessitatibus culpa voluptatibus magnam enim odio alias, quam doloribus ab?',
+const store = useStore();
+const juegoPasado = ref({})
+const comment = reactive({
+  resena: 'Reseña para usuario Diego',
+  id_usuario: 9,
+  contenido: '',
+  id_juego: 1,
+  valoracion: 5,
 })
+
+const splitDescripcion = ref('')
+const showAllDesc = ref(false)
+const sayHi = () => {
+  /*{
+  "resena": "Review for john.doe@example.com",
+  "id_usuario": 3,
+  "contenido": "Content for john.doe@example.com",
+  "id_juego": 1,
+  "valoracion": 4
+} */
+  let data = JSON.stringify(comment);
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'http://85.50.79.98:8080/resenas/',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  axios.request(config)
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  // console.log(comment.value)
+  // console.log(juego)
+}
 
 //ARREGLAR METODO
 const getImgURL = (id) => {
-    const imgUrl = `/imgs/${id}/2.webp`;
-    console.log(imgUrl);
-    return imgUrl;
+  const imgUrl = `/imgs/juegos/${id}/2.webp`;
+  // console.log(imgUrl);
+  return imgUrl;
 }
 
 const showMore = computed(() => {
-  if(juego.descripcion.length > 200){
-    return true
-  }else{
-    return false
+  splitDescripcion.value = juegoPasado.value.descripcion
+
+  if(splitDescripcion.value){
+    if(splitDescripcion.value.length >= 200){
+      splitDescripcion.value = splitDescripcion.value.slice(0,200)
+      splitDescripcion.value = splitDescripcion.value.slice(0, splitDescripcion.value.lastIndexOf(" "))
+      return true
+    }else{
+      return false
+    }
   }
+})
+
+const showMoreText = () => {
+  showAllDesc.value = !showAllDesc.value
+}
+
+
+onMounted(() => {
+  if (store.state.juegoDetalle) {
+    // console.log(store.state.datosCompartidos)
+    juegoPasado.value = store.state.juegoDetalle;
+    // console.log(juegoPasado.value)
+  }
+
 })
 
 
@@ -41,89 +86,86 @@ const showMore = computed(() => {
 //RUTA IMAGEN ../assets/jokin/{id}/1.webp
 //LONGITUD MAXIMA DE DESCRIPCION {200} a partir de esta debe aparecer leer más
 
+// descripcion: "Descripción de Half Life"
+// id: 4
+// id_descuento: 4
+// id_plataforma: 4
+// iframetrailer: "https://www.youtube.com/watch?v=O2W0N3uKXmo"
+// precio_unitario: "19.99"
+// producto: "Half Life"
+// rutavideo: "/imgs/4/1.webm"
 </script>
 
 <template>
-<Navbar/>
-<div class="mx-20">
-  <div>
+  <Navbar />
+  <div class="mx-20">
     <div>
-      <!--Seccion de foto del juego-->
+      <div>
+        <!--Seccion de foto del juego-->
+      </div>
+      <div>
+        <!--Al lado div que contiene NOMBRE, PLATAFORMA, PRECIO, AÑADIR CARRITO, -->
+      </div>
     </div>
-    <div>
-      <!--Al lado div que contiene NOMBRE, PLATAFORMA, PRECIO, AÑADIR CARRITO, -->
-    </div>
-  </div>
-  <div class="grid grid-cols-9 gap-4 mb-10">
-    <!--Debajo ACERCA DEL JUEGO-->
-    <div class="col-span-3">
-        <h1 class="text-white mt-5 text-4xl text-center">Acerca del Juego</h1>
-        <p class="text-white mt-5 mb-5">
-            {{  }}</p>
-        <p 
-          v-show="showMore"
-          @click="console.log('Hello')" 
-          class="text-white hover:underline cursor-pointer"
-          >
-          Leer mas...
-          </p>
-        <div class="bg-background p-2 mt-2 rounded-xl">
-            <!--NOMBRE-->
-            <h1 class="text-white text-center text-4xl mt-5">{{ juego.nombre }}</h1>
-            <!--PLATAFORMA-->
-            <div class="mt-2 flex flex-row justify-center align-middle">
-              <h3 class="text-white text-center my-auto font-bold uppercase mr-2">Plataforma:</h3>
-              <img src="../assets/logos/steam.png" alt="" class="w-10">
-              <h3 class="text-white text-center my-auto ml-3"> {{ juego.plataformaId }}</h3>
-            </div>
-            <!--PRECIO-->
-            <div class="text-white flex flex-row justify-center mt-2">
-              <h3 class="text-center uppercase my-auto font-bold mr-2">Precio:</h3>
-              <h3 class="text-center">{{ juego.precio }} €</h3>  
-            </div> 
-            <!--ADD TO CART BTN-->
-            <button
-              class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
-            >
-            <font-awesome-icon icon="shopping-cart"/>
-            Add to cart  
-            </button>
-        </div>
-    </div>
-    <div class="col-span-6">
+
+    <div class="grid grid-cols-9 gap-4 mb-1">
+      <!--Debajo ACERCA DEL JUEGO-->
+      <div class="col-span-6">
         <!--Imagen-->
         <picture>
-            <img
-              class="picture rounded-xl"
-              :src="getImgURL(juego.id)"
-              loading="lazy"
-            />
+          <img class="picture rounded-xl h-full" :src="getImgURL(juegoPasado.id)" loading="lazy" />
         </picture>
+      </div>
+      <div class="col-span-3 flex flex-col  justify-between bg-background rounded-xl">
+        <div class="flex flex-col p-2">
+          <h1 class="text-white mt-5 text-4xl text-center">Acerca del Juego</h1>
+          <p class="text-white mt-5 mb-5 text-center">
+            {{ showAllDesc === true ? juegoPasado.descripcion : splitDescripcion }}</p> <!--Descripcion cortada-->
+          <p v-show="showMore" @click="showMoreText"
+            class="text-white hover:underline cursor-pointer text-center">
+            Leer mas...
+          </p>
+        </div>
+        <div class="bg-background p-2 mt-2 rounded-xl">
+          <!--NOMBRE-->
+          <h1 class="text-white text-center text-4xl mt-5">{{ juegoPasado.producto }}</h1>
+          <!--PLATAFORMA-->
+          <div class="mt-2 flex flex-row justify-center align-middle">
+            <h3 class="text-white text-center my-auto font-bold uppercase mr-2">Plataforma:</h3>
+            <img src="/imgs/logos/steam.png" alt="" class="w-10">
+            <h3 class="text-white text-center my-auto ml-3"> {{ juegoPasado.id_plataforma }}</h3>
+          </div>
+          <!--PRECIO-->
+          <div class="text-white flex flex-row justify-center mt-2">
+            <h3 class="text-center uppercase my-auto font-bold mr-2">Precio:</h3>
+            <h3 class="text-center">{{ juegoPasado.precio_unitario }} €</h3>
+          </div>
+          <!--ADD TO CART BTN-->
+          <button class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg">
+            <font-awesome-icon icon="shopping-cart" />
+            Add to cart
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div>
-    <!--REVIEWS que se pueda comentar-->
     <div>
+      <!--REVIEWS que se pueda comentar-->
+      <div class="mt-5">
         <!--Colocar aqui el metodo al enviarse el comentario-->
-      <form
-        @submit.prevent="sayHi" 
-      >
-        <fwb-textarea
-          v-model="comment" 
-          :rows="3"
-          custom
-          label=""
-          placeholder="Escribe un comentario..."
-        >
-          <template #footer>
-            <div class="flex items-center justify-between">
-             <!-- <fwb-button type="submit"> Post comment </fwb-button> -->
-             <button type="submit">Enviar comentario</button>
-            </div>
-          </template>
-        </fwb-textarea>
-      </form>
+        <form @submit.prevent="sayHi">
+          <div class="flex flex-row gap-2 bg-background rounded-xl">
+            <textarea
+              v-model="comment.contenido"
+              rows="5"
+              class="w-full m-5 rounded-xl" 
+              placeholder="Escribe tu comentario..."></textarea>
+            <button
+              class="text-white bg-resaltar m-10 rounded-xl"
+            >
+            Enviar comentario</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 </template>

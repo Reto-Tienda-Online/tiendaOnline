@@ -82,7 +82,7 @@
         </div>
 
         <a href="/" class="flex justify-center text-md text-gray-300">
-          < Continuar comprando
+           Continuar comprando
         </a>
       </div>
     </div>
