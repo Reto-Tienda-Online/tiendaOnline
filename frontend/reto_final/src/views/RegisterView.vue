@@ -79,7 +79,6 @@
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
-import { useStore } from 'vuex'; // Import useStore from Vuex
 import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
 
 
@@ -88,7 +87,6 @@ const apellido = ref('');
 const correo = ref('');
 const contrasena = ref('');
 const contrasena_confirm = ref('');
-const $store = useStore(); // Access Vuex store
 const $router = useRouter(); // Access Vue Router
 
 
@@ -114,7 +112,7 @@ const handleSignup = async () => {
         const response = await axios.post('register', data);
         console.log(response);
         // verify the response code, verify the boolean created if exists
-        if (response.status === 200 && response.data.created === true) {
+        if (response.status === 200) {
             // mostrar alerta (registrado con exito)
             // pasar al login
             $router.push('/login'); //redirect to the login page

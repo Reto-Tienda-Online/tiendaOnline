@@ -8,7 +8,6 @@ import HomeView from '@views/HomeView.vue';
 // import AdminProductosView from '@views/Admin/ProductosView.vue';
 // import AdminComprasView from '@views/Admin/ComprasView.vue';
 
-import store from './../store.js'; 
 
 const routes = [
     { path: '/', component: HomeView },
@@ -103,31 +102,32 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAdmin = to.matched.some(record => record.meta.isAdmin);
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const isAdmin = to.matched.some(record => record.meta.isAdmin);
 
-  if (requiresAuth) {
-      // This route requires authentication
-      if (!store.getters.isLoggedIn) {
-          // Not logged in, redirect to login page
-          next({ name: 'login' });
-      } else {
-          // Logged in
-          if (isAdmin && !store.getters.isAdmin) {
-              // Not an admin, redirect to home or unauthorized page
-              next({ name: '/' }); // Or any unauthorized page
-          } else {
-              // Authorized user, proceed
-              console.log(store);
-              next();
-              console.log(store);
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const usuarioData = JSON.parse(localStorage.getItem('usuario'));
+    const isAdminUser = usuarioData ? usuarioData.admin : false;
 
-          }
-      }
-  } else {
-      // Does not require authentication, proceed
-      next();
-  }
+    if (requiresAuth) {
+        // This route requires authentication
+        if (!isLoggedIn) {
+            // Not logged in, redirect to login page
+            next({ name: 'login' });
+        } else {
+            // Logged in
+            if (isAdmin && !isAdminUser) {
+                // Not an admin, redirect to home or unauthorized page
+                next({ name: '/' });
+            } else {
+                // Authorized user, proceed
+                next();
+            }
+        }
+    } else {
+        // Does not require authentication, proceed
+        next();
+    }
 });
 
 

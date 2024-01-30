@@ -3,8 +3,8 @@
         <section class="bg-gray-50 dark:bg-gray-900">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <router-link to="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <!-- <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-                        alt="logo"> -->
+                    <img class="w-9 h-8 mr-2" src="../img/icono-white.svg"
+                        alt="logo">
                     <!-- Aqui mi logo -->
                     Game Groover
                 </router-link>
@@ -63,19 +63,15 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { useStore } from 'vuex'; // Import useStore from Vuex
 import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
 
 
 const correo = ref('');
 const contrasena = ref('');
-const $store = useStore(); // Access Vuex store
 const $router = useRouter(); // Access Vue Router
 
 const handleSubmit = async () => {
     const data = {
-        // 'username': correo.value,
-        // 'password': contrasena.value
         'username': correo.value,
         'password': contrasena.value
     };
@@ -90,8 +86,11 @@ const handleSubmit = async () => {
             console.log('submited');
             // verificar y abrir sesion, dirigir al home
             const usuario = convertToUsuario(response.data);
-            // console.log(usuario);
-            $store.dispatch('login', usuario);
+            
+            // Set user data and authentication status in localStorage
+            localStorage.setItem('usuario', JSON.stringify(usuario));
+            localStorage.setItem('isLoggedIn', true);
+
             $router.push('/');
         }
 
