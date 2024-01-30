@@ -148,11 +148,6 @@ import { API_URL } from '@src/config.js';
                         <input type="email" id="email" v-model="formData.correo" required
                           class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary">
                       </div>
-                      <div class="mb-4 text-left">
-                        <label for="newUserPassword" class="text-sm text-gray-600  font-bold">Contraseña:</label>
-                        <input type="text" id="contrasena" v-model="formData.contrasena" required
-                          class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary">
-                      </div>
                       <label for="newUserAdmin" class="flex items-center my-2 text-sm text-gray-600  font-bold">
                         <input type="checkbox" id="admin" v-model="formData.admin" class="mr-2 px-1 py-2">
                         Admin
@@ -202,7 +197,6 @@ export default {
         nombre: '',
         apellido: '',
         correo: '',
-        contrasena: 'Daw23+',
         admin: false,
       },
       newUserData: {
@@ -299,6 +293,7 @@ export default {
       axios.delete(`${API_URL}/usuarios/${userID}`)
         .then(response => {
           this.fetchUsers();
+          this.closeDeletePopup();
         })
         .catch(error => {
           console.error('Error al eliminar el usuario:', error);

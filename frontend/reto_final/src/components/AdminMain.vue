@@ -18,7 +18,7 @@ import router from '../router/router';
         <span class="w-full my-2">Usuarios</span>
         <span class="flex justify-end font-bold text-2xl my-1">2K</span>
       </router-link>
-      <router-link :to="{ name: 'admin_compras' }"
+      <router-link :to="{ name: 'admin_compras' }" 
         class="h-48 bg-green-200 rounded-lg px-20 py-12 mt-2 mx-2 text-black flex flex-col text-md hover:-translate-y-2">
         <font-awesome-icon icon="coins" class="w-8 h-8" />
         <span class="w-full my-2">Compras</span>
