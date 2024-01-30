@@ -229,7 +229,7 @@ export default {
       this.newCategoryModal = false;
     },
     submitNewCategory() {
-      axios.post(`${API_URL}/categorias`, this.newCategory)
+      axios.post('/categorias', this.newCategory)
         .then(response => {
           this.fetchCategories();
           this.closeCategoryModal();

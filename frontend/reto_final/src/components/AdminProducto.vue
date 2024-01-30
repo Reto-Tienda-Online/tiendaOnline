@@ -64,7 +64,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { API_URL } from '@src/config.js';
 import axios from 'axios';
-import router from '../router/router';
+import router from '../router/index.js';
 
 const route = useRoute();
 var productID = 0;
