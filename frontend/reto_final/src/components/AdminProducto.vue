@@ -7,17 +7,18 @@
         </nav>
         <section class="w-full h-full flex flex-row justify-center items-center  mt-4 bg-transparent">
 
-            <form class="flex flex-col w-3/6 text-black py-6 px-6 bg-gray-400 border-2 border-black rounded-lg">
+            <form @submit.prevent="update_product"
+                class="flex flex-col w-3/6 text-black py-6 px-6 bg-gray-400 border-2 border-black rounded-lg">
                 <h1 class="flex justify-center items-center py-2 text-xl italic">{{ $route.params.name }}</h1>
                 <div class="w-full flex flex-row py-2">
                     <label class="w-full text-md font-bold px-2">
                         Nombre:
-                        <input type="text" v-model="productName"
+                        <input type="text" v-model="productName_v"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </label>
                     <label class="w-full text-md font-bold">
                         Plataforma:
-                        <input type="text" v-model="platform"
+                        <input type="text" v-model="platform" disabled
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </label>
                 </div>
@@ -27,20 +28,20 @@
                         <input type="text" v-model="unitPrice"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </label>
-                    <label class="w-1/3 text-md font-bold">
-                        Descuento %:
-                        <input type="text" v-model="discount"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                        </label>
                 </div>
                 <label class="text-md font-bold px-2">
                     Ruta de Video:
-                    <input type="file" 
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    <input type="file"
+                        class="h-full py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </label>
                 <label class="text-md font-bold">
                     URL Youtube:
                     <input type="url" v-model="trailerIframe"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                </label>
+                <label class="text-md font-bold">
+                    Descripción:
+                    <textarea  v-model="description"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                 </label>
                 <button type="submit"
@@ -49,11 +50,10 @@
                 </button>
             </form>
             <div class="w-1/6 flex flex-col mx-4 ">
-                <iframe width="320" height="215" src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                <iframe width="320" height="215" src="public/${trailerIframe}" frameborder>
                 </iframe>
-                <video src="#" alt="Video Trailer">
-                    <source>
-                </video>
+                <video :src="videoPath" alt="Video Trailer"></video>
+
             </div>
         </section>
     </main>
@@ -61,37 +61,70 @@
   
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { API_URL } from '@src/config.js';
 import axios from 'axios';
+import router from '../router/router';
 
-const productName = ref(''); // Replace with the actual parameter name
+const route = useRoute();
+var productID = 0;
+
+const productName_v = ref('');
 const unitPrice = ref('');
-const discount = ref('');
+//const discount = ref('');
 const platform = ref('');
 const videoPath = ref('');
 const trailerIframe = ref('');
-/*
+const description = ref('');
+
+
+const formData = {
+    producto: productName_v.value,
+    precio_unitario: unitPrice.value,
+    rutavideo: videoPath.value,
+    iframetrailer: trailerIframe.value
+};
+
 onMounted(() => {
-  // Fetch data based on the route parameter and set the values
-  const productId = $route.params.id; // Replace with the actual parameter name
-  fetchData(productId);
+    // Fetch data based on the route parameter and set the values
+    const productNameParam = route.params.name;
+    fetchData(productNameParam);
 });
- 
-async function fetchData(productId) {
-  try {
-    const response = await axios.get(`${API_URL}/producto/${productId}`);
-    const product = response.data;
- 
-    productName.value = route.params.name;
-    unitPrice.value = product.precio_unitario;
-    discount.value = product.id_descuento;
-    platform.value = product.id_plataforma;
-    videoPath.value = product.rutavideo;
-    trailerIframe.value = product.iframetrailer;
-  } catch (error) {
-    console.error('Error fetching product data:', error);
-  }
+async function fetchData(productName) {
+    try {
+        const response = await axios.get(`${API_URL}/search?producto=${productName}`);
+        const product = response.data;
+
+        productID = product[0].id;
+        productName_v.value = product[0].producto;
+        unitPrice.value = product[0].precio_unitario;
+        platform.value = product[0].nombreplataforma;
+        videoPath.value = product[0].rutavideo;
+        trailerIframe.value = product[0].iframetrailer;
+        description.value = product[0].descripcion;
+        console.log(product);
+
+    } catch (error) {
+        console.error('Error fetching product data:', error);
+    }
 }
-*/
+async function update_product(){
+    
+    console.log(productID);
+
+    formData.producto = productName_v.value;
+    formData.precio_unitario = unitPrice.value;
+    formData.rutavideo = videoPath.value;
+    formData.iframetrailer = trailerIframe.value;
+    formData.descripcion = description.value;
+    console.log(formData);
+    await axios.put(`${API_URL}/update_producto/${productID}`, formData).then(response => {
+        router.push({ name: 'admin_productos' });
+    }).catch(error => {
+        console.error('Error al actualizar el usuario:', error);
+    });
+
+};
 </script>
+
   
