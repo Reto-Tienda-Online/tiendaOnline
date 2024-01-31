@@ -1,6 +1,60 @@
-<script setup></script>
+<script setup>
+    import { ref } from 'vue';
+    import axios from 'axios';
+    import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
+
+
+    const correo = ref('');
+    const contrasena = ref('');
+    const $router = useRouter(); // Access Vue Router
+
+    const handleSubmit = async () => {
+        const data = {
+            'username': correo.value,
+            'password': contrasena.value
+        };
+
+        try {
+            const formData = new FormData();
+            formData.append('username', data.username);
+            formData.append('password', data.password);
+            const response = await axios.post('token', formData);
+                
+            if (response.status === 200 && response.data.usuario && response.data.access_token) {
+                console.log('submited');
+                // verificar y abrir sesion, dirigir al home
+                const usuario = convertToUsuario(response.data);
+                
+                // Set user data and authentication status in localStorage
+                localStorage.setItem('usuario', JSON.stringify(usuario));
+                localStorage.setItem('isLoggedIn', true);
+
+                $router.push('/admin');
+            }
+
+
+            
+        } catch (error) {
+            // hay q mostrar la alerta de habia un error (usuario o password falso)
+            console.error('Error registering user:', error);
+            // console.error('Error logging in');
+        }
+
+    };
+
+const convertToUsuario = (data) => {
+    return {
+        id: data.usuario.id,
+        nombre: data.usuario.nombre,
+        apellido: data.usuario.apellido,
+        correo: data.usuario.correo,
+        admin: data.usuario.admin,
+        token: data.access_token
+    };
+};
+</script>
 <template>
-  <form class="flex flex-col items-center">
+  <form @submit.prevent="handleSubmit" class="flex flex-col items-center">
     <!-- Center the content -->
     <div class="w-1/3 mb-4 px-2">
       <label class="block mb-2 text-sm" for="pretext-input">Email</label>
@@ -25,10 +79,12 @@
         </div>
         <div class="flex-1">
           <input
-            id="pretext-input"
+            v-model="correo"  
+            id="correo"
             class="w-full border px-4 py-2 rounded-r focus:border-blue-500 focus:shadow-outline outline-none"
-            type="text"
-            placeholder="jhondoe@gmail.com"
+            type="email"
+            placeholder="admin@admin.com"
+            required=""
           />
         </div>
       </div>
@@ -60,10 +116,12 @@
         </div>
         <div class="flex-1">
           <input
-            id="pretext-input"
+            v-model="contrasena"
+            id="contrasena"
             class="w-full border px-4 py-2 rounded-r focus:border-blue-500 focus:shadow-outline outline-none"
             type="password"
-            placeholder="***"
+            placeholder="******"
+            required=""
           />
         </div>
       </div>
