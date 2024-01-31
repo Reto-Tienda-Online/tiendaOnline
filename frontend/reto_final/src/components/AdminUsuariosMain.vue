@@ -4,7 +4,7 @@ import { API_URL } from '@src/config.js';
 </script>
 
 <template>
-  <main class="flex flex-col text-white w-full h-screen">
+  <main class="flex flex-col text-white w-full h-screen" :class="{ 'w-full h-full bg-auto bg-black opacity-100 cursor-pointer': isPopupOpen || isDeletePopupOpen || isNewUserPopupOpen }"> 
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
         <input v-model="searchQuery" type="text"
@@ -36,8 +36,8 @@ import { API_URL } from '@src/config.js';
               Página {{ currentPage }} de {{ totalPages }}
             </div>
           </div>
-          <button @click="openNewUserPopup()" class="text-lg rounded-md px-4 py-2 mx-8 bg-resaltar ">
-            NUEVO USUARIO
+          <button @click="openNewUserPopup()" class="text-md rounded-md px-4 py-2 mx-8 bg-resaltar font-bold">
+            + USUARIO
           </button>
         </div>
 
@@ -47,8 +47,7 @@ import { API_URL } from '@src/config.js';
         class="fixed top-[12%] right-[45%] translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 shadow-md rounded-lg border-2">
         <div class="text-black text-center">
           <span @click="closeNewUserPopup"
-            class="absolute -top-14 right-2 rounded-full border-2 px-3 py-1 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
-
+            class="absolute -top-14 right-2 rounded-full border-2 px-2 py-0 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
           <!-- Formulario para la creación de usuarios -->
           <form @submit.prevent="createNewUser" class="max-w-md mx-auto mt-8">
             <h1 class="my-4 text-xl font-bold">Nuevo Usuario</h1>
@@ -78,7 +77,7 @@ import { API_URL } from '@src/config.js';
               <input type="checkbox" id="newUserAdmin" v-model="newUserData.admin" class="mr-2 px-1 py-2">
               Admin
             </label>
-            <button type="submit" class="w-full bg-resaltar text-white text-lg py-2 px-4 rounded">
+            <button type="submit" class="w-full bg-resaltar text-white text-lg my-2 py-2 px-4 rounded">
               Crear Usuario
             </button>
           </form>
@@ -126,7 +125,7 @@ import { API_URL } from '@src/config.js';
                   <div class="text-black text-center ">
                     <!-- Close button for the popup -->
                     <span @click="closePopup"
-                      class="absolute -top-14 right-2 rounded-full border-2 px-3 py-1 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
+                      class="absolute -top-14 right-2 rounded-full border-2 px-2 py-0 pointer-events-auto bg-gray-400 text-black text-2xl font-bold">&times;</span>
 
                     <!-- Form content -->
                     <form @submit.prevent="submitForm" class="max-w-md mx-auto mt-8 ">
@@ -149,11 +148,6 @@ import { API_URL } from '@src/config.js';
                         <input type="email" id="email" v-model="formData.correo" required
                           class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary">
                       </div>
-                      <div class="mb-4 text-left">
-                        <label for="newUserPassword" class="text-sm text-gray-600  font-bold">Contraseña:</label>
-                        <input type="text" id="contrasena" v-model="formData.contrasena" required
-                          class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:border-primary">
-                      </div>
                       <label for="newUserAdmin" class="flex items-center my-2 text-sm text-gray-600  font-bold">
                         <input type="checkbox" id="admin" v-model="formData.admin" class="mr-2 px-1 py-2">
                         Admin
@@ -171,18 +165,16 @@ import { API_URL } from '@src/config.js';
                 </button>
                 <!-- Delete Popup component -->
                 <div v-if="isDeletePopupOpen"
-                  class="fixed top-1/4 right-[45%]  translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 rounded-lg">
+                  class="fixed top-1/4 right-[45%]  translate-x-1/2 transalte-y-1/2 bg-gray-300 px-5 py-5 rounded-lg cursor-pointer">
                   <div class="text-black text-center ">
                     <!-- Close button for the popup -->
-                    <h2 class="py-3">¿Seguro que quieres eliminar el usuario <span class="font-bold">{{ userToDelete &&
+                    <h2 class="py-3">¿Seguro que quieres eliminar el usuario <span class="font-bold">{{
                       userToDelete.nombre }}</span>?
-
                     </h2>
                     <button @click="closeDeletePopup" class="bg-red-500 text-white py-2 mx-1 px-4 rounded ">Cancelar
                     </button>
                     <button @click="deleteUser" class="bg-green-500 text-white py-2 mx-1 px-4 rounded">Confirmar
                     </button>
-
                   </div>
                 </div>
               </td>
@@ -193,10 +185,7 @@ import { API_URL } from '@src/config.js';
     </section>
   </main>
 </template>
-
 <script>
-import axios from 'axios';
-
 export default {
   data() {
     return {
@@ -208,7 +197,6 @@ export default {
         nombre: '',
         apellido: '',
         correo: '',
-        contrasena: 'Daw23+',
         admin: false,
       },
       newUserData: {
@@ -225,26 +213,11 @@ export default {
     };
   },
   computed: {
-    paginatedUsers() {
-      const startIndex = (this.currentPage - 1) * this.usersPerPage;
-      const endIndex = startIndex + this.usersPerPage;
-      return this.users.slice(startIndex, endIndex);
-    },
+
     totalPages() {
       return Math.ceil(this.users.length / this.usersPerPage);
     },
-    filteredUsers() {
-      // Filter users based on the search query
-      console.log('Search query:', this.searchQuery);
-      return this.users.filter(user => {
-        const searchTerm = this.searchQuery.toLowerCase();
-        return (
-          user.nombre.toLowerCase().includes(searchTerm) ||
-          user.apellido.toLowerCase().includes(searchTerm) ||
-          user.correo.toLowerCase().includes(searchTerm)
-        );
-      });
-    },
+
     combinedUsers() {
       // Filter users based on the search query
       const filteredUsers = this.users.filter(user => {
@@ -261,10 +234,6 @@ export default {
       const endIndex = startIndex + this.usersPerPage;
       return filteredUsers.slice(startIndex, endIndex);
     },
-    totalPages() {
-      // Calculate total pages based on the filtered users
-      return Math.ceil(this.filteredUsers.length / this.usersPerPage);
-    },
 
   },
   mounted() {
@@ -273,10 +242,8 @@ export default {
 
   methods: {
     async fetchUsers() {
-
       try {
-
-        const response = await axios.get(`${API_URL}}/all_usuarios`);
+        const response = await axios.get(`${API_URL}/all_usuarios`);
         this.users = response.data;
 
       } catch (error) {
@@ -303,9 +270,9 @@ export default {
     // Submit Form 
     submitForm() {
       const { id, ...allowedData } = this.formData;
-      axios.put(`${API_URL}}/usuarios/${this.formData.id}`, allowedData)
+      axios.put(`${API_URL}/usuarios/${this.formData.id}`, allowedData)
         .then(response => {
-          console.log('Usuario actualizado con éxito:', response.data);
+
           this.fetchUsers();
           this.closePopup();
         })
@@ -323,11 +290,10 @@ export default {
     },
     deleteUser() {
       const userID = this.userToDelete.id;
-      axios.delete(`${API_URL}}/usuarios/${userID}`)
+      axios.delete(`${API_URL}/usuarios/${userID}`)
         .then(response => {
-          console.log('Usuario eliminado con éxito:', response.data);
-          // Actualizar la lista de usuarios después de la eliminación
           this.fetchUsers();
+          this.closeDeletePopup();
         })
         .catch(error => {
           console.error('Error al eliminar el usuario:', error);
@@ -341,10 +307,9 @@ export default {
       this.isNewUserPopupOpen = false;
     },
     createNewUser() {
-      axios.post(`${API_URL}}/register`, this.newUserData)
+      axios.post('/register', this.newUserData)
         .then(response => {
-          console.log('Usuario creado con éxito:', response.data);
-          this.fetchUsers(); 
+          this.fetchUsers();
           this.closeNewUserPopup();
         })
         .catch(error => {

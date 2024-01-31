@@ -56,8 +56,8 @@ const isActive = (element) => element === props.activeNavAdmin;
   <!-- Botón para mostrar/ocultar el menú -->
   <button
     @click="toggleMenu"
-    class="absolute top-4 left-64 text-white focus:outline-none"
-    :class="{ ' -translate-x-60 delay-150': !menuVisible }"
+    class="absolute top-4 left-56 text-white focus:outline-none"
+    :class="{ ' -translate-x-52 delay-150': !menuVisible }"
   >
     <svg
       class="h-6 w-6"

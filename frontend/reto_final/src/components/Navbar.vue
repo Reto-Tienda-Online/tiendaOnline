@@ -2,6 +2,9 @@
 // VUE FUNCTIONS
 import { ref, onMounted } from "vue";
 
+import { useRouter } from 'vue-router'; // Import useRouter from Vue Router
+
+
 // LOGOS PC
 import steamLogo from "/imgs/logos/steam.png"
 import battleNet from "/imgs/logos/battle.png"
@@ -30,6 +33,11 @@ import nintendo from "/imgs/logos/switch.png"
 
 // MODAL
 import { FwbModal } from 'flowbite-vue'
+
+//SESSION MANAGEMENT CONSTANTS
+const isLoggedIn = ref(false); // Default value is false, indicating user is not logged in
+const usuario = ref({ nombre: '' }); // Initialize usuario object
+const $router = useRouter(); // Access Vue Router
 
 const pcLogos = ref([
   {
@@ -158,8 +166,26 @@ const closeModalSW = () => {
   isModalSwVisible.value = false;
 }
 
-onMounted(() => {
+//SESSION MANAGEMENT
+const handleLogout = () => {
+    // Clear user data and authentication status from localStorage
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('isLoggedIn');
 
+    // Update isLoggedIn variable to false
+    isLoggedIn.value = false;
+
+    // Redirect to the home page	
+    $router.push('/');
+};
+
+onMounted(() => {
+  // Check if the user is logged in based on localStorage
+  const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+  if (storedIsLoggedIn === 'true') {
+    isLoggedIn.value = true;
+    usuario.value = JSON.parse(localStorage.getItem('usuario'));
+  }
 })
 
 </script>
@@ -170,7 +196,7 @@ onMounted(() => {
       <div class="flex flex-col justify-start">
         <img
           class="mt-2 ml-5 w-24 h-24"
-          src="../img/icono-white.svg"
+          src="../img/icono-white.png"
           alt="Logotipo"
         />
       </div>
@@ -338,11 +364,32 @@ onMounted(() => {
               class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
           /></a>
         </li>
-        <li>
-          <font-awesome-icon
-            icon="user"
-            class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
-          />
+        <!-- <li>
+          <router-link to="/login">
+            <font-awesome-icon
+              icon="user"
+              class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
+            />
+        </router-link>
+        </li> -->
+        <li class="font-barlow hover:text-gray-200 cursor-pointer">
+          <!-- Check if the user is logged in -->
+          <template v-if="isLoggedIn">
+            HOLA, {{ usuario.nombre }}
+            <!-- If logged in, show logout button -->
+            <button @click="handleLogout">
+              Logout
+            </button>
+          </template>
+          <template v-else>
+            <!-- If not logged in, show login button -->
+            <router-link to="/login">
+              <font-awesome-icon
+                icon="user"
+                class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
+              />
+            </router-link>
+          </template>
         </li>
       </ul>
     </div>

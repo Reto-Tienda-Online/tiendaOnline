@@ -7,12 +7,12 @@ import ReviewPanel from "../components/ReviewPanel.vue";
 import Gallery from "../components/Gallery.vue";
 import Categories from "../components/Categories.vue";
 import TrustPanel from "../components/TrustPanel.vue";
-import Juego from "../components/Juego.vue";
+import CategoriaDetalle from "../components/CategoriaDetalle.vue";
 
 /*
   TEMPLATE REAL
 
-  <Juego />
+  <CategoriaDetalle/>
 */
 </script>
 

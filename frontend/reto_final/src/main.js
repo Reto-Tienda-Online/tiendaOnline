@@ -1,7 +1,9 @@
 import { createApp } from "vue";
 import "@src/style.css";
+import './axios.js'
 import App from "./App.vue";
-import router from '@src/router/router.js';
+import router from '@src/router/index.js';
+import store from "./store.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -28,7 +30,6 @@ import {
   faCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-
 //Cada icono debe ser añadido e importado
 library.add(
   faCoffee,
@@ -53,6 +54,7 @@ library.add(
 
 const app = createApp(App);
 
+app.use(store);
 app.use(router);
 
 app.component("font-awesome-icon", FontAwesomeIcon);

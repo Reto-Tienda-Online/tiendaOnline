@@ -9,3 +9,4 @@
 import NavbarAdmin from "@components/AdminNavBar.vue";
 import AdminMain from "@components/AdminMain.vue";
 </script>
+
