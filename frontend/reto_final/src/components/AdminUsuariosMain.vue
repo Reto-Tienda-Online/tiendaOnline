@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios';
-import { API_URL } from '@src/config.js';
 </script>
 
 <template>
@@ -243,7 +242,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get(`${API_URL}/all_usuarios`);
+        const response = await axios.get(`/all_usuarios`);
         this.users = response.data;
 
       } catch (error) {
@@ -270,7 +269,7 @@ export default {
     // Submit Form 
     submitForm() {
       const { id, ...allowedData } = this.formData;
-      axios.put(`${API_URL}/usuarios/${this.formData.id}`, allowedData)
+      axios.put(`/usuarios/${this.formData.id}`, allowedData)
         .then(response => {
 
           this.fetchUsers();
@@ -290,7 +289,7 @@ export default {
     },
     deleteUser() {
       const userID = this.userToDelete.id;
-      axios.delete(`${API_URL}/usuarios/${userID}`)
+      axios.delete(`/usuarios/${userID}`)
         .then(response => {
           this.fetchUsers();
           this.closeDeletePopup();
