@@ -3,7 +3,7 @@
     <div class="flex flex-col justify-start">
       <img
         class="mt-5 ml-5 w-16 h-18"
-        src="../assets/logo.svg"
+        src="../img/icono-white.svg"
         alt="Logotipo"
       />
     </div>

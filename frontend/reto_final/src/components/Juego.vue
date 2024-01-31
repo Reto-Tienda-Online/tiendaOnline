@@ -3,8 +3,10 @@ import { ref, reactive, computed, onMounted } from "vue";
 import Navbar from "./Navbar.vue";
 import axios from 'axios'
 import { useStore } from 'vuex';
+import { useRouter } from "vue-router";
 import { API_URL } from "../config";
 
+const router = useRouter()
 const store = useStore();
 const juegoPasado = ref({})
 const comment = reactive({
@@ -53,6 +55,10 @@ const getImgURL = (id) => {
   return imgUrl;
 }
 
+const getLogoURL = (nombreLogo) => {
+  return `/imgs/logos/${nombreLogo}.png`
+}
+
 const showMore = computed(() => {
   splitDescripcion.value = juegoPasado.value.descripcion
 
@@ -70,6 +76,59 @@ const showMore = computed(() => {
 const showMoreText = () => {
   showAllDesc.value = !showAllDesc.value
 }
+
+const sendCartData = (data) => {
+  const id_user = JSON.parse(localStorage.getItem('usuario')).id
+  
+  // console.log(id_user)
+const juegoAñadir = JSON.stringify({
+  id_usuario: id_user,
+  id_producto: data.id,
+});
+
+// console.log(juegoAñadir)
+const config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'http://85.50.79.98:8080/carrocompra',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  data : juegoAñadir
+};
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+})
+.catch((error) => {
+  console.log(error);
+});
+}
+
+const addItemToCart = (item) => {
+
+  try{
+    //COMPARTO ENTRE COMPONENTES
+    store.commit('setShopItems', item)
+
+    //AÑADO AL LOCAL STORAGE PARA QUE NO SE PIERDA LA SESION Y NO TENGA QUE CARGARLO DESDE LA BD
+    localStorage.setItem('shopcart', JSON.stringify(store.state.shopCart))
+
+    //HAGO UN POST A LA API
+    sendCartData(item)
+    // console.log(store.state.shopCart)
+
+    alert(`El juego ${item.producto} se ha añadido al carrito`)
+
+    router.push('/cesta')
+    
+  }catch(error){
+    console.error(error)
+  }
+
+};
+
+
 
 
 onMounted(() => {
@@ -132,8 +191,8 @@ onMounted(() => {
           <!--PLATAFORMA-->
           <div class="mt-2 flex flex-row justify-center align-middle">
             <h3 class="text-white text-center my-auto font-bold uppercase mr-2">Plataforma:</h3>
-            <img src="/imgs/logos/steam.png" alt="" class="w-10">
-            <h3 class="text-white text-center my-auto ml-3"> {{ juegoPasado.id_plataforma }}</h3>
+            <img :src=getLogoURL(juegoPasado.nombreplataforma) alt="" class="w-10">
+            <h3 class="text-white text-center my-auto ml-3"> {{ juegoPasado.nombreplataforma }}</h3>
           </div>
           <!--PRECIO-->
           <div class="text-white flex flex-row justify-center mt-2">
@@ -141,7 +200,10 @@ onMounted(() => {
             <h3 class="text-center">{{ juegoPasado.precio_unitario }} €</h3>
           </div>
           <!--ADD TO CART BTN-->
-          <button class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg">
+          <button 
+            class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
+            @click="addItemToCart(juegoPasado)"
+            >
             <font-awesome-icon icon="shopping-cart" />
             Add to cart
           </button>

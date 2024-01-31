@@ -4,6 +4,7 @@ const store = createStore({
   state: {
     juegoDetalle: null,
     categoryData: null,
+    shopCart: [],
   },
   mutations: {
     setJuegoDetalle(state, datos) {
@@ -11,6 +12,9 @@ const store = createStore({
     },
     setCategoryData(state, datos) {
       state.categoryData = datos;
+    },
+    setShopItems(state, data) {
+      state.shopCart.push(data);
     },
   },
 });
