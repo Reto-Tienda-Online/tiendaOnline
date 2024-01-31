@@ -74,7 +74,6 @@
   
 <script>
 import axios from 'axios';
-import { API_URL } from '@src/config.js';
 
 export default {
     data() {
@@ -124,7 +123,7 @@ export default {
                 });
         },
         async getPlatforms() {
-            axios.get(`${API_URL}/all_plataformas`)
+            axios.get(`/all_plataformas`)
                 .then(response => {
                     this.plataformas = response.data;
                 })
@@ -133,7 +132,7 @@ export default {
                 });
         },
         async getDescuentos() {
-            axios.get(`${API_URL}/all_descuentos`)
+            axios.get(`/all_descuentos`)
                 .then(response => {
                     this.descuentos = response.data;
                     console.log(this.descuentos);
