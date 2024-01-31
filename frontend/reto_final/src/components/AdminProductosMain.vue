@@ -1,5 +1,4 @@
 <script setup>
-import { API_URL } from '@src/config.js';
 import axios from 'axios';
 </script>
 
@@ -146,7 +145,7 @@ export default {
     async fetchProducts() {
 
       try {
-        const response = await axios.get(`${API_URL}/all_productos`);
+        const response = await axios.get(`/all_productos`);
         this.products = response.data;
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -158,7 +157,7 @@ export default {
       this.productName = product.producto;
       this.popupDelete = true;
       console.log(this.productID);
-      axios.delete(`${API_URL}/productos/${this.productID}`).then(response => {
+      axios.delete(`/productos/${this.productID}`).then(response => {
         this.fetchProducts();
         this.popupDelete = false;
         console.log('Producto eliminado correctamente');
@@ -170,7 +169,7 @@ export default {
       this.popupDelete = false;
     },
     deleteProduct(productID) {
-      axios.delete(`${API_URL}/delete_producto/${productID}`).then(response => {
+      axios.delete(`/delete_producto/${productID}`).then(response => {
         this.fetchProducts();
         this.popupDelete = false;
         console.log('Producto eliminado correctamente');

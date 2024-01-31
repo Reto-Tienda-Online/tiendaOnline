@@ -50,9 +50,9 @@
                 </button>
             </form>
             <div class="w-1/6 flex flex-col mx-4 ">
-                <iframe width="320" height="215" src="public/${trailerIframe}" frameborder>
+                <iframe width="320" height="215" :src="trailerIframe" frameborder>
                 </iframe>
-                <video :src="videoPath" alt="Video Trailer"></video>
+                <video :src="`./public${videoPath}`" alt="Video Trailer" width="320" height="215"></video>
 
             </div>
         </section>
@@ -62,7 +62,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { API_URL } from '@src/config.js';
 import axios from 'axios';
 import router from '../router/index.js';
 
@@ -92,7 +91,7 @@ onMounted(() => {
 });
 async function fetchData(productName) {
     try {
-        const response = await axios.get(`${API_URL}/search?producto=${productName}`);
+        const response = await axios.get(`/search?producto=${productName}`);
         const product = response.data;
 
         productID = product[0].id;
@@ -103,6 +102,7 @@ async function fetchData(productName) {
         trailerIframe.value = product[0].iframetrailer;
         description.value = product[0].descripcion;
         console.log(product);
+        console.log(videoPath);
 
     } catch (error) {
         console.error('Error fetching product data:', error);
@@ -117,8 +117,8 @@ async function update_product(){
     formData.rutavideo = videoPath.value;
     formData.iframetrailer = trailerIframe.value;
     formData.descripcion = description.value;
-    console.log(formData);
-    await axios.put(`${API_URL}/update_producto/${productID}`, formData).then(response => {
+
+    await axios.put(`/update_producto/${productID}`, formData).then(response => {
         router.push({ name: 'admin_productos' });
     }).catch(error => {
         console.error('Error al actualizar el usuario:', error);

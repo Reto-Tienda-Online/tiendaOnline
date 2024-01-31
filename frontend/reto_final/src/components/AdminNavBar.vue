@@ -51,6 +51,12 @@ const isActive = (element) => element === props.activeNavAdmin;
         :class="{ 'bg-resaltar': isActive('Categorias') }"
         >Categorías</a
       >
+      <button
+        @click="handleLogout"
+        class="flex justify-center items-center text-center text-pretty px-4 py-2 hover:bg-resaltar my-2 rounded-md w-full"
+      >
+        Sign Out
+      </button>
     </div>
   </nav>
   <!-- Botón para mostrar/ocultar el menú -->
@@ -77,6 +83,9 @@ const isActive = (element) => element === props.activeNavAdmin;
 </template>
 
 <script>
+import { useRoute } from "vue-router";
+const route = useRoute();
+
 export default {
   data() {
     return {
@@ -86,6 +95,15 @@ export default {
   methods: {
     toggleMenu() {
       this.menuVisible = !this.menuVisible;
+    },
+    //SESSION MANAGEMENT
+    handleLogout() {
+      // Clear user data and authentication status from localStorage
+      localStorage.removeItem("usuario");
+      localStorage.removeItem("isLoggedIn");
+
+      // Redirect to the home page
+      this.$router.push("/admin");
     },
   },
 };
