@@ -12,6 +12,7 @@ import {
   faCoffee,
   faShield,
   faUser,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -50,6 +51,7 @@ library.add(
   faTrash,
   faCircleRight,
   faCircleLeft,
+  faHeart
 );
 
 const app = createApp(App);

@@ -16,6 +16,13 @@ const store = createStore({
     setShopItems(state, data) {
       state.shopCart.push(data);
     },
+    deleteItem(state, data) {
+      console.log(data)
+      state.shopCart = state.shopCart.filter((element) => {
+        return element.id !== data
+      })
+    },
+
   },
 });
 
