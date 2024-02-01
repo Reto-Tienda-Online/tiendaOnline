@@ -51,6 +51,12 @@ const routes = [
 
   // Admin
   {
+    name: "adminLogin",
+    path: "/adminLogin",
+    component: () => import("@views/Admin/AdminLoginView.vue"),
+  },
+  {
+    name: "admin",
     path: "/admin",
     component: () => import("@views/Admin/HomeView.vue"),
     meta: {
