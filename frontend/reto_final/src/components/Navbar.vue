@@ -5,29 +5,27 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router"; // Import useRouter from Vue Router
 
 // LOGOS PC
-import steamLogo from "/imgs/logos/Steam.png"
-import battleNet from "/imgs/logos/Battle Net.png"
-import electronicArts from "/imgs/logos/Origin.png"
-import epicGames from "/imgs/logos/Epic Games Store.png"
-import microsoftStore from "/imgs/logos/psstore.png"
-import rockstar from "/imgs/logos/rockstar.png"
-import ubisoft from "/imgs/logos/Ubisoft Connect.png"
-import blizzard from "/imgs/logos/blizzard.png"
+import steamLogo from "/imgs/logos/Steam.png";
+import battleNet from "/imgs/logos/Battle Net.png";
+import electronicArts from "/imgs/logos/Origin.png";
+import epicGames from "/imgs/logos/Epic Games Store.png";
+import microsoftStore from "/imgs/logos/psstore.png";
+import rockstar from "/imgs/logos/rockstar.png";
+import ubisoft from "/imgs/logos/Ubisoft Connect.png";
+import blizzard from "/imgs/logos/blizzard.png";
 
 // LOGOS XBOX
-import xbox from "/imgs/logos/xboxl.png"
-import xboxLive from "/imgs/logos/xboxlive.png"
-import xboxSeries from "/imgs/logos/Xbox Store.png"
-
+import xbox from "/imgs/logos/xboxl.png";
+import xboxLive from "/imgs/logos/xboxlive.png";
+import xboxSeries from "/imgs/logos/Xbox Store.png";
 
 // LOGOS PLAYSTATION
-import playstation from "/imgs/logos/PlayStation Store.png"
-import psPlus from "/imgs/logos/PlayStation Now.png"
-import psStore from "/imgs/logos/psstore.png"
+import playstation from "/imgs/logos/PlayStation Store.png";
+import psPlus from "/imgs/logos/PlayStation Now.png";
+import psStore from "/imgs/logos/psstore.png";
 
 //LOGOS NINTENDO
-import nintendo from "/imgs/logos/Nintendo eShop.png"
-
+import nintendo from "/imgs/logos/Nintendo eShop.png";
 
 // MODAL
 import { FwbModal } from "flowbite-vue";
@@ -176,8 +174,8 @@ const handleLogout = () => {
 };
 
 const goHome = () => {
-  $router.push('/')
-}
+  $router.push("/");
+};
 
 onMounted(() => {
   // Check if the user is logged in based on localStorage
@@ -192,10 +190,10 @@ onMounted(() => {
 <template>
   <nav>
     <div class="flex justify-between align-middle">
-      <div 
+      <div
         class="flex flex-col justify-start hover:cursor-pointer"
         @click="goHome"
-        >
+      >
         <img
           class="mt-2 ml-5 w-24 h-24"
           src="../img/icono-white.svg"
@@ -390,12 +388,21 @@ onMounted(() => {
       <ul class="flex flex-row text-gray-200 mt-5 mr-5 space-x-7">
         <!--Agregar respectivos buttons para inicio de sesion y carro de compras-->
         <li>
-          <router-link to="/cesta" 
+          <router-link to="/cesta"
             ><font-awesome-icon
               icon="shopping-cart"
               class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
           /></router-link>
         </li>
+        <!--Lista de Fovoritos del Usuario-->
+        <li>
+          <a href="/favoritos">
+            <font-awesome-icon
+              icon="heart"
+              class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
+          /></a>
+        </li>
+        <!-- Usuario-->
         <li class="font-barlow hover:text-gray-200 cursor-pointer">
           <!-- Check if the user is logged in -->
           <template v-if="isLoggedIn">
@@ -415,7 +422,10 @@ onMounted(() => {
                   {{ usuario.nombre }}
                 </p>
                 <!-- Logout Button -->
-                <button @click="handleLogout" class="text-resaltar hover:underline">
+                <button
+                  @click="handleLogout"
+                  class="text-resaltar hover:underline"
+                >
                   Sign Out
                 </button>
               </div>
