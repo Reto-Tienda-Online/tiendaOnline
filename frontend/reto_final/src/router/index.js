@@ -20,7 +20,15 @@ const routes = [
     component: () => import("@views/CestaView.vue"),
     meta: {
       requiresAuth: true,
-      isAdmin: false,
+    },
+  },
+  {
+    name: "favoritos",
+    path: "/favoritos",
+    // component: CestaView,
+    component: () => import("@views/FavoritosView.vue"),
+    meta: {
+      requiresAuth: true,
     },
   },
   {
@@ -28,7 +36,6 @@ const routes = [
     component: () => import("@views/PagoView.vue"),
     meta: {
       requiresAuth: true,
-      isAdmin: false,
     },
   },
   {
@@ -42,14 +49,8 @@ const routes = [
     component: () => import("@views/CategoriaDetalleView.vue"),
   },
 
-  /* #region  ADMIN */
+  // Admin
   {
-    name: "adminLogin",
-    path: "/adminLogin",
-    component: () => import("@views/Admin/AdminLoginView.vue"),
-  },
-  {
-    name: "admin",
     path: "/admin",
     component: () => import("@views/Admin/HomeView.vue"),
     meta: {
@@ -128,6 +129,7 @@ const routes = [
       isAdmin: true,
     },
   },
+
   /* #endregion */
   { name: 'NotFound', path: "/:pathMatch(.*)*", component: () => import("@components/NotFound.vue") },
 ];

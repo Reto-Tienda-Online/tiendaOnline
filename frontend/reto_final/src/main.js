@@ -29,6 +29,7 @@ import {
   faTrash,
   faCircleRight,
   faCircleLeft,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 //Cada icono debe ser añadido e importado
