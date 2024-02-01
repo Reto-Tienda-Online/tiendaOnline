@@ -182,7 +182,11 @@ const goHome = () => {
 onMounted(() => {
   // Check if the user is logged in based on localStorage
   const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-  if (storedIsLoggedIn === "true") {
+
+  const usuarioData = JSON.parse(localStorage.getItem("usuario"));
+  const isAdminUser = usuarioData ? usuarioData.admin : false;
+
+  if (storedIsLoggedIn === "true" && !isAdminUser) {
     isLoggedIn.value = true;
     usuario.value = JSON.parse(localStorage.getItem("usuario"));
   }
