@@ -1,5 +1,109 @@
-<script setup></script>
+<script setup>
+import ErrorModal from "../components/ErrorModal.vue";
+import SuccessModal from "../components/SuccessModal.vue";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import axios from 'axios';
+
+
+const router = useRouter()
+const store = useStore()
+const TOKEN_TEST = "tok_mastercard";
+const listaJuegos = ref([])
+const payResponse = ref(null)
+
+const stripeResponse = () => {
+
+  let data = JSON.stringify({
+    amount: 8573699,
+    currency: "usd",
+    token: TOKEN_TEST,
+  });
+  let config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: "http://85.50.79.98:8080/process-payment/",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      if(response.data.status === 'success'){
+        payForAll()
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+const payForAll = () => {
+  const id_user = JSON.parse(localStorage.getItem('usuario')).id
+  console.log(id_user)
+  let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: `http://85.50.79.98:8080/process_transaction/${id_user}`,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+  if(response.data.result === "Transaction processed successfully"){
+    payResponse.value = true
+  }
+
+  setTimeout(() => {
+    payResponse.value = null
+  }, 2000)
+})
+.catch((error) => {
+  console.log(error);
+  payResponse.value = false
+  setTimeout(() => {
+    payResponse.value = null
+  }, 2000)
+});
+}
+
+
+onMounted(() => {
+  const idUser = JSON.parse(localStorage.getItem("usuario")).id;
+  const path = `http://85.50.79.98:8080/carrocompra?id_usuario=${idUser}`;
+  axios
+    .get(path)
+    .then((response) => {
+      listaJuegos.value = response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+})
+
+</script>
+
+
 <template>
+  <div
+    class="flex flex-row justify-center mt-5"
+    v-if="payResponse"
+  >
+    <SuccessModal/>
+  </div>
+  <div
+    class="flex flex-row justify-center mt-5"
+    v-else-if="payResponse === false"
+  >
+    <ErrorModal/>
+  </div>
   <main class="text-white w-full h-full flex justify-center">
     <form class="flex flex-col w-[745px]">
       <h2 class="text-xl font-bold my-3">Dirección de facturación</h2>
@@ -118,7 +222,11 @@
             <span class="subtotal">9.59€</span>
           </div>
           <div class="flex justify-center py-5 my-6 bg-resaltar rounded-lg">
-            <button type="submit" class="button default">Pagar</button>
+            <button 
+            type="submit" 
+            class="button default"
+            @click="stripeResponse"
+            >Pagar</button>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { API_URL } from "../config";
 const router = useRouter()
 const store = useStore();
 const juegoPasado = ref({})
+const listaCompra = ref([])
 const comment = reactive({
   resena: 'Reseña para usuario Diego',
   id_usuario: 9,
@@ -78,8 +79,9 @@ const showMoreText = () => {
 }
 
 const sendCartData = (data) => {
-  const id_user = JSON.parse(localStorage.getItem('usuario')).id
   
+const id_user = JSON.parse(localStorage.getItem('usuario')).id
+
   // console.log(id_user)
 const juegoAñadir = JSON.stringify({
   id_usuario: id_user,
@@ -106,28 +108,63 @@ axios.request(config)
 }
 
 const addItemToCart = (item) => {
+  //PARA ISSAM
+  if (!isInShopcart(item)){
+    //Verificamos si el usuario esta logueado
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
 
-  try{
-    //COMPARTO ENTRE COMPONENTES
-    store.commit('setShopItems', item)
+    if(isLoggedIn){
+      try{
+        //COMPARTO ENTRE COMPONENTES
+        store.commit('setShopItems', item)
 
-    //AÑADO AL LOCAL STORAGE PARA QUE NO SE PIERDA LA SESION Y NO TENGA QUE CARGARLO DESDE LA BD
-    localStorage.setItem('shopcart', JSON.stringify(store.state.shopCart))
+        //AÑADO AL LOCAL STORAGE PARA QUE NO SE PIERDA LA SESION Y NO TENGA QUE CARGARLO DESDE LA BD
+        localStorage.setItem('shopcart', JSON.stringify(store.state.shopCart))
 
-    //HAGO UN POST A LA API
-    sendCartData(item)
-    // console.log(store.state.shopCart)
+        //HAGO UN POST A LA API
+        sendCartData(item)
+        // console.log(store.state.shopCart)
 
-    alert(`El juego ${item.producto} se ha añadido al carrito`)
+        alert(`El juego ${item.producto} se ha añadido al carrito`)
 
-    router.push('/cesta')
-    
-  }catch(error){
-    console.error(error)
+        router.push('/cesta')
+        
+      }catch(error){
+        console.error(error)
+      }
+    }else{
+      alert("Es necesario iniciar sesión")
+      router.push('/login')
+    }
+  }else{
+    alert("Ya está en el carrito")
   }
 
 };
 
+const isInShopcart = (juego) => {
+  //BD
+  let isInShop = false
+  if(listaCompra.value.length > 0){
+    for(const item of listaCompra.value){
+      if(item['producto'].id === juego.id){
+        isInShop = true
+        break;
+      }else{
+        isInShop = false
+      }
+    }
+  }
+
+  return isInShop;
+
+}
+
+
+
+const addToWishList = () => {
+  console.log("AÑADIR A LISTA DE DESEOS")
+}
 
 
 
@@ -138,6 +175,21 @@ onMounted(() => {
     // console.log(juegoPasado.value)
   }
 
+  
+  const idUser = JSON.parse(localStorage.getItem("usuario"))?.id;
+  if(idUser !== undefined){
+  const path = `http://85.50.79.98:8080/carrocompra?id_usuario=${idUser}`;
+  axios
+    .get(path)
+    .then((response) => {
+      listaCompra.value = response.data;
+      console.log(listaCompra.value)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+  
 })
 
 
@@ -200,13 +252,23 @@ onMounted(() => {
             <h3 class="text-center">{{ juegoPasado.precio_unitario }} €</h3>
           </div>
           <!--ADD TO CART BTN-->
-          <button 
-            class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
-            @click="addItemToCart(juegoPasado)"
+          <div 
+            class="flex flex-row justify-center align-middle"
+          >
+            <button 
+              class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
+              @click="addItemToCart(juegoPasado)"
+              >
+              <font-awesome-icon icon="shopping-cart" />
+              Add to cart
+            </button>
+            <button
+              @click="addToWishList"
+              class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
-            <font-awesome-icon icon="shopping-cart" />
-            Add to cart
-          </button>
+              <font-awesome-icon icon="heart"/>
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -129,6 +129,9 @@ const routes = [
       isAdmin: true,
     },
   },
+
+  /* #endregion */
+  { name: 'NotFound', path: "/:pathMatch(.*)*", component: () => import("@components/NotFound.vue") },
 ];
 
 const router = createRouter({
@@ -136,33 +139,63 @@ const router = createRouter({
   routes,
 });
 
+
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const isAdmin = to.matched.some((record) => record.meta.isAdmin);
-
+  const requiresAuth = to.meta.requiresAuth;
+  const isAdmin = to.meta.isAdmin;
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const usuarioData = JSON.parse(localStorage.getItem("usuario"));
-  const isAdminUser = usuarioData ? usuarioData.admin : false;
+  const isUserAdmin = isAdminUser();
 
+  // Check if the route requires authentication
   if (requiresAuth) {
-    // This route requires authentication
+    // If user is not logged in
     if (!isLoggedIn) {
-      // Not logged in, redirect to login page
-      next({ name: "login" });
-    } else {
-      // Logged in
-      if (isAdmin && !isAdminUser) {
-        // Not an admin, redirect to home or unauthorized page
-        next({ name: "/" });
-      } else {
-        // Authorized user, proceed
-        next();
+      // Redirect to login page if requireAuth=true
+      if (!isAdmin) {
+        return next({ path: '/login' });
+      }
+      // Redirect to admin login page if requireAuth=true and isAdmin=true
+      else {
+        return next({ path: '/adminLogin' });
       }
     }
-  } else {
-    // Does not require authentication, proceed
-    next();
+    // If user is logged in
+    else {
+      // Redirect to home page if trying to access login page and not an admin
+console.log('to.path is: ', to.path);
+      if (to.path === '/login' && !isUserAdmin) {
+        return next({ path: '/home' });
+      }
+      // Redirect to admin home if trying to access admin login page and is an admin
+      if (to.path === '/adminLogin' && isUserAdmin) {
+        return next({ path: '/admin' });
+      }
+    }
   }
+
+  // Check if the user is logged in and is an admin
+  if (isLoggedIn && isUserAdmin) {
+    // Redirect to admin home if trying to access non-admin page
+    if (!isAdmin) {
+      return next({ path: '/admin' });
+    }
+  }
+
+  // Check if the user is logged in but not an admin
+  if (isLoggedIn && !isUserAdmin) {
+    // Redirect to home if trying to access admin page
+    if (isAdmin) {
+      return next({ path: '/home' });
+    }
+  }
+
+  next();
 });
+
+function isAdminUser() {
+  const usuarioData = JSON.parse(localStorage.getItem("usuario"));
+  const isAdmin = usuarioData ? usuarioData.admin : false;
+  return isAdmin;
+}
 
 export default router;

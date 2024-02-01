@@ -20,7 +20,7 @@
             formData.append('password', data.password);
             const response = await axios.post('token', formData);
                 
-            if (response.status === 200 && response.data.usuario && response.data.access_token) {
+            if (response.status === 200 && response.data.usuario && response.data.access_token && response.data.usuario.admin) {
                 console.log('submited');
                 // verificar y abrir sesion, dirigir al home
                 const usuario = convertToUsuario(response.data);
@@ -32,8 +32,6 @@
                 $router.push('/admin');
             }
 
-
-            
         } catch (error) {
             // hay q mostrar la alerta de habia un error (usuario o password falso)
             console.error('Error registering user:', error);
