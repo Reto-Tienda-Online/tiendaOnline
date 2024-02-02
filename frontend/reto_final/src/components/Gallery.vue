@@ -50,7 +50,7 @@ const stopVideo = (id) => {
 //Tendencias
 //Reservas
 //Más Vendidos
-const getJuegos = () => {
+const getJuegosNoUser = () => {
   const path = API_URL.concat("/all_productos");
   axios
     .get(path)
@@ -101,12 +101,18 @@ const getJuegosUser = () => {
 }
 
 const getJuegos = () => {
-  const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
-  if(id_usuario === undefined || id_usuario === null){
-    getJuegosNoUser()
-  }else{
-    getJuegosUser()
+  try {
+    getJuegosUser();
+    
+  } catch (error) {
+    getJuegosNoUser();
   }
+  // const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
+  // if(id_usuario === undefined || id_usuario === null){
+    
+  // }else{
+    
+  // }
 }
 
 const getImageURL = (id) => {
