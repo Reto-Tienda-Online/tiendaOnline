@@ -20,6 +20,7 @@ const routes = [
     component: () => import("@views/CestaView.vue"),
     meta: {
       requiresAuth: true,
+      isAdmin: false,
     },
   },
   {
@@ -29,6 +30,16 @@ const routes = [
     component: () => import("@views/FavoritosView.vue"),
     meta: {
       requiresAuth: true,
+      isAdmin: false,
+    },
+  },
+  {
+    name: "compras",
+    path: "/compras",
+    component: () => import("@views/ComprasUsuarioView.vue"),
+    meta: {
+      requiresAuth: false,
+      isAdmin: false,
     },
   },
   {
@@ -36,6 +47,7 @@ const routes = [
     component: () => import("@views/PagoView.vue"),
     meta: {
       requiresAuth: true,
+      isAdmin: false,
     },
   },
   {
