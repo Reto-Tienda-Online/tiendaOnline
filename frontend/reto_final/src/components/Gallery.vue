@@ -78,7 +78,36 @@ const getJuegos = () => {
     .catch((error) => {
       console.error(error);
     });
-};
+}
+
+const getJuegosUser = () => {
+  const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
+  const path = API_URL.concat(`/all_productos_usuario?id_usuario=${id_usuario}`)
+  axios
+    .get(path)
+    .then((response) => {
+      juegos.value = response.data.slice(0, 9).map((object) => ({...object}));
+      // console.log(response.data.length)
+      for(const i of response.data){
+        isHovered.value.push(1)
+        // console.log(isHovered.value)
+      }
+      // console.log(juegos.value);
+
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+const getJuegos = () => {
+  const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
+  if(id_usuario === undefined || id_usuario === null){
+    getJuegosNoUser()
+  }else{
+    getJuegosUser()
+  }
+}
 
 const getImageURL = (id) => {
   return `/imgs/juegos/${id}/2.webp`;

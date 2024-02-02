@@ -169,10 +169,48 @@ const isInShopcart = (juego) => {
   }
 
   return isInShop;
+
+}
+const toggleFavorito = (producto_id) => {
+  //document.getElementById('iconoFav').classList.toggle('text-red-600');
+
+  if(document.getElementById('iconoFav').classList.contains('text-red-600')){
+    deleteFromWishList(producto_id);
+    document.getElementById('iconoFav').classList.toggle('text-white')}
+  else{
+    addToWishList(producto_id);
+    document.getElementById('iconoFav').classList.toggle('text-red-600');
+  }
+} 
+
+const addToWishList = async (producto_id) => {
+  const data = {
+    id_usuario: JSON.parse(localStorage.getItem('usuario')).id,
+    id_producto: producto_id
+  };
+  try {
+    const response = await axios.post(`listadeseo`, data);
+    // console.log(response.data);
+    console.log("Añadido a favoritos");
+    //toggleFavorito();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const addToWishList = () => {
-  console.log("AÑADIR A LISTA DE DESEOS");
+const deleteFromWishList = async (producto_id) => {
+  const data = {
+    id_usuario: JSON.parse(localStorage.getItem('usuario')).id,
+    id_producto: producto_id
+  };
+  try {
+    const response = await axios.delete(`listadeseo/${data.id_usuario}/${data.id_producto}`);
+    // console.log(response.data);
+    console.log("Quitando de favoritos");
+
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const getComentarios = () => {
@@ -324,10 +362,10 @@ onMounted(() => {
               Add to cart
             </button>
             <button
-              @click="addToWishList"
+              @click="toggleFavorito(juegoPasado.id)"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
-              <font-awesome-icon icon="heart" />
+              <font-awesome-icon id="iconoFav" icon="heart" :class="{'text-red-600': juegoPasado.favorito}"/>
             </button>
           </div>
         </div>

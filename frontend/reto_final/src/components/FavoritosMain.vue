@@ -4,11 +4,12 @@
       LISTA DE FAVORITOS
     </h2>
 
-    <div class="flex flex-row">
+    <div class="flex flex-wrap ml-36">
       <div
         v-for="producto in favoritos"
         :key="producto.id"
-        class="w-[250px] flex flex-col text-white mx-4 justify-around bg-[#1f1f1f] px-2 py-2 rounded-md"
+        @click="sendGameDetails(producto.producto)"
+        class="w-[250px] flex flex-col text-white mx-4 justify-around bg-[#1f1f1f] px-2 py-2 rounded-md mb-4"
       >
         <div class="flex flex-row">
           <!-- Aquí muestra la imagen del producto -->
@@ -24,10 +25,6 @@
 
         <div class="flex flex-col text-md">
           <div class="">
-            <!-- Aquí irá el icono de plataforma (por completar) -->
-            <!-- <div class="platform platform-steam">
-              <div class="icon-s icon-steam"></div>
-            </div> -->
             <!-- Muestra el nombre del producto -->
             <span
               :title="`${producto.producto.producto} - ${producto.producto.descripcion}`"
@@ -88,6 +85,7 @@
           </a>
         </divm>
       </div>
+      <!--Aqui se cargara Una Imagen cuando no haya nada como FAV-->
     </div>
   </main>
 </template>
@@ -96,12 +94,15 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { useStore } from 'vuex'
 
 // SESSION MANAGEMENT CONSTANTS
 const isLoggedIn = ref(false);
 const usuario = ref({ nombre: "", id: "" }); // Agregamos id a la estructura del usuario
-const $router = useRouter();
+const router = useRouter();
 const favoritos = ref([]);
+
+const store = useStore()
 
 // GET IMGS FROM PUBLIC FOLDER
 const getImgURL = (id) => {
@@ -115,8 +116,9 @@ async function getFavoritos(id) {
   try {
     // Realiza la solicitud GET a la API utilizando Axios
     await axios.get(`listadeseo?id_usuario=${id}`).then(async (response) => {
-      console.log(response.data);
+      // console.log(response.data);
       favoritos.value = response.data;
+      
     });
   } catch (error) {
     console.error("Error en la solicitud GET:", error);
@@ -132,7 +134,7 @@ async function addToShoppingCart(producto_id) {
     });
     // CUANDO SE AÑADA AL CARRITO, SE ELIMINA DE FAVORITOS
     eliminarDeFavoritos(producto_id);
-
+    getFavoritos(usuario.value.id);
     console.log("Añadido al carrito");
   } catch (error) {
     console.error(error);
@@ -141,24 +143,31 @@ async function addToShoppingCart(producto_id) {
 
 // DELETE FAVORITO FROM API
 async function eliminarDeFavoritos(producto_id) {
+  const id_usuario = usuario.value.id;
+  const id_producto = producto_id;
   try {
-    await axios.delete(`listadeseo`, {
-      id_usuario: usuario.value.id,
-      id_producto: producto_id,
-    });
-    console.log("Eliminado de favoritos");
+    await axios.delete(`listadeseo/${id_usuario}/${id_producto}`);
+    getFavoritos(usuario.value.id);
   } catch (error) {
     console.error(error);
   }
 }
 
+// SEND GAME DETAILS TO GAME DETAIL PAGE 
+const sendGameDetails = (juego) => {
+  store.commit('setJuegoDetalle', juego);
+  // console.log(juego)
+  router.push('/juegoDetalle');
+};
+
+// Mounted
 onMounted(() => {
   const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
   if (storedIsLoggedIn === "true") {
     isLoggedIn.value = true;
     usuario.value = JSON.parse(localStorage.getItem("usuario"));
     // Llamamos a la función getFavoritos con el id del usuario
-    console.log(usuario.value.id);
+    // console.log(usuario.value.id);
     getFavoritos(usuario.value.id);
   }
 });
