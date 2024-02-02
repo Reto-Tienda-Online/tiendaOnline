@@ -1,27 +1,24 @@
 <script setup>
 import ErrorModal from "../components/ErrorModal.vue";
 import SuccessModal from "../components/SuccessModal.vue";
-import { ref, onMounted, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import axios from 'axios';
+import { ref, onMounted, watchEffect } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import axios from "axios";
 
-
-const router = useRouter()
-const store = useStore()
+const router = useRouter();
+const store = useStore();
 const TOKEN_TEST = "tok_mastercard";
-const listaJuegos = ref([])
-const payResponse = ref(null)
+const listaJuegos = ref([]);
+const payResponse = ref(null);
 const IVA = 1.21;
-const cantidadIVA = ref(0)
-const precioConIVA = ref(0)
-const precioTotal = ref(0)
-
+const cantidadIVA = ref(0);
+const precioConIVA = ref(0);
+const precioTotal = ref(0);
 
 const stripeResponse = () => {
-
   let data = JSON.stringify({
-    amount: 8573699,
+    amount: Math.round(precioConIVA.value * 100),
     currency: "usd",
     token: TOKEN_TEST,
   });
@@ -38,64 +35,67 @@ const stripeResponse = () => {
     .request(config)
     .then((response) => {
       console.log(JSON.stringify(response.data));
-      if(response.data.status === 'success'){
-        payForAll()
+      if (response.data.status === "success") {
+        payForAll();
       }
     })
     .catch((error) => {
       console.log(error);
+      setTimeout(() => {
+        payResponse.value = null;
+        router.push("/");
+      }, 3000);
     });
-
-}
+};
 
 const payForAll = () => {
-  const id_user = JSON.parse(localStorage.getItem('usuario')).id
-  console.log(id_user)
+  const id_user = JSON.parse(localStorage.getItem("usuario")).id;
+  console.log(id_user);
   let config = {
-  method: 'post',
-  maxBodyLength: Infinity,
-  url: `http://85.50.79.98:8080/process_transaction/${id_user}`,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-};
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
-  if(response.data.result === "Transaction processed successfully"){
-    payResponse.value = true
-  }
+    method: "post",
+    maxBodyLength: Infinity,
+    url: `http://85.50.79.98:8080/process_transaction/${id_user}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      if (response.data.result === "Transaction processed successfully") {
+        payResponse.value = true;
+      }
 
-  setTimeout(() => {
-    payResponse.value = null
-    router.push('/')
-  }, 3000)
-})
-.catch((error) => {
-  console.log(error);
-  payResponse.value = false
-  setTimeout(() => {
-    payResponse.value = null
-    router.push('/')
-  }, 3000)
-});
-}
+      setTimeout(() => {
+        payResponse.value = null;
+        router.push("/");
+      }, 3000);
+    })
+    .catch((error) => {
+      console.log(error);
+      payResponse.value = false;
+      setTimeout(() => {
+        payResponse.value = null;
+        router.push("/");
+      }, 3000);
+    });
+};
 
 const calcularPrecioTotal = () => {
-  for(const juego of listaJuegos.value){
-    console.log(juego.cantidad)
-    precioTotal.value += parseFloat(juego['producto'].precio_unitario) * juego.cantidad
+  for (const juego of listaJuegos.value) {
+    console.log(juego.cantidad);
+    precioTotal.value +=
+      parseFloat(juego["producto"].precio_unitario) * juego.cantidad;
   }
 
-
-  cantidadIVA.value = precioTotal.value * 0.21
-}
+  cantidadIVA.value = precioTotal.value * 0.21;
+};
 
 const calcularIVA = () => {
-  precioConIVA.value = precioTotal.value * IVA
+  precioConIVA.value = precioTotal.value * IVA;
   // console.log(precioConIVA.value + "PI")
-}
-
+};
 
 onMounted(() => {
   const idUser = JSON.parse(localStorage.getItem("usuario")).id;
@@ -109,31 +109,23 @@ onMounted(() => {
     .catch((error) => {
       console.error(error);
     });
-
-})
+});
 
 watchEffect(() => {
-  calcularPrecioTotal()
-  calcularIVA()
-})
-
-
-
+  calcularPrecioTotal();
+  calcularIVA();
+});
 </script>
 
-
 <template>
-  <div
-    class="flex flex-row justify-center mt-5"
-    v-if="payResponse"
-  >
-    <SuccessModal/>
+  <div class="flex flex-row justify-center mt-5" v-if="payResponse">
+    <SuccessModal />
   </div>
   <div
     class="flex flex-row justify-center mt-5"
     v-else-if="payResponse === false"
   >
-    <ErrorModal/>
+    <ErrorModal />
   </div>
 
   <!--ESTA PARTE DEL CODIGO HASTA DONDE ESTA MARCADO NO SE IMPLEMENTA-->
@@ -218,34 +210,35 @@ watchEffect(() => {
       />
       <!--HASTA AQUI NO SE IMPLEMENTA NADA A PARTIR DE AHORA SI -->
 
-
       <input type="hidden" name="ioBB" id="ioBB" />
       <h2 class="text-xl font-bold my-3">Resumen</h2>
       <div class="">
         <div class="bg-[#272727] py-8 px-7 rounded-lg">
           <div class="games">
-            <div 
+            <div
               v-for="(juego, index) in listaJuegos"
               :key="juego['producto'].id"
-              class="flex justify-between">
-              <div 
-                class="flex flex-col">
-                <span 
-                  class="name"
-                  ><span :title="juego['producto'].producto" class="font-bold text-lg"
-                    >{{ juego['producto'].producto }} 
-                    <span
-                      class="text-resaltar"
-                      v-show="juego.cantidad > 1"
+              class="flex justify-between"
+            >
+              <div class="flex flex-col">
+                <span class="name"
+                  ><span
+                    :title="juego['producto'].producto"
+                    class="font-bold text-lg"
+                    >{{ juego["producto"].producto }}
+                    <span class="text-resaltar" v-show="juego.cantidad > 1"
                       >({{ juego.cantidad }})
                     </span>
-                    </span
-                  ></span
+                  </span></span
                 >
-                <span class="text-xs"> {{ juego['producto'].plataforma.plataforma }} </span>
-                <br>
+                <span class="text-xs">
+                  {{ juego["producto"].plataforma.plataforma }}
+                </span>
+                <br />
               </div>
-              <span class="text-[#aeaeae]">{{ juego['producto'].precio_unitario }}€</span>
+              <span class="text-[#aeaeae]"
+                >{{ juego["producto"].precio_unitario }}€</span
+              >
             </div>
             <span class="h-[0.5px] bg-gray-200 w-full"></span>
           </div>
@@ -262,20 +255,20 @@ watchEffect(() => {
             <span class="text-[#aeaeae]">0.20€</span>
           </div>
           <div id="ig-vat" data-rate="21.00" class="flex justify-between my-2">
-            <span >IVA (<span>21.00</span>%) :</span>
-            <span class="text-[#aeaeae]"><span>{{ cantidadIVA.toFixed(2) }}</span></span>
+            <span>IVA (<span>21.00</span>%) :</span>
+            <span class="text-[#aeaeae]"
+              ><span>{{ cantidadIVA.toFixed(2) }}€</span></span
+            >
           </div>
           <div class="flex justify-between font-bold text-xl my-4">
             <span class="texttotal">Total</span>
             <span class="subtotal">{{ precioConIVA.toFixed(2) }}€</span>
           </div>
           <div
-            @click="stripeResponse" 
-            class="flex justify-center py-5 my-6 bg-resaltar rounded-lg hover:cursor-pointer">
-            <button 
-            type="submit" 
-            class="button default"
-            >Pagar</button>
+            @click="stripeResponse"
+            class="flex justify-center py-5 my-6 bg-resaltar rounded-lg hover:cursor-pointer"
+          >
+            <button type="submit" class="button default">Pagar</button>
           </div>
         </div>
       </div>

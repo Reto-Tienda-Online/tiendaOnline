@@ -1,7 +1,6 @@
 <template>
   <nav class="flex justify-between align-middle">
-    <div 
-      class="flex flex-col justify-start">
+    <div class="flex flex-col justify-start">
       <img
         class="mt-5 ml-5 w-16 h-18 hover:cursor-pointer"
         src="../img/icono-white.svg"
@@ -69,15 +68,15 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 const props = defineProps(["activeElement"]);
 
 const isActive = (element) => element === props.activeElement;
 
 const goHome = () => {
-  router.push('/')
-}
+  router.push("/");
+};
 </script>

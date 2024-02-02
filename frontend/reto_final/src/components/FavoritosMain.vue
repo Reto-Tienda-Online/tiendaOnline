@@ -43,7 +43,7 @@
         </div>
 
         <div class="flex flex-rows justify-between items-center my-2">
-          <div class="flex flex-col  justify-center">
+          <div class="flex flex-col justify-center">
             <!-- Muestra el precio del producto -->
             <div class="price mx-2">
               {{ producto.producto.precio_unitario }}€
