@@ -10,8 +10,8 @@ const store = useStore()
 const categories = ref([])
 const plataformas = ref([])
 const defaultCategory = ref('')
-const selectedCategory = ref('')
-const selectedPlataform = ref('')
+const selectedCategory = ref('Elige una categoría')
+const selectedPlataform = ref('Elige una plataforma')
 const searchInput = ref('')
 const games = ref([])
 
@@ -95,9 +95,14 @@ const filterByNameBackspace = () => {
 onMounted(() => {
     getJuegos()
     getCategories()
-    defaultCategory.value = store.state.categoryData
-    selectedCategory.value = defaultCategory.value
+    selectedCategory.value = store.state.categoryData
+    selectedPlataform.value = store.state.plataformData
+
+    //RESETEO LA PLATAFORMA
+    store.commit('setPlataformData', '')
+    store.commit('setCategoryData', '')
     getPlataformas()
+    filterGames()
 })
 
 
@@ -138,7 +143,6 @@ onMounted(() => {
                 v-for="(category, index) in categories"
                 :key="category.id"
                 :value="category.categoria"
-                :selected="setSelected(category.categoria)"
             >
             {{ category.categoria }}
             </option>

@@ -1,33 +1,37 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
 import Navbar from "./Navbar.vue";
+import Comentario from "./Comentario.vue";
 import axios from 'axios'
 import { useStore } from 'vuex';
 import { useRouter } from "vue-router";
-import { API_URL } from "../config";
+
 
 const router = useRouter()
 const store = useStore();
 const juegoPasado = ref({})
 const listaCompra = ref([])
 const comment = reactive({
-  resena: 'Reseña para usuario Diego',
-  id_usuario: 9,
+  resena: '',
+  id_usuario: null,
   contenido: '',
-  id_juego: 1,
+  id_juego: null,
   valoracion: 5,
 })
+const listaComentarios = ref([])
 
 const splitDescripcion = ref('')
 const showAllDesc = ref(false)
-const sayHi = () => {
-  /*{
-  "resena": "Review for john.doe@example.com",
-  "id_usuario": 3,
-  "contenido": "Content for john.doe@example.com",
-  "id_juego": 1,
-  "valoracion": 4
-} */
+const sendComment = () => {
+  
+  const id_user = JSON.parse(localStorage.getItem('usuario'))?.id
+  if(id_user !== undefined){
+    comment.id_usuario = id_user 
+  }else{
+    router.push('/login')
+  }
+
+  comment.id_juego = juegoPasado.value.id
   let data = JSON.stringify(comment);
   let config = {
     method: 'post',
@@ -41,6 +45,9 @@ const sayHi = () => {
   axios.request(config)
   .then((response) => {
     console.log(JSON.stringify(response.data));
+    comment.resena = ''
+    comment.contenido = ''
+    alert("Comentario enviado con éxito")
   })
   .catch((error) => {
     console.log(error);
@@ -167,6 +174,20 @@ const addToWishList = () => {
 }
 
 
+const getComentarios = () => {
+  const path = `http://85.50.79.98:8080/resena/${juegoPasado.value.id}`;
+  axios
+    .get(path)
+    .then((response) => {
+      listaComentarios.value = response.data
+      console.log(listaComentarios.value)
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
 
 onMounted(() => {
   if (store.state.juegoDetalle) {
@@ -179,6 +200,7 @@ onMounted(() => {
   const idUser = JSON.parse(localStorage.getItem("usuario"))?.id;
   if(idUser !== undefined){
   const path = `http://85.50.79.98:8080/carrocompra?id_usuario=${idUser}`;
+  comment.id_usuario = idUser
   axios
     .get(path)
     .then((response) => {
@@ -189,6 +211,7 @@ onMounted(() => {
       console.error(error);
     });
   }
+  getComentarios()
   
 })
 
@@ -274,10 +297,27 @@ onMounted(() => {
     </div>
     <div>
       <!--REVIEWS que se pueda comentar-->
-      <div class="mt-5">
+      <div class="mt-5 bg-background rounded-xl mb-2">
         <!--Colocar aqui el metodo al enviarse el comentario-->
-        <form @submit.prevent="sayHi">
-          <div class="flex flex-row gap-2 bg-background rounded-xl">
+        <form @submit.prevent="sendComment">
+          <div class="flex flex-row">
+              <input
+                class="mx-5 mt-5 w-1/2 text-xl rounded-lg" 
+                type="text" 
+                placeholder="Titulo de la reseña..." 
+                v-model="comment.resena">
+                <div>
+                  <label class="text-xl rounded-lg text-white font-black" > VALORACIÓN</label>
+                  <input
+                  class="mx-5 mt-5 text-xl rounded-lg" 
+                  type="number" 
+                  placeholder="⭐" 
+                  min="1"
+                  max="5"
+                  v-model="comment.valoracion">
+                </div>  
+            </div>
+          <div class="flex flex-row gap-2 rounded-xl">
             <textarea
               v-model="comment.contenido"
               rows="5"
@@ -290,6 +330,22 @@ onMounted(() => {
           </div>
         </form>
       </div>
+    </div>
+  </div>
+  <div 
+    v-show="listaComentarios.length > 0"
+    class="flex flex-col mt-10 mx-20">
+    <h1 class="text-gray-200 text-4xl font-barlow">
+      Comentarios
+      <font-awesome-icon icon="chevron-right" />
+    </h1>
+    <div
+      class="grid grid-cols-3 gap-10"
+    >
+      <Comentario 
+        v-for="(comment, index) in listaComentarios"
+        :key="index"
+        :comentario="comment"/>
     </div>
   </div>
 </template>

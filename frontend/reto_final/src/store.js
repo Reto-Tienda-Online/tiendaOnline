@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 const store = createStore({
   state: {
     juegoDetalle: null,
-    categoryData: null,
+    categoryData: '',
+    plataformData: '',
     shopCart: [],
   },
   mutations: {
@@ -12,6 +13,9 @@ const store = createStore({
     },
     setCategoryData(state, datos) {
       state.categoryData = datos;
+    },
+    setPlataformData(state, data) {
+      state.plataformData = data
     },
     setShopItems(state, data) {
       state.shopCart.push(data);

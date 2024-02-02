@@ -3,26 +3,24 @@
 import { ref, onMounted } from "vue";
 
 import { useRouter } from "vue-router"; // Import useRouter from Vue Router
+import { useStore } from "vuex";
 
 // LOGOS PC
 import steamLogo from "/imgs/logos/Steam.png";
 import battleNet from "/imgs/logos/Battle Net.png";
 import electronicArts from "/imgs/logos/Origin.png";
 import epicGames from "/imgs/logos/Epic Games Store.png";
-import microsoftStore from "/imgs/logos/psstore.png";
-import rockstar from "/imgs/logos/rockstar.png";
+
 import ubisoft from "/imgs/logos/Ubisoft Connect.png";
 import blizzard from "/imgs/logos/blizzard.png";
 
 // LOGOS XBOX
-import xbox from "/imgs/logos/xboxl.png";
+import xboxSeries from "/imgs/logos/Xbox Store.png"; 
 import xboxLive from "/imgs/logos/xboxlive.png";
-import xboxSeries from "/imgs/logos/Xbox Store.png";
 
 // LOGOS PLAYSTATION
 import playstation from "/imgs/logos/PlayStation Store.png";
 import psPlus from "/imgs/logos/PlayStation Now.png";
-import psStore from "/imgs/logos/psstore.png";
 
 //LOGOS NINTENDO
 import nintendo from "/imgs/logos/Nintendo eShop.png";
@@ -34,6 +32,7 @@ import { FwbModal } from "flowbite-vue";
 const isLoggedIn = ref(false); // Default value is false, indicating user is not logged in
 const usuario = ref({ nombre: "" }); // Initialize usuario object
 const $router = useRouter(); // Access Vue Router
+const store = useStore()
 
 const pcLogos = ref([
   {
@@ -42,27 +41,19 @@ const pcLogos = ref([
   },
   {
     src: ubisoft,
-    nombre: "Ubisoft",
+    nombre: "Ubisoft Connect",
   },
   {
     src: electronicArts,
-    nombre: "Electronic Arts",
+    nombre: "Origin",
   },
   {
     src: battleNet,
-    nombre: "Battle .Net",
-  },
-  {
-    src: rockstar,
-    nombre: "Rockstar",
-  },
-  {
-    src: microsoftStore,
-    nombre: "Microsoft Store",
+    nombre: "Battle Net",
   },
   {
     src: epicGames,
-    nombre: "Epic Games",
+    nombre: "Epic Games Store",
   },
 ]);
 
@@ -76,12 +67,8 @@ const tarjetasPC = ref([
 //Rutas XBOX
 const xboxLogos = ref([
   {
-    src: xbox,
-    nombre: "Xbox One",
-  },
-  {
     src: xboxSeries,
-    nombre: "Xbox Series",
+    nombre: "Xbox Store",
   },
 ]);
 
@@ -95,22 +82,12 @@ const tarjetasXB = ref([
 //RUTAS PLAYSTATION
 const psLogos = ref([
   {
-    src: playstation,
-    nombre: "PS4",
-  },
-  {
-    src: playstation,
-    nombre: "PS5",
-  },
-]);
-
-const tarjetasPS = ref([
-  {
+    
     src: psPlus,
-    nombre: "Playstation Plus",
+    nombre: "Playstation Now",
   },
   {
-    src: psStore,
+    src: playstation,
     nombre: "Playstation Store",
   },
 ]);
@@ -119,7 +96,7 @@ const tarjetasPS = ref([
 const switchLogos = ref([
   {
     src: nintendo,
-    nombre: "Nintendo Switch",
+    nombre: "Nintendo eShop",
   },
 ]);
 
@@ -177,6 +154,10 @@ const goHome = () => {
   $router.push("/");
 };
 
+const redirect = (nombrePlataforma) => {
+  store.commit('setPlataformData', nombrePlataforma)
+  $router.push('/categoriaDetalle')
+}
 onMounted(() => {
   // Check if the user is logged in based on localStorage
   const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
@@ -227,6 +208,7 @@ onMounted(() => {
                     v-for="(logo, index) in pcLogos"
                     :key="index"
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
+                    @click="redirect(logo.nombre)"
                   >
                     <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
@@ -276,6 +258,7 @@ onMounted(() => {
                     v-for="(logo, index) in psLogos"
                     :key="index"
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
+                    @click="redirect(logo.nombre)"
                   >
                     <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
@@ -284,26 +267,7 @@ onMounted(() => {
               </div>
             </template>
             <template #footer>
-              <div class="tarjetas">
-                <ul class="flex flex-row">
-                  <li
-                    v-for="(logo, index) in tarjetasPS"
-                    :key="index"
-                    class="flex flex-row align-middle justify-center mr-4 hover:scale-110 transition-all duration-300"
-                  >
-                    <div class="flex flex-row justify-center align-middle">
-                      <img
-                        :src="logo.src"
-                        :alt="logo.nombre"
-                        class="max-w-10 max-h-10"
-                      />
-                      <h1 class="text-black text-center mt-2 ml-4">
-                        {{ logo.nombre }}
-                      </h1>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+              
             </template>
           </fwb-modal>
         </li>
@@ -327,6 +291,7 @@ onMounted(() => {
                     v-for="(logo, index) in xboxLogos"
                     :key="index"
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
+                    @click="redirect(logo.nombre)"
                   >
                     <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
@@ -376,6 +341,7 @@ onMounted(() => {
                     v-for="(logo, index) in switchLogos"
                     :key="index"
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
+                    @click="redirect(logo.nombre)"
                   >
                     <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
