@@ -4,11 +4,11 @@
       LISTA DE FAVORITOS
     </h2>
 
-    <div class="flex flex-row">
+    <div class="flex flex-wrap ml-36">
       <div
         v-for="producto in favoritos"
         :key="producto.id"
-        class="w-[250px] flex flex-col text-white mx-4 justify-around bg-[#1f1f1f] px-2 py-2 rounded-md"
+        class="w-[250px] flex flex-col text-white mx-4 justify-around bg-[#1f1f1f] px-2 py-2 rounded-md mb-4"
       >
         <div class="flex flex-row">
           <!-- Aquí muestra la imagen del producto -->
@@ -24,10 +24,6 @@
 
         <div class="flex flex-col text-md">
           <div class="">
-            <!-- Aquí irá el icono de plataforma (por completar) -->
-            <!-- <div class="platform platform-steam">
-              <div class="icon-s icon-steam"></div>
-            </div> -->
             <!-- Muestra el nombre del producto -->
             <span
               :title="`${producto.producto.producto} - ${producto.producto.descripcion}`"
@@ -132,7 +128,7 @@ async function addToShoppingCart(producto_id) {
     });
     // CUANDO SE AÑADA AL CARRITO, SE ELIMINA DE FAVORITOS
     eliminarDeFavoritos(producto_id);
-
+    getFavoritos(usuario.value.id);
     console.log("Añadido al carrito");
   } catch (error) {
     console.error(error);
@@ -145,7 +141,7 @@ async function eliminarDeFavoritos(producto_id) {
   const id_producto = producto_id;
   try {
     await axios.delete(`listadeseo/${id_usuario}/${id_producto}`);
-    console.log("Eliminado de favoritos");
+    getFavoritos(usuario.value.id);
   } catch (error) {
     console.error(error);
   }

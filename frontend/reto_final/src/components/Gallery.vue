@@ -82,7 +82,7 @@ const getJuegos = () => {
 
 const getJuegosUser = () => {
   const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
-  const path = API_URL.concat(`/all_productos_usuarios?id_usuario=${id_usuario}`)
+  const path = API_URL.concat(`/all_productos_usuario?id_usuario=${id_usuario}`)
   axios
     .get(path)
     .then((response) => {
