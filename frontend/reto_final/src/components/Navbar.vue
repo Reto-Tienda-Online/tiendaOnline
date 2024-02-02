@@ -15,7 +15,7 @@ import ubisoft from "/imgs/logos/Ubisoft Connect.png";
 import blizzard from "/imgs/logos/blizzard.png";
 
 // LOGOS XBOX
-import xboxSeries from "/imgs/logos/Xbox Store.png"; 
+import xboxSeries from "/imgs/logos/Xbox Store.png";
 import xboxLive from "/imgs/logos/xboxlive.png";
 
 // LOGOS PLAYSTATION
@@ -32,7 +32,7 @@ import { FwbModal } from "flowbite-vue";
 const isLoggedIn = ref(false); // Default value is false, indicating user is not logged in
 const usuario = ref({ nombre: "" }); // Initialize usuario object
 const $router = useRouter(); // Access Vue Router
-const store = useStore()
+const store = useStore();
 
 const pcLogos = ref([
   {
@@ -82,13 +82,12 @@ const tarjetasXB = ref([
 //RUTAS PLAYSTATION
 const psLogos = ref([
   {
-    
     src: psPlus,
-    nombre: "Playstation Now",
+    nombre: "PlayStation Now",
   },
   {
     src: playstation,
-    nombre: "Playstation Store",
+    nombre: "PlayStation Store",
   },
 ]);
 
@@ -155,9 +154,9 @@ const goHome = () => {
 };
 
 const redirect = (nombrePlataforma) => {
-  store.commit('setPlataformData', nombrePlataforma)
-  $router.push('/categoriaDetalle')
-}
+  store.commit("setPlataformData", nombrePlataforma);
+  $router.push("/categoriaDetalle");
+};
 onMounted(() => {
   // Check if the user is logged in based on localStorage
   const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
@@ -266,9 +265,7 @@ onMounted(() => {
                 </ul>
               </div>
             </template>
-            <template #footer>
-              
-            </template>
+            <template #footer> </template>
           </fwb-modal>
         </li>
 

@@ -9,9 +9,8 @@ const store = useStore();
 const juegosEnCarrito = ref([]);
 const precioTotal = ref(0);
 
-
 const seeGameDetails = (juego) => {
-  console.log(juego)
+  console.log(juego);
   store.commit("setJuegoDetalle", juego);
   router.push("/juegoDetalle");
 };
@@ -19,12 +18,11 @@ const getImageURL = (id) => {
   return `/imgs/juegos/${id}/2.webp`;
 };
 
-
 const getPrecioTotal = () => {
   precioTotal.value = 0;
   for (const item of juegosEnCarrito.value) {
     const juego = item["producto"];
-    
+
     if (item.cantidad) {
       precioTotal.value += parseFloat(juego.precio_unitario) * item.cantidad;
     } else {
@@ -34,11 +32,10 @@ const getPrecioTotal = () => {
 };
 
 const payForAll = () => {
-    router.push('/pago')
+  router.push("/pago");
 };
 
 const deleteCartItem = (idItem) => {
-  
   //DELETE FROM DATABASE
   const config = {
     method: "delete",
@@ -56,46 +53,45 @@ const deleteCartItem = (idItem) => {
     });
 
   //DELETE FROM STORE
-  store.commit('deleteItem', idItem)
+  store.commit("deleteItem", idItem);
 
   //DELETE FROM LOCAL STORAGE
-  localStorage.removeItem('shopcart')
+  localStorage.removeItem("shopcart");
 
   //ACTUALIZAMOS EL STATE PARA QUE SE VISUALICEN LOS CAMBIOS EN LA PAGINA
   juegosEnCarrito.value = juegosEnCarrito.value.filter((item) => {
-    return item.id !== idItem
-  })
-
+    return item.id !== idItem;
+  });
 };
-
 
 const updateCantidad = (juego) => {
-  const id_user = JSON.parse(localStorage.getItem('usuario')).id
+  const id_user = JSON.parse(localStorage.getItem("usuario")).id;
 
   let data = JSON.stringify({
-  "id_usuario": id_user,
-  "id_producto": juego['producto'].id,
-  "pagado": false,
-  "cantidad": juego.cantidad
-});
-let config = {
-  method: 'put',
-  maxBodyLength: Infinity,
-  url: `http://85.50.79.98:8080/carrocompra/${juego.id}`,
-  headers: {
-    'accept': 'application/json',
-    'Content-Type': 'application/json'
-  },
-  data : data
+    id_usuario: id_user,
+    id_producto: juego["producto"].id,
+    pagado: false,
+    cantidad: juego.cantidad,
+  });
+  let config = {
+    method: "put",
+    maxBodyLength: Infinity,
+    url: `http://85.50.79.98:8080/carrocompra/${juego.id}`,
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
-})
-.catch((error) => {
-  console.log(error);
-});
-}
 
 onMounted(() => {
   const idUser = JSON.parse(localStorage.getItem("usuario")).id;
@@ -123,16 +119,12 @@ watch(
     deep: true,
   }
 );
-
-
 </script>
 
 <template>
   <main class="flex xl:flex-row justify-center sm:flex-col w-full mt-10">
     <!--COMPRAS-->
-    <div
-      v-if="juegosEnCarrito.length > 0" 
-      class="flex flex-col gap-5">
+    <div v-if="juegosEnCarrito.length > 0" class="flex flex-col gap-5">
       <div
         v-for="(juego, index) in juegosEnCarrito"
         :key="juego.id"
@@ -177,7 +169,7 @@ watch(
                 {{ juego["producto"].precio_unitario }}€
               </div>
               <select
-                class="w-full mt-5 bg-gray-50 py-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="w-full mt-5 bg-gray-50 py-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 data-max="10"
                 v-model="juego.cantidad"
                 @change="updateCantidad(juego)"
@@ -200,32 +192,22 @@ watch(
         </div>
       </div>
     </div>
-    <div
-    v-else
-    >
-      <h1
-        
-        class="text-xl text-white text-center"
-      >
-      El carrito de compras esta vacío
+    <div v-else>
+      <h1 class="text-xl text-white text-center">
+        El carrito de compras esta vacío
       </h1>
       <picture>
-        <!--<img 
+        <img 
           src="/imgs/empty_shopcart.png"
           class=" max-w-96"
-        />-->
+        />
       </picture>
-      <h1
-        
-        class="text-xl text-white text-center"
-      >
-      No pierdas tiempo compra ya...
+      <h1 class="text-xl text-white text-center">
+        No pierdas tiempo compra ya...
       </h1>
     </div>
     <!--RESUMEN DE COMPRAS-->
-    <div 
-      v-if="juegosEnCarrito.length > 0"
-      class="flex flex-col">
+    <div v-if="juegosEnCarrito.length > 0" class="flex flex-col">
       <div class="text-white w-[395px] mx-4">
         <div
           class="flex flex-col justify-center w-full bg-[#1f1f1f] px-5 py-5 rounded-xl"

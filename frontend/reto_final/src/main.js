@@ -9,6 +9,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faC,
   faChevronRight,
+  faChevronLeft,
   faCoffee,
   faShield,
   faUser,
@@ -39,6 +40,7 @@ library.add(
   faChevronDown,
   faShoppingCart,
   faChevronRight,
+  faChevronLeft,
   faDownload,
   faShield,
   faCommentDots,
