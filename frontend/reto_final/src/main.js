@@ -12,7 +12,7 @@ import {
   faCoffee,
   faShield,
   faUser,
-  faHeart,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +29,7 @@ import {
   faTrash,
   faCircleRight,
   faCircleLeft,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 //Cada icono debe ser añadido e importado

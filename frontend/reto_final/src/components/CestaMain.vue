@@ -68,6 +68,35 @@ const deleteCartItem = (idItem) => {
 
 };
 
+
+const updateCantidad = (juego) => {
+  const id_user = JSON.parse(localStorage.getItem('usuario')).id
+
+  let data = JSON.stringify({
+  "id_usuario": id_user,
+  "id_producto": juego['producto'].id,
+  "pagado": false,
+  "cantidad": juego.cantidad
+});
+let config = {
+  method: 'put',
+  maxBodyLength: Infinity,
+  url: `http://85.50.79.98:8080/carrocompra/${juego.id}`,
+  headers: {
+    'accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+})
+.catch((error) => {
+  console.log(error);
+});
+}
+
 onMounted(() => {
   const idUser = JSON.parse(localStorage.getItem("usuario")).id;
   const path = `http://85.50.79.98:8080/carrocompra?id_usuario=${idUser}`;
@@ -119,7 +148,7 @@ watch(
                 :alt="juego['producto'].producto"
                 :src="getImageURL(juego['producto'].id)"
                 loading="lazy"
-                class="rounded-xl max-w-96"
+                class="rounded-xl max-w-96 hover:cursor-pointer"
             /></picture>
           </div>
           <div class="flex flex-col text-md max-w-32">
@@ -151,6 +180,7 @@ watch(
                 class="w-full mt-5 bg-gray-50 py-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 data-max="10"
                 v-model="juego.cantidad"
+                @change="updateCantidad(juego)"
               >
                 <option value="0" disabled="disabled">0</option>
                 <option value="1">1</option>
@@ -180,10 +210,10 @@ watch(
       El carrito de compras esta vacío
       </h1>
       <picture>
-        <img 
+        <!--<img 
           src="/imgs/empty_shopcart.png"
           class=" max-w-96"
-        />
+        />-->
       </picture>
       <h1
         
@@ -201,10 +231,10 @@ watch(
           class="flex flex-col justify-center w-full bg-[#1f1f1f] px-5 py-5 rounded-xl"
         >
           <div class="flex justify-between">
-            <span>Precio</span> <span>{{ precioTotal }}€</span>
+            <span>Precio</span> <span>{{ precioTotal.toFixed(2) }}€</span>
           </div>
           <div class="flex justify-between font-bold text-2xl my-3">
-            <span>Subtotal</span> <span>{{ precioTotal }}€</span>
+            <span>Subtotal</span> <span>{{ precioTotal.toFixed(2) }}€</span>
           </div>
           <button
             @click="payForAll"
