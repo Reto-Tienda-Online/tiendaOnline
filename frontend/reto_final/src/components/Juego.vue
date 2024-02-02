@@ -169,11 +169,25 @@ const isInShopcart = (juego) => {
   }
 
   return isInShop;
+
+}
+
+const addToWishList = async (producto_id) => {
+  const data = {
+    id_usuario: JSON.parse(localStorage.getItem('usuario')).id,
+    id_producto: producto_id
+  };
+
+  try {
+    const response = await axios.post(`listadeseo`, data);
+    console.log(response.data);
+    console.log("Añadido a favoritos");
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const addToWishList = () => {
-  console.log("AÑADIR A LISTA DE DESEOS");
-};
+
 
 const getComentarios = () => {
   const path = `http://85.50.79.98:8080/resena/${juegoPasado.value.id}`;
@@ -324,10 +338,10 @@ onMounted(() => {
               Add to cart
             </button>
             <button
-              @click="addToWishList"
+              @click="addToWishList(juegoPasado.id)"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
-              <font-awesome-icon icon="heart" />
+              <font-awesome-icon icon="heart" :class="{'text-red-600': !juegoPasado.favorito}"/>
             </button>
           </div>
         </div>

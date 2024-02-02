@@ -141,11 +141,10 @@ async function addToShoppingCart(producto_id) {
 
 // DELETE FAVORITO FROM API
 async function eliminarDeFavoritos(producto_id) {
+  const id_usuario = usuario.value.id;
+  const id_producto = producto_id;
   try {
-    await axios.delete(`listadeseo`, {
-      id_usuario: usuario.value.id,
-      id_producto: producto_id,
-    });
+    await axios.delete(`listadeseo/${id_usuario}/${id_producto}`);
     console.log("Eliminado de favoritos");
   } catch (error) {
     console.error(error);
