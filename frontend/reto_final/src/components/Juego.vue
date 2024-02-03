@@ -240,7 +240,7 @@ const nextPage = () => {
 };
 
 // Show button for user loggin and user no loggin
-var showButtonHeart = false;
+var showButtonHeart = true;
 
 function goToLogin(){
   router.push('/login');
@@ -274,7 +274,7 @@ onMounted(() => {
   totalPages.value = Math.ceil(
     listaComentarios.value.length / productsPerPage.value
   );
-  if (idUser !== undefined || idUser !== null ){
+  if (idUser !== undefined ){
     showButtonHeart = false;
   }else{
     showButtonHeart = true;
@@ -374,14 +374,14 @@ onMounted(() => {
             </button>
             <button
               v-if="showButtonHeart"
-              @click="toggleFavorito(juegoPasado.id)"
+              @click="goToLogin"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
-              <font-awesome-icon id="iconoFav" icon="heart" :class="{'text-red-600': juegoPasado.favorito}"/>
+              <font-awesome-icon id="iconoFav" icon="heart" class="text-white"/>
             </button>
             <button
               v-else
-              @click="goToLogin"
+              @click="toggleFavorito(juegoPasado.id)"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
               <font-awesome-icon id="iconoFav" icon="heart" :class="{'text-red-600': juegoPasado.favorito}"/>

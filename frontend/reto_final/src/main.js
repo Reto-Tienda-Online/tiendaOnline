@@ -31,6 +31,7 @@ import {
   faCircleRight,
   faCircleLeft,
   faHeart,
+  faHeartCrack,
 } from "@fortawesome/free-solid-svg-icons";
 
 //Cada icono debe ser añadido e importado
@@ -54,7 +55,8 @@ library.add(
   faTrash,
   faCircleRight,
   faCircleLeft,
-  faHeart
+  faHeart,
+  faHeartCrack,
 );
 
 const app = createApp(App);
