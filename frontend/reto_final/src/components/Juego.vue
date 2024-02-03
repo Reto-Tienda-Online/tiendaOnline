@@ -239,6 +239,12 @@ const nextPage = () => {
   console.log(currentPage.value);
 };
 
+// Show button for user loggin and user no loggin
+var showButtonHeart = false;
+
+function goToLogin(){
+  router.push('/login');
+}
 onMounted(() => {
   if (store.state.juegoDetalle) {
     // console.log(store.state.datosCompartidos)
@@ -268,6 +274,11 @@ onMounted(() => {
   totalPages.value = Math.ceil(
     listaComentarios.value.length / productsPerPage.value
   );
+  if (idUser !== undefined || idUser !== null ){
+    showButtonHeart = false;
+  }else{
+    showButtonHeart = true;
+  }
 });
 
 //RUTA IMAGEN ../assets/jokin/{id}/1.webp
@@ -362,7 +373,15 @@ onMounted(() => {
               Add to cart
             </button>
             <button
+              v-if="showButtonHeart"
               @click="toggleFavorito(juegoPasado.id)"
+              class="text-white text-2xl ml-3 mr-3 rounded-xl"
+            >
+              <font-awesome-icon id="iconoFav" icon="heart" :class="{'text-red-600': juegoPasado.favorito}"/>
+            </button>
+            <button
+              v-else
+              @click="goToLogin"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
             >
               <font-awesome-icon id="iconoFav" icon="heart" :class="{'text-red-600': juegoPasado.favorito}"/>
