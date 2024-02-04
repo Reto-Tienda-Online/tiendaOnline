@@ -6,6 +6,7 @@ import axios from 'axios';
   <main class="flex flex-col text-white w-full h-screen">
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
+        <!-- barra de busqueda -->
         <input v-model="searchQuery" type="text"
           class="border-2 border-resaltar bg-white h-10 px-5 pr-10 rounded-lg text-sm focus:outline-none text-gray-700"
           placeholder="Buscar..." />
