@@ -394,22 +394,21 @@ onMounted(() => {
       <!--REVIEWS que se pueda comentar-->
       <div class="mt-5 bg-background rounded-xl mb-2">
         <!--Colocar aqui el metodo al enviarse el comentario-->
-        <form @submit.prevent="sendComment">
+        <form @submit="sendComment">
           <div class="flex flex-row">
             <input
               required
-              class="mx-5 mt-5 w-1/2 text-xl rounded-lg"
+              class="mx-4 mt-4 w-1/2 border-b-2 border-r-0 border-t-0 border-l-0 text-lg text-white  bg-background active:border-none "
               type="text"
               placeholder="Titulo de la reseña..."
               v-model="comment.resena"
             />
-            <div>
-              <label class="text-xl rounded-lg text-white font-black">
-                VALORACIÓN</label
-              >
+            <div class="flex flex-row justify-between items-center align-middle">
+              <font-awesome-icon icon="star" class="h-10 text-yellow-300"/>
               <input
                 required
-                class="mx-5 mt-5 text-xl rounded-lg"
+                class="mx-4 mt-4 w-1/2 border-b-2 border-r-0 border-t-0 border-l-0 text-lg text-white  bg-background active:border-none "
+
                 type="number"
                 placeholder="⭐"
                 min="1"
@@ -422,14 +421,14 @@ onMounted(() => {
             <textarea
               required
               v-model="comment.contenido"
-              rows="5"
-              class="w-full m-5 rounded-xl"
+              rows="1"
+              class="mx-4 mt-4 mb-10 w-full border-b-2 border-r-0 border-t-0 border-l-0 text-lg text-white  bg-background active:border-none "
               placeholder="Escribe tu comentario..."
             ></textarea>
-            <button class="text-white bg-resaltar m-10 rounded-xl">
-              Enviar comentario
-            </button>
           </div>
+          <button class="-mt-5 px-4 py-1 m-10 rounded-xl text-white bg-resaltar ">
+              Comentar
+            </button>
         </form>
       </div>
     </div>
