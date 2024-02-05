@@ -21,13 +21,9 @@ defineProps({
       </h1>
     </div>
     <div class="p-5">
-      <div class="flex mt-2">
-        <span>{{ "⭐".repeat(comentario.valoracion) }}</span>
-      </div>
-      <p class="mt-4 text-md">{{ comentario.comentario }}</p>
-      <div class="flex justify-between items-center">
-        <div class="mt-4 flex items-center space-x-4 py-6">
-          <div class="">
+      <div class="flex justify-between items-center -mt-8">
+        <div class="mt-0 flex items-center space-x-4 py-6">
+          <div class="mt-0">
             <font-awesome-icon icon="user" />
           </div>
           <div class="ml-5 text-sm font-semibold">
@@ -35,6 +31,10 @@ defineProps({
           </div>
         </div>
       </div>
+      <div class="flex -mt-2">
+        <span>{{ "⭐".repeat(comentario.valoracion) }}</span>
+      </div>
+      <p class="mt-4 text-md">{{ comentario.comentario }}</p>
     </div>
   </div>
 </template>

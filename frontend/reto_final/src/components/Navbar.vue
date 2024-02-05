@@ -177,7 +177,7 @@ onMounted(() => {
 
 <template>
   <nav>
-    <div class="flex justify-between align-middle">
+    <div class="flex justify-between align-middle items-center -mt-5">
       <div
         class="flex flex-col justify-start hover:cursor-pointer"
         @click="goHome"
@@ -386,9 +386,10 @@ onMounted(() => {
               <!-- User Card -->
               <div
                 v-if="showUserCard"
-                class="absolute top-11 right-4 mt-2 bg-white rounded-lg shadow-md p-2 text-center"
+                class="absolute top-11 right-4 z-10 mt-2 bg-white rounded-lg shadow-md p-2 text-center"
               >
-                <!-- User Name -->
+              <div class="w-full h-full flex flex-col">
+              <!-- User Name -->
                 <p class="font-bold font-barlow text-gray-800 mb-0">
                   {{ usuario.nombre }}
                 </p>
@@ -406,6 +407,7 @@ onMounted(() => {
                 >
                   Sign Out
                 </button>
+                </div>
               </div>
             </div>
           </template>

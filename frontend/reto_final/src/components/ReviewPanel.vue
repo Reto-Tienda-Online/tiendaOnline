@@ -48,10 +48,10 @@ onMounted(() => {
       <h1 class="text-5xl">
         {{ "⭐".repeat(bestComment.valoracion) }}
       </h1>
-      <q class="text-3xl -mt-10">
+      <q class="text-xl -mt-10 font-bold italic text-pretty">
         {{ bestComment.comentario }}
       </q>
-      <h1 class="text-5xl">
+      <h1 class="-mt-8 text-3xl font-bold">
         {{ bestComment.titulo }}
       </h1>
     </div>

@@ -47,73 +47,60 @@ const stopVideo = (id) => {
     pauseVideo.then((_) => {}).catch((error) => {});
   }
 };
-//Tendencias
-//Reservas
-//Más Vendidos
+// Funciton FOR TENDENCIAS, RESERVAS, MAS VENDIDOS
+const handleJuegosResponse = (data) => {
+  if (props.title === "Tendencias") {
+    juegos.value = data.slice(0, 9).map((object) => ({ ...object }));
+  } else if (props.title === "Reservas") {
+    juegos.value = data.slice(10, 19).map((object) => ({ ...object }));
+  } else if (props.title === "Más Vendidos") {
+    juegos.value = data.slice(20, 29).map((object) => ({ ...object }));
+  }
+
+  for (const i of data) {
+    isHovered.value.push(1);
+  }
+};
 const getJuegosNoUser = () => {
   const path = API_URL.concat("/all_productos");
   axios
     .get(path)
     .then((response) => {
-      if (props.title === "Tendencias") {
-        juegos.value = response.data
-          .slice(0, 9)
-          .map((object) => ({ ...object }));
-      } else if (props.title === "Reservas") {
-        juegos.value = response.data
-          .slice(10, 19)
-          .map((object) => ({ ...object }));
-      } else if (props.title === "Más Vendidos") {
-        juegos.value = response.data
-          .slice(20, 29)
-          .map((object) => ({ ...object }));
-      }
-      // console.log(response.data.length)
-      for (const i of response.data) {
-        isHovered.value.push(1);
-        // console.log(isHovered.value)
-      }
-      // console.log(juegos.value);
+      handleJuegosResponse(response.data);
     })
     .catch((error) => {
       console.error(error);
     });
-}
+};
 
 const getJuegosUser = () => {
-  const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
-  const path = API_URL.concat(`/all_productos_usuario?id_usuario=${id_usuario}`)
+  const id_usuario = JSON.parse(localStorage.getItem("usuario")).id;
+  const path = API_URL.concat(
+    `/all_productos_usuario?id_usuario=${id_usuario}`
+  );
   axios
     .get(path)
     .then((response) => {
-      juegos.value = response.data.slice(0, 9).map((object) => ({...object}));
-      // console.log(response.data.length)
-      for(const i of response.data){
-        isHovered.value.push(1)
-        // console.log(isHovered.value)
-      }
-      // console.log(juegos.value);
-
+      handleJuegosResponse(response.data);
     })
     .catch((error) => {
       console.error(error);
     });
-}
+};
 
 const getJuegos = () => {
   try {
     getJuegosUser();
-    
   } catch (error) {
     getJuegosNoUser();
   }
   // const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
   // if(id_usuario === undefined || id_usuario === null){
-    
+
   // }else{
-    
+
   // }
-}
+};
 
 const getImageURL = (id) => {
   return `/imgs/juegos/${id}/2.webp`;
@@ -126,7 +113,7 @@ const getVideoURL = (id) => {
 
 const sendGameDetails = (juego) => {
   store.commit("setJuegoDetalle", juego);
-  localStorage.setItem("juegoDetalle", JSON.stringify(juego))
+  localStorage.setItem("juegoDetalle", JSON.stringify(juego));
   // console.log(juego)
   router.push("/juegoDetalle");
 };
