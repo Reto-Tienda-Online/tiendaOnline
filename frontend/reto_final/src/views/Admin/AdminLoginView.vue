@@ -6,8 +6,11 @@
 
     const correo = ref('');
     const contrasena = ref('');
+    const successMessage = ref('');
+    const errorMessage = ref('');
     const $router = useRouter(); // Access Vue Router
 
+  
     const handleSubmit = async () => {
         const data = {
             'username': correo.value,
@@ -24,18 +27,20 @@
                 console.log('submited');
                 // verificar y abrir sesion, dirigir al home
                 const usuario = convertToUsuario(response.data);
+                successMessage.value = 'Login successful!';
                 
                 // Set user data and authentication status in localStorage
                 localStorage.setItem('usuario', JSON.stringify(usuario));
                 localStorage.setItem('isLoggedIn', true);
 
                 $router.push('/admin');
+            } else {
+              errorMessage.value = 'correo o contraseña incorrecto';
             }
 
         } catch (error) {
-            // hay q mostrar la alerta de habia un error (usuario o password falso)
             console.error('Error registering user:', error);
-            // console.error('Error logging in');
+            errorMessage.value = 'correo o contraseña incorrecto';
         }
 
     };
@@ -140,4 +145,15 @@ const convertToUsuario = (data) => {
       </p>
     </a>
   </form>
+  <div v-if="successMessage || errorMessage"
+  class="flex items-center p-4 mb-4 text-sm rounded-lg dark:text-white"
+  :class="{'bg-green-50 dark:bg-gray-800': successMessage, 'bg-red-50 dark:bg-gray-800': errorMessage}"
+  role="alert">
+  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor" viewBox="0 0 20 20">
+    <path
+      d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+  </svg>
+  <span class="font-medium">{{ successMessage ? successMessage : errorMessage }}</span>
+</div>
 </template>
