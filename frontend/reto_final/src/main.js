@@ -9,9 +9,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faC,
   faChevronRight,
+  faChevronLeft,
   faCoffee,
   faShield,
   faUser,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +30,8 @@ import {
   faTrash,
   faCircleRight,
   faCircleLeft,
+  faHeart,
+  faHeartCrack,
 } from "@fortawesome/free-solid-svg-icons";
 
 //Cada icono debe ser añadido e importado
@@ -37,6 +41,7 @@ library.add(
   faChevronDown,
   faShoppingCart,
   faChevronRight,
+  faChevronLeft,
   faDownload,
   faShield,
   faCommentDots,
@@ -50,6 +55,8 @@ library.add(
   faTrash,
   faCircleRight,
   faCircleLeft,
+  faHeart,
+  faHeartCrack,
 );
 
 const app = createApp(App);

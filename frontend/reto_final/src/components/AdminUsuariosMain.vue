@@ -1,10 +1,12 @@
 <script setup>
 import axios from 'axios';
-import { API_URL } from '@src/config.js';
+import Alert from '@components/AdminAlert.vue';
 </script>
 
 <template>
-  <main class="flex flex-col text-white w-full h-screen" :class="{ 'w-full h-full bg-auto bg-black opacity-100 cursor-pointer': isPopupOpen || isDeletePopupOpen || isNewUserPopupOpen }"> 
+  <Alert :successMessage="successMessage" :errorMessage="errorMessage" />
+  <main class="flex flex-col text-white w-full h-screen"
+    :class="{ 'w-full h-full bg-auto bg-black opacity-100 cursor-pointer': isPopupOpen || isDeletePopupOpen || isNewUserPopupOpen }">
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
         <input v-model="searchQuery" type="text"
@@ -210,6 +212,8 @@ export default {
       usersPerPage: 6,
       items: [],
       searchQuery: '',
+      successMessage: '', // Agregar esta línea
+      errorMessage: '',  // Agregar esta línea
     };
   },
   computed: {
@@ -243,7 +247,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get(`${API_URL}/all_usuarios`);
+        const response = await axios.get(`/all_usuarios`);
         this.users = response.data;
 
       } catch (error) {
@@ -270,11 +274,12 @@ export default {
     // Submit Form 
     submitForm() {
       const { id, ...allowedData } = this.formData;
-      axios.put(`${API_URL}/usuarios/${this.formData.id}`, allowedData)
+      axios.put(`/usuarios/${this.formData.id}`, allowedData)
         .then(response => {
 
           this.fetchUsers();
           this.closePopup();
+          this.successMessage = 'Usuario actulizado con exíto';
         })
         .catch(error => {
           console.error('Error al actualizar el usuario:', error);
@@ -290,10 +295,11 @@ export default {
     },
     deleteUser() {
       const userID = this.userToDelete.id;
-      axios.delete(`${API_URL}/usuarios/${userID}`)
+      axios.delete(`/usuarios/${userID}`)
         .then(response => {
           this.fetchUsers();
           this.closeDeletePopup();
+          const successMessage = 'Usuario eliminado con exito';
         })
         .catch(error => {
           console.error('Error al eliminar el usuario:', error);

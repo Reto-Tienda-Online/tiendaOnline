@@ -1,5 +1,4 @@
 <script setup>
-import { API_URL } from '@src/config.js';
 import axios from 'axios';
 </script>
 
@@ -7,6 +6,7 @@ import axios from 'axios';
   <main class="flex flex-col text-white w-full h-screen">
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
+        <!-- barra de busqueda -->
         <input v-model="searchQuery" type="text"
           class="border-2 border-resaltar bg-white h-10 px-5 pr-10 rounded-lg text-sm focus:outline-none text-gray-700"
           placeholder="Buscar..." />
@@ -146,7 +146,7 @@ export default {
     async fetchProducts() {
 
       try {
-        const response = await axios.get(`${API_URL}/all_productos`);
+        const response = await axios.get(`/all_productos`);
         this.products = response.data;
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -158,7 +158,7 @@ export default {
       this.productName = product.producto;
       this.popupDelete = true;
       console.log(this.productID);
-      axios.delete(`${API_URL}/productos/${this.productID}`).then(response => {
+      axios.delete(`/productos/${this.productID}`).then(response => {
         this.fetchProducts();
         this.popupDelete = false;
         console.log('Producto eliminado correctamente');
@@ -170,7 +170,7 @@ export default {
       this.popupDelete = false;
     },
     deleteProduct(productID) {
-      axios.delete(`${API_URL}/delete_producto/${productID}`).then(response => {
+      axios.delete(`/delete_producto/${productID}`).then(response => {
         this.fetchProducts();
         this.popupDelete = false;
         console.log('Producto eliminado correctamente');

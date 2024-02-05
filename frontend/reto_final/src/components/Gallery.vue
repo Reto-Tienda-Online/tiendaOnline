@@ -1,19 +1,16 @@
 <script setup>
-import axios from 'axios'
+import axios from "axios";
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex'
-import { API_URL } from '../config';
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { API_URL } from "../config";
 
-
-defineProps(
-  {
-    title: String,
-    required: true,
-    games: Array,
-    required: false,
-  },
-);
+const props = defineProps({
+  title: String,
+  required: true,
+  games: Array,
+  required: false,
+});
 
 /*
   isHovered -> Aplica a todos
@@ -27,22 +24,18 @@ defineProps(
 //DATA
 const isHovered = ref([]);
 const video = ref([]);
-const juegos = ref([])
+const juegos = ref([]);
 const router = useRouter();
-const store = useStore()
+const store = useStore();
 
 //METHODS
 const playVideo = (id) => {
-  // console.log("video.value:", video.value); 
+  // console.log("video.value:", video.value);
   const playVideo = video.value[id].play();
   isHovered.value[id] = 0;
   // console.log(isHovered.value)
   if (playVideo !== undefined) {
-    playVideo.then(_ => {
-      
-    })
-    .catch(error => {
-    });
+    playVideo.then((_) => {}).catch((error) => {});
   }
 };
 
@@ -51,16 +44,45 @@ const stopVideo = (id) => {
   isHovered.value[id] = 1;
 
   if (pauseVideo !== undefined) {
-    pauseVideo.then(_ => {
-      
-    })
-    .catch(error => {
-    });
+    pauseVideo.then((_) => {}).catch((error) => {});
   }
-}; 
+};
+//Tendencias
+//Reservas
+//Más Vendidos
+const getJuegosNoUser = () => {
+  const path = API_URL.concat("/all_productos");
+  axios
+    .get(path)
+    .then((response) => {
+      if (props.title === "Tendencias") {
+        juegos.value = response.data
+          .slice(0, 9)
+          .map((object) => ({ ...object }));
+      } else if (props.title === "Reservas") {
+        juegos.value = response.data
+          .slice(10, 19)
+          .map((object) => ({ ...object }));
+      } else if (props.title === "Más Vendidos") {
+        juegos.value = response.data
+          .slice(20, 29)
+          .map((object) => ({ ...object }));
+      }
+      // console.log(response.data.length)
+      for (const i of response.data) {
+        isHovered.value.push(1);
+        // console.log(isHovered.value)
+      }
+      // console.log(juegos.value);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
-const getJuegos = () => {
-  const path = API_URL.concat('/all_productos')
+const getJuegosUser = () => {
+  const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
+  const path = API_URL.concat(`/all_productos_usuario?id_usuario=${id_usuario}`)
   axios
     .get(path)
     .then((response) => {
@@ -78,27 +100,42 @@ const getJuegos = () => {
     });
 }
 
-const getImageURL = (id) => {
-  return `/imgs/juegos/${id}/2.webp`
+const getJuegos = () => {
+  try {
+    getJuegosUser();
+    
+  } catch (error) {
+    getJuegosNoUser();
+  }
+  // const id_usuario = JSON.parse(localStorage.getItem('usuario')).id;
+  // if(id_usuario === undefined || id_usuario === null){
+    
+  // }else{
+    
+  // }
 }
+
+const getImageURL = (id) => {
+  return `/imgs/juegos/${id}/2.webp`;
+};
 
 const getVideoURL = (id) => {
   // console.log(`/imgs/juegos/${id}/1.webm`)
-  return `/imgs/juegos/${id}/1.webm`
-}
+  return `/imgs/juegos/${id}/1.webm`;
+};
 
 const sendGameDetails = (juego) => {
-  store.commit('setJuegoDetalle', juego);
+  store.commit("setJuegoDetalle", juego);
+  localStorage.setItem("juegoDetalle", JSON.stringify(juego))
   // console.log(juego)
-  router.push('/juegoDetalle');
-}
+  router.push("/juegoDetalle");
+};
 
 //HOOKS
 onMounted(() => {
-  getJuegos()
+  getJuegos();
   // console.log(video.value)
-})
-
+});
 </script>
 
 <template>
@@ -117,83 +154,83 @@ onMounted(() => {
     descripcion: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae quae eius esse deserunt distinctio nulla. Modi reiciendis eius optio necessitatibus culpa voluptatibus magnam enim odio alias, quam doloribus ab?',
 }) -->
 
-    <div
-      v-if="games === undefined"
-      class="grid grid-cols-3 gap-7 mr-10 mt-10">
-      
-        <div
-          v-for="(juego, index) in juegos"
-          :key="juego.id"
-          class="relative hover:scale-105 cursor-pointer transition-all duration-300"
-          @click="sendGameDetails(juego)"
-          @mouseover="playVideo(index)"
-          @mouseout="stopVideo(index)"
+    <div v-if="games === undefined" class="grid grid-cols-3 gap-7 mr-10 mt-10">
+      <div
+        v-for="(juego, index) in juegos"
+        :key="juego.id"
+        class="relative hover:scale-105 cursor-pointer transition-all duration-300"
+        @click="sendGameDetails(juego)"
+        @mouseover="playVideo(index)"
+        @mouseout="stopVideo(index)"
+      >
+        <picture v-show="isHovered[index] === 1">
+          <img
+            class="picture rounded-xl"
+            :src="getImageURL(juego.id)"
+            loading="lazy"
+          />
+        </picture>
+        <video
+          v-show="isHovered[index] !== 1"
+          ref="video"
+          preload="none"
+          loop=""
+          muted=""
+          playsinline=""
+          class="w-full h-full object-cover rounded-xl"
         >
-          <picture v-show="isHovered[index] === 1">
-            <img
-              class="picture rounded-xl"
-              :src=getImageURL(juego.id)
-              loading="lazy"
-            />
-          </picture>
-          <video
-            v-show="isHovered[index] !== 1"
-            ref="video"
-            preload="none"
-            loop=""
-            muted=""
-            playsinline=""
-            class="w-full h-full object-cover rounded-xl"
-          >
-            <source
-              :src=getVideoURL(juego.id)
-              type="video/webm"
-            />
-          </video>
-        <div class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out" :class="{ 'opacity-0': isHovered[index] === 0, 'opacity-100': isHovered[index] === 1 }">
+          <source :src="getVideoURL(juego.id)" type="video/webm" />
+        </video>
+        <div
+          class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out"
+          :class="{
+            'opacity-0': isHovered[index] === 0,
+            'opacity-100': isHovered[index] === 1,
+          }"
+        >
           <h1 class="text-white">{{ juego.producto }}</h1>
           <h2 class="text-white">{{ juego.precio_unitario }}€</h2>
         </div>
       </div>
     </div>
-    <div 
-      v-else
-      class="grid grid-cols-3 gap-7 mr-10 mt-10"
-      >
+    <div v-else class="grid grid-cols-3 gap-7 mr-10 mt-10">
       <div
-          v-for="(juego, index) in games"
-          :key="juego.id"
-          class="relative hover:scale-105 cursor-pointer transition-all duration-300"
-          @click="sendGameDetails(juego)"
-          @mouseover="playVideo(index)"
-          @mouseout="stopVideo(index)"
+        v-for="(juego, index) in games"
+        :key="juego.id"
+        class="relative hover:scale-105 cursor-pointer transition-all duration-300"
+        @click="sendGameDetails(juego)"
+        @mouseover="playVideo(index)"
+        @mouseout="stopVideo(index)"
+      >
+        <picture v-show="isHovered[index] === 1">
+          <img
+            class="picture rounded-xl"
+            :src="getImageURL(juego.id)"
+            loading="lazy"
+          />
+        </picture>
+        <video
+          v-show="isHovered[index] !== 1"
+          ref="video"
+          preload="none"
+          loop=""
+          muted=""
+          playsinline=""
+          class="w-full h-full object-cover rounded-xl"
         >
-          <picture v-show="isHovered[index] === 1">
-            <img
-              class="picture rounded-xl"
-              :src=getImageURL(juego.id)
-              loading="lazy"
-            />
-          </picture>
-          <video
-            v-show="isHovered[index] !== 1"
-            ref="video"
-            preload="none"
-            loop=""
-            muted=""
-            playsinline=""
-            class="w-full h-full object-cover rounded-xl"
-          >
-            <source
-              :src=getVideoURL(juego.id)
-              type="video/webm"
-            />
-          </video>
-        <div class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out" :class="{ 'opacity-0': isHovered[index] === 0, 'opacity-100': isHovered[index] === 1 }">
+          <source :src="getVideoURL(juego.id)" type="video/webm" />
+        </video>
+        <div
+          class="flex justify-between mt-3 transition-opacity duration-300 ease-in-out"
+          :class="{
+            'opacity-0': isHovered[index] === 0,
+            'opacity-100': isHovered[index] === 1,
+          }"
+        >
           <h1 class="text-white">{{ juego.producto }}</h1>
           <h2 class="text-white">{{ juego.precio_unitario }}€</h2>
         </div>
-    </div> 
-  </div>
+      </div>
+    </div>
   </div>
 </template>

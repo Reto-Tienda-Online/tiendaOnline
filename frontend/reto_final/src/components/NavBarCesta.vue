@@ -2,9 +2,10 @@
   <nav class="flex justify-between align-middle">
     <div class="flex flex-col justify-start">
       <img
-        class="mt-5 ml-5 w-16 h-18"
-        src="../assets/logo.svg"
+        class="mt-5 ml-5 w-16 h-18 hover:cursor-pointer"
+        src="../img/icono-white.svg"
         alt="Logotipo"
+        @click="goHome"
       />
     </div>
     <ul
@@ -67,7 +68,15 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
 const props = defineProps(["activeElement"]);
 
 const isActive = (element) => element === props.activeElement;
+
+const goHome = () => {
+  router.push("/");
+};
 </script>

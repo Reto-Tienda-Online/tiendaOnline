@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios';
-import { API_URL } from '@src/config.js';
 </script>
 
 <template>
@@ -215,7 +214,7 @@ export default {
   methods: {
     async fetchCategories() {
       try {
-        const response = await axios.get(`${API_URL}/all_categorias`);
+        const response = await axios.get(`/all_categorias`);
         this.categories = response.data;
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -254,7 +253,7 @@ export default {
     submit_update() {
       console.log(this.formUpdateCategory);
       const { id, ...allowedData } = this.formUpdateCategory;
-      axios.put(`${API_URL}/categorias/${this.formUpdateCategory.id}`, allowedData)
+      axios.put(`/categorias/${this.formUpdateCategory.id}`, allowedData)
         .then(response => {
           this.fetchCategories();
           this.closeUpdatePopup();
@@ -273,7 +272,7 @@ export default {
     },
     deleteCategory() {
       const categoryID = this.categoryToDelete.id;
-      axios.delete(`${API_URL}/categorias/${categoryID}`)
+      axios.delete(`/categorias/${categoryID}`)
         .then(response => {
           this.fetchCategories();
           this.closeDeletePopup();

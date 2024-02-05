@@ -32,7 +32,7 @@ import CategoriaDetalle from "../components/CategoriaDetalle.vue";
   </div>
   <TrustPanel />
   <div id="reservas" class="mx-20">
-    <Gallery title="Reservas" />
+    <Gallery title="Reservas"/>
     <!--Lista de Juegos Coming Soon-->
   </div>
   <ReviewPanel />
