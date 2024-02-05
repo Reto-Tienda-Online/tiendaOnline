@@ -60,13 +60,13 @@ import axios from 'axios';
           <tbody>
             <tr class="dark:bg-gray-800 text-white" v-for="(compra, index) in combined_compras" :key="compra.id">
               <th scope="row" class="flex items-center px-6 py-4 text-gray-100 whitespace-nowrap dark:text-white">
-                <div @click="goToDetalleJuego(id_producto)" class="font-bold text-md text-white">{{ compra.producto }}</div>
+                <div @click="goToDetalleJuego(compra.id_producto)" class="font-bold text-md text-white hover:scale-105 cursor-pointer">{{ compra.producto }}</div>
               </th>
               <td class="px-6 py-4">
                 <div class="font-normal text-gray-300 text-pretty">{{ compra.cantidad }}</div>
               </td>
               <td class="px-6 py-4">
-                <div class="font-normal text-gray-300 text-pretty">{{ compra.importe }}</div>
+                <div class="font-normal text-gray-300 text-pretty">{{ compra.importe.toFixed(2) }}</div>
               </td>
               <td class="px-6 py-4">
                 <div class="font-normal text-gray-300 text-pretty">{{ converToDate(compra.fechacompra) }}</div>
@@ -130,8 +130,9 @@ export default {
     async goToDetalleJuego(idJuego) {
       try {
         const response = await axios.get(`all_productos?id=${idJuego}`);
-        const juego = response.data;
-        localStorage.setItem(JSON.stringify(juego));
+        const juego = response.data[0];
+        // localStorage.setItem('juegoDetalle', JSON.stringify(juego));
+        localStorage.setItem('juegoDetalle', JSON.stringify(juego));
         router.push('juegoDetalle');
       } catch (error) {
         console.error('Error fetching juego:', error);

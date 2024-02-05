@@ -103,7 +103,7 @@ export default {
       localStorage.removeItem("isLoggedIn");
 
       // Redirect to the home page
-      this.$router.push("/admin");
+      this.$router.push("/adminLogin");
     },
   },
 };

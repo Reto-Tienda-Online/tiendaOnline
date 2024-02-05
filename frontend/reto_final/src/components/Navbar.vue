@@ -149,6 +149,10 @@ const handleLogout = () => {
   $router.push("/");
 };
 
+const goToCompras = () => {
+  $router.push("/compras");
+};
+
 const goHome = () => {
   $router.push("/");
 };
@@ -388,6 +392,13 @@ onMounted(() => {
                 <p class="font-bold font-barlow text-gray-800 mb-0">
                   {{ usuario.nombre }}
                 </p>
+                <!-- compras Button -->
+                <button
+                  @click="goToCompras"
+                  class="text-resaltar hover:underline"
+                >
+                  Compras
+                </button>
                 <!-- Logout Button -->
                 <button
                   @click="handleLogout"
