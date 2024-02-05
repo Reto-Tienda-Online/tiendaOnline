@@ -1,9 +1,12 @@
 <script setup>
 import axios from 'axios';
+import Alert from '@components/AdminAlert.vue';
 </script>
 
 <template>
-  <main class="flex flex-col text-white w-full h-screen" :class="{ 'w-full h-full bg-auto bg-black opacity-100 cursor-pointer': isPopupOpen || isDeletePopupOpen || isNewUserPopupOpen }"> 
+  <Alert :successMessage="successMessage" :errorMessage="errorMessage" />
+  <main class="flex flex-col text-white w-full h-screen"
+    :class="{ 'w-full h-full bg-auto bg-black opacity-100 cursor-pointer': isPopupOpen || isDeletePopupOpen || isNewUserPopupOpen }">
     <nav class="flex justify-end my-4 mr-6">
       <div class="relative flex items-center mx-3">
         <input v-model="searchQuery" type="text"
@@ -209,6 +212,8 @@ export default {
       usersPerPage: 6,
       items: [],
       searchQuery: '',
+      successMessage: '', // Agregar esta línea
+      errorMessage: '',  // Agregar esta línea
     };
   },
   computed: {
@@ -274,6 +279,7 @@ export default {
 
           this.fetchUsers();
           this.closePopup();
+          this.successMessage = 'Usuario actulizado con exíto';
         })
         .catch(error => {
           console.error('Error al actualizar el usuario:', error);
@@ -293,6 +299,7 @@ export default {
         .then(response => {
           this.fetchUsers();
           this.closeDeletePopup();
+          const successMessage = 'Usuario eliminado con exito';
         })
         .catch(error => {
           console.error('Error al eliminar el usuario:', error);
