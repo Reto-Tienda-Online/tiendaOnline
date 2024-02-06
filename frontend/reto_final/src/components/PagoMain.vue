@@ -144,19 +144,20 @@ watchEffect(() => {
           placeholder="Dirección de la facturación"
         />
       </div>
-
-      <select
-        class="bg-[#272727] rounded-md border-2 my-5 py-3 px-2 border-gray-400 w-full"
-      >
-        <option>Singapore</option>
-        <option>Luxembourg</option>
-        <option>Italy</option>
-        <option>Germany</option>
-        <option>USA</option>
-        <option>Canada</option>
-        <option>Brazil</option>
-        <option>UAE</option>
-      </select>
+      <label class="text-xl font-bold my-3"> País:
+        <select
+          class="bg-[#272727] rounded-md border-2 my-5 py-3 px-2 border-gray-400 w-full"
+        >
+          <option>Singapore</option>
+          <option>Luxembourg</option>
+          <option>Italy</option>
+          <option>Germany</option>
+          <option>USA</option>
+          <option>Canada</option>
+          <option>Brazil</option>
+          <option>UAE</option>
+        </select>
+      </label>
       <h2 class="text-xl font-bold my-3 focus">Métodos de pago</h2>
       <div id="payment-method-93" class="rounded-md bg-[#272727] py-7 px-5">
         <div

@@ -16,7 +16,7 @@
           <!-- Aquí muestra la imagen del producto -->
           <!--Imagen-->
           <picture>
-            <img class="picture rounded-xl h-full w-full" @click="sendGameDetails(producto.producto)" :src="getImgURL(producto.id_producto)" loading="lazy" />
+            <img :alt="producto.producto + ' imagen'" class="picture rounded-xl h-full w-full" @click="sendGameDetails(producto.producto)" :src="getImgURL(producto.id_producto)" loading="lazy" />
           </picture>
         </div>
 
@@ -45,21 +45,22 @@
               {{ producto.producto.descuento.descuento }} %
             </div>
           </div>
-
-          <!-- Selector de cantidad -->
-          <select
-            class="w-16 bg-gray-50 py-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            data-max="10">
-            <option value="0" disabled>0</option>
-            <option v-for="quantity in 10" :key="quantity" :value="quantity">
-              {{ quantity }}
-            </option>
-          </select>
+          <label class="text-xs text-gray-200 text-pretty font-semibold">Cantidad:
+            <!-- Selector de cantidad -->
+            <select
+              class="w-16 bg-gray-50 py-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              data-max="10">
+              <option value="0" disabled>0</option>
+              <option v-for="quantity in 10" :key="quantity" :value="quantity">
+                {{ quantity }}
+              </option>
+            </select>
+          </label>
         </div>
 
         <!-- Botón para mover a la bolsa -->
         <divm class="flex flex-row justify-between items-center">
-          <button @click="addToShoppingCart(producto.id_producto)"
+          <button aria-label="Add shopping cart" @click="addToShoppingCart(producto.id_producto)"
             class="flex justify-center px-4 py-1 mt-3 rounded-md text-sm text-white hover:text-resaltar">
             <font-awesome-icon icon="shopping-cart" class="w-8 h-8" />
           </button>
