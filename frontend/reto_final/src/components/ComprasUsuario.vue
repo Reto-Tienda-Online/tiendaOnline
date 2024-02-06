@@ -10,7 +10,7 @@ import axios from 'axios';
         <input v-model="searchQuery" type="text"
           class="border-2 border-resaltar bg-white h-10 px-5 pr-10 rounded-lg text-sm focus:outline-none text-gray-700"
           placeholder="Buscar..." />
-        <button class="absolute right-3 top-2 text-gray-500">
+        <button aria-label="Search" class="absolute right-3 top-2 text-gray-500">
           <font-awesome-icon icon="magnifying-glass" />
         </button>
       </div>
@@ -25,10 +25,10 @@ import axios from 'axios';
           <!--Paginate by 5 products-->
           <div class="flex justify-between items-center mx-4 my-2">
             <div class="flex items-center">
-              <button @click="prevPage" class="w-8 h-8 text-center text-resaltar">
+              <button aria-label="Anterior" @click="prevPage" class="w-8 h-8 text-center text-resaltar">
                 <font-awesome-icon icon="circle-left" class="w-6 h-6" />
               </button>
-              <button @click="nextPage" class="w-8 h-8 text-resaltar">
+              <button aria-label="Siguiente" @click="nextPage" class="w-8 h-8 text-resaltar">
                 <font-awesome-icon icon="circle-right" class="w-6 h-6" />
               </button>
             </div>

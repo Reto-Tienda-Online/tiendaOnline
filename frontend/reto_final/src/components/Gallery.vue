@@ -155,6 +155,7 @@ onMounted(() => {
             class="picture rounded-xl"
             :src="getImageURL(juego.id)"
             loading="lazy"
+            :alt="juego.producto + ' image'"
           />
         </picture>
         <video

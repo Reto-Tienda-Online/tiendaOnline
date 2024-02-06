@@ -213,7 +213,7 @@ onMounted(() => {
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
                     @click="redirect(logo.nombre)"
                   >
-                    <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
+                    <img :src="logo.src" alt="Logo" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                   </li>
                 </ul>
@@ -263,7 +263,7 @@ onMounted(() => {
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
                     @click="redirect(logo.nombre)"
                   >
-                    <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
+                    <img :src="logo.src" alt="Logo" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                   </li>
                 </ul>
@@ -294,7 +294,7 @@ onMounted(() => {
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
                     @click="redirect(logo.nombre)"
                   >
-                    <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
+                    <img :src="logo.src" alt="Logo" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                   </li>
                 </ul>
@@ -344,7 +344,7 @@ onMounted(() => {
                     class="flex flex-row align-middle justify-start hover:scale-110 transition-all duration-300"
                     @click="redirect(logo.nombre)"
                   >
-                    <img :src="logo.src" alt="" class="max-h-7 max-w-7" />
+                    <img :src="logo.src" alt="Logo" class="max-h-7 max-w-7" />
                     <h1 class="text-black ml-5">{{ logo.nombre }}</h1>
                   </li>
                 </ul>
@@ -359,7 +359,7 @@ onMounted(() => {
       <ul class="flex flex-row text-gray-200 mt-5 mr-5 space-x-7">
         <!--Agregar respectivos buttons para inicio de sesion y carro de compras-->
         <li>
-          <router-link to="/cesta"
+          <router-link to="/cesta" aria-label="Shopping Cart"
             ><font-awesome-icon
               icon="shopping-cart"
               class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
@@ -367,9 +367,10 @@ onMounted(() => {
         </li>
         <!--Lista de Fovoritos del Usuario-->
         <li>
-          <a href="/favoritos">
+          <a href="/favoritos" aria-label="Favorites">
             <font-awesome-icon
               icon="heart"
+              aria-label="Favorites"
               class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
           /></a>
         </li>
@@ -380,6 +381,7 @@ onMounted(() => {
             <div class="group">
               <font-awesome-icon
                 icon="user"
+                aria-label="User"
                 class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
                 @click="toggleUserCard"
               />
@@ -413,9 +415,10 @@ onMounted(() => {
           </template>
           <template v-else>
             <!-- If not logged in, show login button -->
-            <router-link to="/login">
+            <router-link to="/login" aria-label="Login">
               <font-awesome-icon
                 icon="user"
+                aria-label="User"
                 class="text-2xl hover:text-resaltar cursor-pointer transition-all duration-500 ease-in-out"
               />
             </router-link>
