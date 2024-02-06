@@ -26,7 +26,7 @@ const modules = ref([Autoplay, Pagination, Navigation]);
     class="mySwiper mt-10"
   >
     <swiper-slide>
-      <img src="/imgs/juegos/21/t1.jpg" alt="" class="mx-auto rounded-xl" />
+      <img src="/imgs/juegos/21/t1.webp" alt="" class="mx-auto rounded-xl" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"
       ></div>
@@ -35,7 +35,7 @@ const modules = ref([Autoplay, Pagination, Navigation]);
       ></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="/imgs/juegos/21/t2.jpg" alt="" class="mx-auto rounded-xl" />
+      <img src="/imgs/juegos/21/t2.webp" alt="" class="mx-auto rounded-xl" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"
       ></div>
@@ -44,7 +44,7 @@ const modules = ref([Autoplay, Pagination, Navigation]);
       ></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="/imgs/juegos/21/t3.jpg" alt="" class="mx-auto rounded-xl" />
+      <img src="/imgs/juegos/21/t3.webp" alt="" class="mx-auto rounded-xl" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"
       ></div>
@@ -53,7 +53,7 @@ const modules = ref([Autoplay, Pagination, Navigation]);
       ></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="/imgs/juegos/21/t4.jpg" alt="" class="mx-auto rounded-xl" />
+      <img src="/imgs/juegos/21/t4.webp" alt="" class="mx-auto rounded-xl" />
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"
       ></div>
@@ -62,7 +62,10 @@ const modules = ref([Autoplay, Pagination, Navigation]);
       ></div>
     </swiper-slide>
     <swiper-slide>
-      <img src="/imgs/juegos/21/t5.jpg" alt="" class="mx-auto rounded-xl" />
+      <img src="/imgs/juegos/21/t5.webp" alt="" class="mx-auto rounded-xl" />
+
+
+
       <div
         class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black"
       ></div>
