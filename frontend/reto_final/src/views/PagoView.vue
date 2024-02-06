@@ -7,7 +7,7 @@
 
 <script setup>
 //Imprescindible "script setup"
-import NavBarCesta from '../components/NavbarCesta.vue'
-import PagoMain from '../components/PagoMain.vue'
+import NavBarCesta from '@components/NavBarCesta.vue'
+import PagoMain from '@components/PagoMain.vue'
 </script>
 
