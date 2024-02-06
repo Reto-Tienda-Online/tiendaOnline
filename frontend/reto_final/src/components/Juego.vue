@@ -312,6 +312,7 @@ onMounted(() => {
         <!--Imagen-->
         <picture>
           <img
+            alt="Imagen del juego"
             class="picture rounded-xl h-full"
             :src="getImgURL(juegoPasado.id)"
             loading="lazy"
@@ -347,14 +348,14 @@ onMounted(() => {
             <h3 class="text-white text-center my-auto font-bold uppercase mr-2">
               Plataforma:
             </h3>
-            <img
-              :src="getLogoURL(juegoPasado.nombreplataforma)"
-              alt=""
-              class="w-10"
-            />
-            <h3 class="text-white text-center my-auto ml-3">
-              {{ juegoPasado.nombreplataforma }}
-            </h3>
+              <img
+                :src="getLogoURL(juegoPasado.nombreplataforma)"
+                alt="Imagen de la plataforma"
+                class="w-10"
+              />
+              <h4 class="text-white text-center my-auto ml-3">
+                {{ juegoPasado.nombreplataforma }}
+              </h4>
           </div>
           <!--PRECIO-->
           <div class="text-white flex flex-row justify-center mt-2">
@@ -366,6 +367,7 @@ onMounted(() => {
           <!--ADD TO CART BTN-->
           <div class="flex flex-row justify-center align-middle">
             <button
+              aria-label="Add to cart"
               class="text-white font-black bg-resaltar p-2 mt-1 w-full rounded-lg"
               @click="addItemToCart(juegoPasado)"
             >
@@ -373,6 +375,7 @@ onMounted(() => {
               Add to cart
             </button>
             <button
+              aria-label="Favorito"
               v-if="showButtonHeart"
               @click="goToLogin"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
@@ -380,6 +383,7 @@ onMounted(() => {
               <font-awesome-icon id="iconoFav" icon="heart" class="text-white"/>
             </button>
             <button
+              aria-label="Favorito"
               v-else
               @click="toggleFavorito(juegoPasado.id)"
               class="text-white text-2xl ml-3 mr-3 rounded-xl"
@@ -426,7 +430,9 @@ onMounted(() => {
               placeholder="Escribe tu comentario..."
             ></textarea>
           </div>
-          <button class="-mt-5 px-4 py-1 m-10 rounded-xl text-white bg-resaltar ">
+          <button 
+            aria-label="Enviar comentario"
+            class="-mt-5 px-4 py-1 m-10 rounded-xl text-white bg-resaltar ">
               Comentar
             </button>
         </form>
@@ -439,6 +445,7 @@ onMounted(() => {
       <h1 v-show="init !== 0" 
       class="text-white flex items-center justify-center uppercase font-bold">Anterior</h1>
       <button
+        aria-label="Anterior"
         v-show="init !== 0"
         class="text-white bg-red-500 rounded-full p-5 w-10 h-10 flex items-center justify-center"
         @click="prevPage"
@@ -447,6 +454,7 @@ onMounted(() => {
       </button>
 
       <button
+        aria-label="Siguiente"
         v-show="
           currentPage < Math.ceil(listaComentarios.length / productsPerPage)
         "
