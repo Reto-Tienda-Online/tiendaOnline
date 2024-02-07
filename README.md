@@ -17,10 +17,13 @@ Descargar y agregar la carpeta [public](https://drive.google.com/drive/folders/1
  ```
 
 ## VISTAS:
+Vistas donde se importan los componentes y su logica si es necesaria:
 ``\fronted\reto_final\src\views``
 ## COMPONENTES:
-``\fronted\reto_final\src\views``
+Los comoponentes con su logica propia:
+``\fronted\reto_final\src\components``
 ## ROUTER:
+Enrutamiento de las vistas:
 ``\fronted\reto_final\src\router\router.js``
 ## AXIOS
 Donde se guarda como constante global pa API URL
