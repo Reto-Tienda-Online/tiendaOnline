@@ -23,8 +23,8 @@ Descargar y agregar la carpeta [public](https://drive.google.com/drive/folders/1
 ## ROUTER:
 ``\fronted\reto_final\src\router\router.js``
 ## AXIOS
-Donde se guarda como constante glogbal pa API URL
+Donde se guarda como constante global pa API URL
 ``\fronted\reto_final\src\axios.js`` 
 ## STORAGE
-El lugar que usamos para pasar los juegos de un componente a otro, y guardar el token del usuario:
+El lugar que usamos para manejar el **local storage** pasar los juegos de un componente a otro, y guardar el token del usuario:
 ``\fronted\reto_final\src\storage.js``
