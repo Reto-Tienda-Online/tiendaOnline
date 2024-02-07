@@ -1,7 +1,7 @@
 ## Instalación
 **Requirimientos previos** -> **node.js**
 </br>
-Descargar y gregar la carpeta [public](https://drive.google.com/drive/folders/18ambIQ-h1KyS6eTXYkrEvralO3_KkhLY?usp=sharing) en ``\fronted\reto_final``. (No esta en el repositorio por la capacidad que ofrece de github)
+Descargar y agregar la carpeta [public](https://drive.google.com/drive/folders/18ambIQ-h1KyS6eTXYkrEvralO3_KkhLY?usp=sharing) en ``\fronted\reto_final``. (No esta en el repositorio por la capacidad que ofrece de github)
 </br> 
 1. Instalar dependencias:
  ```npm
